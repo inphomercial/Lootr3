@@ -1,0 +1,24 @@
+
+notes
+
+Glyph -> chr
+Glyph -> foreground
+Glyph -> background
+
+Tiles inherts from Glyph
+Entity inherts from Glyph
+
+Map -> Tiles -> Glyph
+Map -> Width
+Map -> Height
+
+Screen -> _map
+Screen -> enter
+Screen -> render
+Screen -> input
+
+Lootr -> init
+Lootr -> currentScreen
+
+
+
