@@ -17,6 +17,16 @@ Lootr.ItemRepository.define('melon', {
 	character: '%',
 	foreground: '#33FF33',
 	foodValue: 35,
-	consumptions: 4,
+	comsumptions: 4,
 	components: [Lootr.ItemComponents.Edible]
+});
+
+Lootr.ItemRepository.define('corpse', {
+	name: 'corpse',
+	character: '&',
+	foodValue: 75,
+	consumptions: 1,
+	components: [Lootr.ItemComponents.Edible]
+}, {
+	disableRandomCreation: true
 });

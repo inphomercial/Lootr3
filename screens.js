@@ -443,8 +443,7 @@ Lootr.Screen.eatScreen = new Lootr.Screen.ItemListScreen({
     },
     ok: function(selectedItems) {
         // Eat the item, removing it if therea re no consumptions left
-        var key = Object.keys(selectedItems[0]);
-        //var item = selectedItems[key];
+        var key = Object.keys(selectedItems);
         var item = selectedItems[0];
         Lootr.sendMessage(this._player, 'You eat %s', [item.describeThe()]);
         item.eat(this._player);

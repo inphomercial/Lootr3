@@ -3,7 +3,7 @@ Lootr.TemplatePlayer = {
 	character: '@',
 	foreground: 'yellow',
 	background: 'black',
-	sightRadius: 3,
+	sightRadius: 8,
 	maxHp: 10,
 	inventorySlots: 20,
 	components: [Lootr.EntityComponents.PlayerActor, 
@@ -32,10 +32,11 @@ Lootr.EntityRepository.define('fungus', {
 Lootr.EntityRepository.define('bat', {
 	name: 'bat',
 	character: 'b',
-	foreground: 'black',
+	foreground: 'white',
 	background: 'gray',
 	maxHp: 10,
 	components: [Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.WanderActor,
-				 Lootr.EntityComponents.Attacker]
+				 Lootr.EntityComponents.Attacker,
+				 Lootr.EntityComponents.CorpseDropper]
 });

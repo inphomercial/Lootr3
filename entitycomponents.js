@@ -117,6 +117,23 @@ Lootr.EntityComponents.FoodConsumer = {
 	}
 };
 
+Lootr.EntityComponents.CorpseDropper = {
+	name: 'CorpseDropper',
+	init: function(template) {
+		// Chance of dropping corse
+		this._corpseDropRate = template['corpseDropRate'] || 100;
+	},
+	tryDropCorpse: function() {
+		if(Math.round(Math.random() * 100) < this._corpseDropRate) {
+			// Create a new corpse item and drop it
+			this._map.addItem(this.getX(), this.getY(), 
+				Lootr.ItemRepository.create('corpse', 
+					{name: this._name + ' corpse', foreground: this._foreground}
+			));
+		}
+	}
+}
+
 Lootr.EntityComponents.Destructible = {
 	name: 'Destructible',
 	init: function(template) {
@@ -130,6 +147,11 @@ Lootr.EntityComponents.Destructible = {
 		// If less than 1 hp, remove ourselves
 		if(this._hp < 1) {
 			Lootr.sendMessage(attacker, 'You kill the %s', [this.getName()]);
+
+			// If entity is a corpse dropper, try to add a corpse
+			if(this.hasComponent(Lootr.EntityComponents.CorpseDropper)) {
+				this.tryDropCorpse();
+			}
 
 			this.kill();			
 		}
@@ -249,10 +271,10 @@ Lootr.EntityComponents.InventoryHolder = {
 	},
 	dropItem: function(i) {
 		// Drops an item to the current map tile
-		if(this_items[i]) {
+		if(this._items[i]) {
 			if(this._map) {
 				// Put item back on map
-				this._map.addItem(this.getX(), this.getY(), item);		
+				this._map.addItem(this.getX(), this.getY(), this._items[i]);		
 			}
 		}
 		

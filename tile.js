@@ -49,7 +49,7 @@ Lootr.Tile.wallGemTile = new Lootr.Tile({
 
 Lootr.Tile.waterTile = new Lootr.Tile({
 	character: '~',
-	foreground: 'blue',
+	foreground: '#00CCFF',
 	walkable: false,
 	blocksLight: false
 });
