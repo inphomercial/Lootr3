@@ -238,6 +238,15 @@ Lootr.Screen.playScreen = {
                     Lootr.Screen.dropScreen.setup(this._player, this._player.getItems());
                     this.setSubScreen(Lootr.Screen.dropScreen);
                 }
+            } else if (inputData.keyCode === ROT.VK_E) {
+                // Show the drop screen
+                if(Lootr.Screen.eatScreen.setup(this._player, this._player.getItems())) {
+                    this.setSubScreen(Lootr.Screen.eatScreen);
+                } else {
+                    Lootr.sendMessage(this._player, 'You have nothing to eat.');
+                    Lootr.refresh();
+                }
+                return;
             } else if (inputData.keyCode === ROT.VK_COMMA) {
                 var items = this._map.getItemsAt(this._player.getX(), this._player.getY());
                 // If there are no items, show a message
@@ -294,6 +303,11 @@ Lootr.Screen.ItemListScreen = function(template) {
     this._caption = template['caption'];
     this._okFunction = template['ok'];
 
+    // By default we use the identity function
+    this._isAcceptableFunction = template['isAcceptable'] || function(x) {
+        return x;
+    }
+
     // Whether the user can select items at all
     this._canSelectItem = template['canSelect'];
 
@@ -303,10 +317,25 @@ Lootr.Screen.ItemListScreen = function(template) {
 
 Lootr.Screen.ItemListScreen.prototype.setup = function(player, items) {
     this._player = player;
-    this._items = items;
+
+    // Should be called before switching to the screen
+    var count = 0;
+    // Iterate over each time, keeping only the acceptable ones and counting the
+    // number of acceptable items
+    var that = this;
+    this._items = items.map(function(item) {
+        // Transform the item into null if it's not acceptable
+        if(that._isAcceptableFunction(item)) {
+            count++;
+            return item;
+        } else {
+            return null;
+        }
+    });
 
     // Clean the set of selected indices
     this._selectedIndices = {};
+    return count;
 }
 
 Lootr.Screen.ItemListScreen.prototype.render = function(display) {
@@ -404,6 +433,28 @@ Lootr.Screen.pickupScreen = new Lootr.Screen.ItemListScreen({
         return true;
     }
 });
+
+Lootr.Screen.eatScreen = new Lootr.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to eat',
+    canSelect: true,
+    canSelectMultipleItems: false,
+    isAcceptable: function(item) {
+        return item && item.hasComponent('Edible');
+    },
+    ok: function(selectedItems) {
+        // Eat the item, removing it if therea re no consumptions left
+        var key = Object.keys(selectedItems[0]);
+        //var item = selectedItems[key];
+        var item = selectedItems[0];
+        Lootr.sendMessage(this._player, 'You eat %s', [item.describeThe()]);
+        item.eat(this._player);
+        if(!item.hasRemainingConsumptions()) {
+            this._player.removeItem(key);
+        }
+
+        return true;
+    }
+})
 
 Lootr.Screen.dropScreen = new Lootr.Screen.ItemListScreen({
     caption: 'Choose the item you wish to drop',
