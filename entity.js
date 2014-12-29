@@ -11,6 +11,8 @@ Lootr.Entity = function(args) {
 	this._name = args['name'] || '';
 	this._x = args['x'] || 0;
 	this._y = args['y'] || 0;
+	// Actin speed
+	this._speed = args['speed'] || 1000;
 	this._map = null;
 }
 
@@ -100,6 +102,14 @@ Lootr.Entity.prototype.setPosition = function(x, y) {
 	if(this._map) {
 		this._map.updateEntityPosition(this, oldX, oldY);
 	}
+};
+
+Lootr.Entity.prototype.setSpeed = function(speed) {
+	this._speed = speed;
+};
+
+Lootr.Entity.prototype.getSpeed = function() {
+	return this._speed;
 };
 
 Lootr.Entity.prototype.setMap = function(map) {

@@ -30,3 +30,26 @@ Lootr.ItemRepository.define('corpse', {
 }, {
 	disableRandomCreation: true
 });
+
+Lootr.ItemRepository.define('dagger', {
+	name: 'dagger',
+	character: ')',
+	foreground: 'gray',
+	attackValue: 5,
+	wieldable: true,
+	components: [Lootr.ItemComponents.Equippable]
+});
+
+Lootr.ItemRepository.define('pumpkin', {
+	name: 'pumpkin',
+	character: '*',
+	foreground: 'orange',
+	foodValue: 50,
+	attackValue: 2,
+	defenseValue: 2,
+	comsumptions: 1,
+	wearable: true,
+	wieldable: true,
+	components: [Lootr.ItemComponents.Equippable,
+			     Lootr.ItemComponents.Edible]
+});

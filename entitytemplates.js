@@ -12,7 +12,8 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.MessageRecipient,
 				 Lootr.EntityComponents.Sight,
 				 Lootr.EntityComponents.InventoryHolder,
-				 Lootr.EntityComponents.FoodConsumer]
+				 Lootr.EntityComponents.FoodConsumer,
+				 Lootr.EntityComponents.Equipper]
 }
 
 Lootr.EntityRepository = {};

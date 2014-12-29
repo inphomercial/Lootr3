@@ -134,6 +134,42 @@ Lootr.EntityComponents.CorpseDropper = {
 	}
 }
 
+Lootr.EntityComponents.Equipper = {
+	name: 'Equipper',
+	init: function(template) {
+		this._weapon = null;
+		this._armor = null;
+	},
+	wield: function(item) {
+		this._weapon = item;
+	},
+	unwield: function() {
+		this._weapon = null;
+	},
+	wear: function(item) {
+		this._armor = item;
+	},
+	takeOff: function() {
+		this._armor = null;
+	},
+	getWeapon: function() {
+		return this._weapon;
+	},
+	getArmor: function() {
+		return this._armor;
+	},
+	unequip: function(item) {
+		// Help function to be called before getting rid of an item
+		if(this._weapon === item) {
+			this.unwield();
+		}
+
+		if(this._armor === item) {
+			this.takeOff();
+		}
+	}
+};
+
 Lootr.EntityComponents.Destructible = {
 	name: 'Destructible',
 	init: function(template) {
@@ -162,8 +198,21 @@ Lootr.EntityComponents.Destructible = {
 	getMaxHp: function() {
 		return this._maxHp;
 	},
-	getDefense: function() {
-		return this._defense;
+	getDefenseValue: function() {
+		var mod = 0;
+
+		// If we can equip items, then have to take into
+		// consideration weapon and armor
+		if(this.hasComponent(Lootr.EntityComponents.Equipper)) {
+			if(this.getWeapon()) {
+				mod += this.getWeapon().getAttackValue();
+			}
+			if(this.getArmor()) {
+				mod += this.getArmor().getAttackValue();
+			}
+		}
+
+		return this._defense + mod;
 	}
 }
 
@@ -230,6 +279,12 @@ Lootr.EntityComponents.InventoryHolder = {
 		return false;
 	},
 	removeItem: function(i) {
+
+		// If we can equip items, then make sure we unequip the item we are removing
+		if(this._items[i] && this.hasComponent(Lootr.EntityComponents.Equipper)) {
+			this.unequip(this._items[i]);
+		}
+
 		// Simply clear out the slot
 		this._items[i] = null;
 	},
@@ -308,8 +363,8 @@ Lootr.EntityComponents.Attacker = {
 
 		// If the target is destructible, calc damage based on attack and def
 		if(target.hasComponent('Destructible')) {
-			var attack = this.getAttack();
-			var target_def = target.getDefense();
+			var attack = this.getAttackValue();
+			var target_def = target.getDefenseValue();
 			var max = Math.max(0, attack - target_def);
 			var damage = 1 + Math.floor(Math.random() * max);
 
@@ -319,7 +374,19 @@ Lootr.EntityComponents.Attacker = {
 			target.takeDamage(this, damage);
 		}
 	},
-	getAttack: function() {
-		return this._attack;
+	getAttackValue: function() {
+		var mod = 0;
+		// If we can equip items, then have to take into
+		// consideration weapon and armor
+		if(this.hasComponent(Lootr.EntityComponents.Equipper)) {
+			if(this.getWeapon()) {
+				mod += this.getWeapon().getAttackValue();
+			}
+			if(this.getArmor()) {
+				mod += this.getArmor().getAttackValue();
+			}
+		}
+
+		return this._attack + mod;
 	}
-}
+};

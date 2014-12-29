@@ -219,34 +219,30 @@ Lootr.Screen.playScreen = {
             
             // Inventory Stuff
             } else if (inputData.keyCode === ROT.VK_I) {
-                if(this._player.getItems().filter(function(x) {return x;}).length === 0) {
-                    // If player has no items, send message, dont take turn
-                    Lootr.sendMessage(this._player, 'You are not carrying anything.');
-                    Lootr.refresh();
-                } else {
-                    // Show the inventory
-                    Lootr.Screen.inventoryScreen.setup(this._player, this._player.getItems());
-                    this.setSubScreen(Lootr.Screen.inventoryScreen);
-                }
+                // show inventory screen
+                this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player.getItems(), 'You are not carrying anything');
+                return;
+
             } else if (inputData.keyCode === ROT.VK_D) {
-                if(this._player.getItems().filter(function(x) {return x;}).length === 0) {
-                    // if the player has no items, send a message and dont take a turn
-                    Lootr.sendMessage(this._player, 'You have nothing to drop.');
-                    Lootr.refresh();
-                } else {
-                    // Show the drop screen
-                    Lootr.Screen.dropScreen.setup(this._player, this._player.getItems());
-                    this.setSubScreen(Lootr.Screen.dropScreen);
-                }
+                // Show Drop screen                
+                this.showItemSubScreen(Lootr.Screen.dropScreen, this._player.getItems(), 'You have nothing to drop.');
+                return;
+
             } else if (inputData.keyCode === ROT.VK_E) {
-                // Show the drop screen
-                if(Lootr.Screen.eatScreen.setup(this._player, this._player.getItems())) {
-                    this.setSubScreen(Lootr.Screen.eatScreen);
+                // show eat screen
+                this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
+                return;
+
+            } else if (inputData.keyCode === ROT.VK_W) {
+                if(inputData.shiftKey) {
+                    // Show the wear screen                    
+                    this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');                
                 } else {
-                    Lootr.sendMessage(this._player, 'You have nothing to eat.');
-                    Lootr.refresh();
+                    // Show the wield screen
+                    this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');                
                 }
                 return;
+                
             } else if (inputData.keyCode === ROT.VK_COMMA) {
                 var items = this._map.getItemsAt(this._player.getX(), this._player.getY());
                 // If there are no items, show a message
@@ -295,6 +291,14 @@ Lootr.Screen.playScreen = {
 
         // Refresh screen on chaning the subscreen
         Lootr.refresh();
+    },
+    showItemSubScreen: function(subScreen, items, emptyMessage) {
+        if(items && subScreen.setup(this._player, items) > 0) {
+            this.setSubScreen(subScreen);
+        } else {
+            Lootr.sendMessage(this._player, emptyMessage);
+            Lootr.refresh();
+        }
     }
 }
 
@@ -302,6 +306,9 @@ Lootr.Screen.ItemListScreen = function(template) {
     // Setup based on the template
     this._caption = template['caption'];
     this._okFunction = template['ok'];
+
+    // Whether a 'no item' option should appear
+    this._hasNoItemOption = template['hasNoItemOption'];
 
     // By default we use the identity function
     this._isAcceptableFunction = template['isAcceptable'] || function(x) {
@@ -344,6 +351,11 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
     // Render the caption to the top row
     display.drawText(0, 0, this._caption);
 
+    // Render the no item row if enabled
+    if(this._hasNoItemOption) {
+        display.drawText(0, 1, '0 - no item');
+    }
+
     var row = 0;
     for(var i=0; i<this._items.length; i++) {
         // If we have an item, we want to render it.
@@ -357,8 +369,16 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
                                   this._canSelectMultipleItems &&
                                   this._canselctedIndices[i]) ? '+' : '-';
 
+            // Check if the item is worn or wielded
+            var suffix = '';
+            if(this._items[i] === this._player.getArmor()) {
+                suffix = ' (wearing)';
+            } else if(this._items[i] === this._player.getWeapon()) {
+                suffix = ' (wielding)';
+            }
+
             // Render at the correct row and add 2
-            display.drawText(0, 2 + row, letter + ' ' + selectionState + ' ' + this._items[i].describe());
+            display.drawText(0, 2 + row, letter + ' ' + selectionState + ' ' + this._items[i].describe() + suffix);
             row++;
         }
     }
@@ -373,6 +393,13 @@ Lootr.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputDat
             Lootr.Screen.playScreen.setSubScreen(undefined);
         } else if (inputData.keyCode === ROT.VK_RETURN) {
             this.executeOkFunction();
+
+        // Handle pressing 0 when 'no item' selection is enabled
+        } else if (this._canSelectItem && this._hasNoItemOption && inputData.keyCode === ROT.VK_0) {
+            this._selectedIndices = {};
+            this.executeOkFunction();
+
+        // Handle pressing a leter if we can select
         } else if (this._canSelectItem && inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_Z) {
             // check if it maps to a valid item by subtracting 'a' from the character
             // to know what letter of the alphabet we used
@@ -462,6 +489,56 @@ Lootr.Screen.dropScreen = new Lootr.Screen.ItemListScreen({
     ok: function(selectedItems) {
         // Drop the selected item
         this._player.dropItem(Object.keys(selectedItems)[0]);
+        return true;
+    }
+});
+
+Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to wear',
+    canSelect: true,
+    canSelectMultipleItems: false,
+    hasNoItemOption: true,
+    isAcceptable: function(item) {
+        return item && item.hasComponent('Equippable') && item.isWearable();
+    },
+    ok: function(item) {
+        // Check if we selected no item
+        var keys = Object.keys(selectedItems);
+        if(keys.length === 0) {
+            this._player.takeOff();
+            Lootr.sendMessage(this._player, 'You are not wearing anything.');            
+        } else {
+            // Make sure to unequip the item first in case it is the weapon
+            var item = selectedItems[keys[0]];
+            this._player.unequip(item);
+            this._player.wear(item);
+            Lootr.sendMessage(this._player, 'You are wearing %s', [item.describeA()]);
+        }
+    }
+});
+
+Lootr.Screen.wieldScreen = new Lootr.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to wield',
+    canSelect: true,
+    canSelectMultipleItems: false,
+    hasNoItemOption: true,
+    isAcceptable: function(item) {
+        return item && item.hasComponent('Equippable') && item.isWieldable();
+    },
+    ok: function(selectedItems) {
+        // Check if we selected 'no item'
+        var keys = Object.keys(selectedItems);
+        if(keys.length === 0) {
+            this._player.unwield();
+            Lootr.sendMessage(this._player, 'You are empty handed.');
+        } else {
+            // Make sure to unequip the item first in case it is the armor
+            var item = selectedItems[keys[0]];
+            this._player.unequip(item);
+            this._player.wield(item);
+            Lootr.sendMessage(this._player, 'You are wielding %s', [item.describeA()]);
+        }
+
         return true;
     }
 });

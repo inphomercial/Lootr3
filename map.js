@@ -171,7 +171,7 @@ Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
 
 Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
 	// Delete the old key if it is the same entity and we have old pos.
-	if(oldX) {
+	if(typeof oldX === 'number') {
 		var oldKey = oldX + ',' + oldY;
 		if(this._entities[oldKey] == entity) {
 			delete this._entities[oldKey];
