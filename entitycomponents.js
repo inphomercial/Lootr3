@@ -7,21 +7,85 @@ Lootr.EntityComponents.Moveable = {
 	
 }
 
-Lootr.EntityComponents.WanderActor = {
-	name: 'WanderActor',
+Lootr.EntityComponents.TaskActor = {
+	name: 'TaskActor',
 	groupName: 'Actor',
+	init: function(template) {
+		// Load tasks
+		this._tasks = template['tasks'] || ['wander'];
+	},
 	act: function() {
-		// flip coin to determine if moving by 1 in the pos or neg direction
-		var moveOffset = (Math.round(Math.random()) === 1) ? 1 : -1;
+		// Iterate through all tasks
+		for(var i=0; i<this._tasks.length; i++) {
+			if(this.canDoTask(this._tasks[i])) {
+				// If we can perform the task, execute the function for it
+				this[this._tasks[i]]();
+				return;
+			}
+		}
+	},
+	canDoTask: function(task) {
+		if(task === 'hunt') {
+			return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());
+		} else if (task === 'wander') {
+			return true;
+		} else {
+			throw new Error('Tried to perform undefined task ' + task);
+		}
+	},
+	hunt: function() {
 
-		// Flip coin to determine if moving in x or y direction
+		console.log(this.name + "starts to hunt");
+
+		var player = this.getMap().getPlayer();
+
+		// If we are adjacent to the player, then attack instead of hunting
+		var offsets = Math.abs(player.getX() - this.getX()) +
+					  Math.abs(player.getY() - this.getY());
+
+		if(offsets === 1) {
+			if(this.hasComponent('Attacker')) {
+				this.attack(player);
+				return;
+			}
+		}
+
+		// Generate the path and move to the first tile
+		var source = this;
+		var path = new ROT.Path.AStar(player.getX(), player.getY(), function(x, y) {
+			// If entity is present at the tile, cannot move there
+			var entity = source.getMap().getEntityAt(x, y);
+			if(entity && entity !== player && entity !== source) {
+				return false;
+			}
+
+			return source.getMap().getTile(x, y).isWalkable();
+		}, {topology: 4});
+
+		// Once we've gotten the path, we want to move to the second cell
+		// that is passed in the callbback (first is the entitys starting point)
+		var count = 0;
+		path.compute(source.getX(), source.getY(), function(x, y) {
+			if(count === 1) {
+				source.tryMove(x, y);
+			}
+			count++;
+		});
+	},
+	wander: function() {
+
+		console.log(this.name + ' starts to wander');
+
+		// Flip coin to determine if moving by 1 in the positive or neg direction
+		var moveOffset = (Math.round(Math.random()) === 1) ? 1 : -1;
+		// Flip coin to determine if moving in x direction or y direction
 		if(Math.round(Math.random()) === 1) {
 			this.tryMove(this.getX() + moveOffset, this.getY());
 		} else {
 			this.tryMove(this.getX(), this.getY() + moveOffset);
 		}
 	}
-};
+}
 
 Lootr.EntityComponents.Sight = {
 	name: 'Sight',
@@ -31,8 +95,45 @@ Lootr.EntityComponents.Sight = {
 	},
 	getSightRadius: function() {
 		return this._sightRadius;
+	},
+	increaseSightRadius: function(value) {
+		// If no value default to 1
+		value = value || 1;
+
+		this._sightRadius += value;
+		Lootr.sendMessage(this, 'You can see better');
+	},
+	canSee: function(entity) {
+		// if not on the same map then exit early
+		if(!entity || this._map !== entity.getMap()) {
+			return false;
+		}
+
+		var otherX = entity.getX();
+		var otherY = entity.getY();
+
+		// If we are not in the square field of view, then we wont
+		// be in a real field of view either
+		if((otherX - this._x) * (otherX - this._x) +
+		   (otherY - this._y) * (otherY - this._y) >
+		   this._sightRadius * this._sightRadius) {
+			return false;
+		}
+
+		// Computer the FOV and check if the coords are in there
+		var found = false;
+		this.getMap().getFov().compute(
+			this.getX(), this.getY(),
+			this.getSightRadius(),
+			function(x, y, radius, visibility) {
+				if(x === otherX && y === otherY) {
+					found = true;
+				}
+			});
+
+		return found;
 	}
-}
+};
 
 Lootr.EntityComponents.PlayerActor = {
 	name: 'PlayerActor',
@@ -190,7 +291,28 @@ Lootr.EntityComponents.Destructible = {
 			}
 
 			this.kill();			
+
+			// Give the attacker experience points
+			if(attacker.hasComponent('ExperienceGainer')) {
+				var exp = this.getMaxHp() + this.getDefenseValue();
+				if(this.hasComponent('Attacker')) {
+					exp += this.getAttackValue();
+				}
+
+				// Account for level diffs
+				if(this.hasComponent('ExperienceGainer')) {
+					exp -= (attacker.getLevel() - this.getLevel()) * 3;
+				}
+
+				// Only give experience if more than 0
+				if(exp > 0) {
+					attacker.giveExperience(exp);
+				}
+			}
 		}
+	},
+	setHp: function(hp) {
+		this._hp = hp;
 	},
 	getHp: function() {
 		return this._hp;
@@ -213,6 +335,22 @@ Lootr.EntityComponents.Destructible = {
 		}
 
 		return this._defense + mod;
+	},
+	increaseDefenseValue: function(value) {
+		// if no value was passed, defualt to 2
+		value = value || 2;
+
+		// Add to the defense
+		this._defense += value;
+		Lootr.sendMessage(this, 'You look tougher');
+	},
+	increaseMaxHp: function(value) {
+		// if no value was passed, default to 10
+		value = value || 10;
+
+		// Add to maxHp
+		this._maxHp += value;
+		Lootr.sendMessage(this, 'You look healthier');
 	}
 }
 
@@ -353,6 +491,112 @@ Lootr.EntityComponents.MessageRecipient = {
 	}
 }
 
+Lootr.EntityComponents.RandomStatGainer = {
+	name: 'RandomStatGainer',
+	groupName: 'StatGainer',
+	onGainLevel: function() {
+		var statOptions = this.getStatOptions();
+
+		// Randomly select a stat option and execute the callback for each stat point
+		while( this.getStatPoints() > 0 ) {
+			// Call the stat increasing function with this as the context
+			statOptions.random()[1].call(this);
+			this.setStatPoints(this.getStatPoints() - 1);
+		}
+	}
+};
+
+Lootr.EntityComponents.PlayerStatGainer = {
+	name: 'PlayerStatGainer',
+	groupName: 'StatGainer',
+	onGainLevel: function() {
+		// Setup the gain stat screen and show it
+		Lootr.Screen.gainStatScreen.setup(this);
+		Lootr.Screen.playScreen.setSubScreen(Lootr.Screen.gainStatScreen);
+	}
+};
+
+Lootr.EntityComponents.ExperienceGainer = {
+	name: 'ExperienceGainer',
+	init: function(template) {
+		this._level = template['level'] || 1;
+		this._experience = template['experience'] || 0;
+		this._statPointsPerLevel = template['statPointsPerLevel'] || 1;
+		this._statPoints = 0;
+
+		// Determine what stats can be leveld up
+		this._statOptions = [];
+		if(this.hasComponent('Attacker')) {
+			this._statOptions.push(['Increase attack value', this.increaseAttackValue]);
+		}
+		if(this.hasComponent('Destructible')) {
+			this._statOptions.push(['Increase defense value', this.increaseDefenseValue]);
+			this._statOptions.push(['Increase max health', this.increaseMaxHp]);
+		}
+		if(this.hasComponent('Sight')) {
+			this._statOptions.push(['Increase sight radius', this.increaseSightRadius]);
+		}
+	},
+	getLevel: function() {
+		return this._level;
+	},
+	getExperience: function() {
+		return this._experience;
+	},
+	getNextLevelExperience: function() {
+		return (this._level * this._level) * 10;
+	},
+	getStatPoints: function() {
+		return this._statPoints;
+	},
+	setStatPoints: function(statPoints) {
+		this._statPoints = statPoints;
+	},
+	getStatOptions: function() {
+		return this._statOptions;
+	},
+	giveExperience: function(points) {
+		var statPointsGained = 0;
+		var levelsGained = 0;
+
+		// loop until we have allocated all points
+		while (points>0) {
+			// Check if adding the points will surpass the leve threshold
+			if(this._experience + points >= this.getNextLevelExperience()) {
+				// Fill our experience till the next threshold
+				var usedPoints = this.getNextLevelExperience() - this._experience;
+				points -= usedPoints;
+				this._experience += usedPoints;
+
+				// Level up our entity
+				this._level++
+				levelsGained++;
+				this._statPoints += this._statPointsPerLevel;
+				statPointsGained += this._statPointsPerLevel;
+			} else {
+				// Simple case - just give the exp
+				this._experience += points;
+				points = 0;
+			}
+		}
+
+		// Check if we gained at leave one level
+		if(levelsGained > 0) {
+			Lootr.sendMessage(this, 'You advanced to level %d', [this._level]);
+
+			// Heal entity if possible
+			if(this.hasComponent('Destructible')) {
+				this.setHp(this.getMaxHp());
+			}
+
+			// Update stat
+			if(this.hasComponent('StatGainer')) {
+				this.onGainLevel();
+			}
+		}
+	}
+};
+
 Lootr.EntityComponents.Attacker = {
 	name: 'Attacker',
 	groupName: 'Attacker',
@@ -388,5 +632,13 @@ Lootr.EntityComponents.Attacker = {
 		}
 
 		return this._attack + mod;
+	},
+	increaseAttackValue: function(value) {
+		// If no value, defaultt o 2
+		value = value || 2;
+
+		// Add attack to value
+		this._attack += value;
+		Lootr.sendMessage(this, 'You look stronger');
 	}
 };

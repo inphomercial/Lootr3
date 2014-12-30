@@ -13,7 +13,9 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.Sight,
 				 Lootr.EntityComponents.InventoryHolder,
 				 Lootr.EntityComponents.FoodConsumer,
-				 Lootr.EntityComponents.Equipper]
+				 Lootr.EntityComponents.Equipper,
+				 Lootr.EntityComponents.ExperienceGainer,
+				 Lootr.EntityComponents.PlayerStatGainer]
 }
 
 Lootr.EntityRepository = {};
@@ -26,8 +28,11 @@ Lootr.EntityRepository.define('fungus', {
 	character: 'f',
 	foreground: 'green',
 	maxHp: 4,
+	speed: 250,
 	components: [Lootr.EntityComponents.FungusActor,
-				 Lootr.EntityComponents.Destructible]	
+				 Lootr.EntityComponents.Destructible,
+				 Lootr.EntityComponents.ExperienceGainer,
+				 Lootr.EntityComponents.RandomStatGainer]	
 });
 
 Lootr.EntityRepository.define('bat', {
@@ -35,9 +40,29 @@ Lootr.EntityRepository.define('bat', {
 	character: 'b',
 	foreground: 'white',
 	background: 'gray',
+	speed: 2000,
 	maxHp: 10,
 	components: [Lootr.EntityComponents.Destructible,
-				 Lootr.EntityComponents.WanderActor,
+				 Lootr.EntityComponents.TaskActor,
 				 Lootr.EntityComponents.Attacker,
-				 Lootr.EntityComponents.CorpseDropper]
+				 Lootr.EntityComponents.CorpseDropper,
+				 Lootr.EntityComponents.ExperienceGainer,
+				 Lootr.EntityComponents.RandomStatGainer]
+});
+
+Lootr.EntityRepository.define('kobold', {
+	name: 'kobold',
+	character: 'k',
+	foreground: 'white',
+	maxHp: 6,
+	attackValue: 4,
+	sightRadius: 5,
+	tasks: ['hunt', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,
+			     Lootr.EntityComponents.Sight,
+			     Lootr.EntityComponents.Attacker,
+			     Lootr.EntityComponents.Destructible,
+			     Lootr.EntityComponents.CorpseDropper,
+			     Lootr.EntityComponents.ExperienceGainer,
+			     Lootr.EntityComponents.RandomStatGainer]
 });

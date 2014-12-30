@@ -12,6 +12,9 @@ Lootr.Map = function(tiles, player) {
 	// Crate a table to hold items
 	this._items = {};
 
+	// Add the player
+	this._player = player;
+
 	// Setup the field of vision
 	this._fov = null;
 	this.setupFov();
@@ -21,7 +24,7 @@ Lootr.Map = function(tiles, player) {
 	this.setupExploredArray();
 
 	// Create an engine and scheduler
-	this._scheduler = new ROT.Scheduler.Simple();
+	this._scheduler = new ROT.Scheduler.Speed();
 	this._engine = new ROT.Engine(this._scheduler);
 
 	// Add the player
@@ -36,6 +39,10 @@ Lootr.Map = function(tiles, player) {
 	for(var i=0; i<1500; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
 	}
+};
+
+Lootr.Map.prototype.getPlayer = function() {
+	return this._player;
 };
 
 Lootr.Map.prototype.getItemsAt = function(x, y) {
