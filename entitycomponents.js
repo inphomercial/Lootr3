@@ -224,16 +224,18 @@ Lootr.EntityComponents.CorpseDropper = {
 		// Chance of dropping corse
 		this._corpseDropRate = template['corpseDropRate'] || 100;
 	},
-	tryDropCorpse: function() {
-		if(Math.round(Math.random() * 100) < this._corpseDropRate) {
-			// Create a new corpse item and drop it
-			this._map.addItem(this.getX(), this.getY(), 
-				Lootr.ItemRepository.create('corpse', 
-					{name: this._name + ' corpse', foreground: this._foreground}
-			));
+	listeners: {
+		onDeath: function(attacker) {
+			// Check if we should drop a corpse
+			if(Math.round(Math.random() * 100) <= this._corpseDropRate) {
+				// Create a new corpse item and drop it.
+				this._map.addItem(this.getX(), this.getY(), Lootr.ItemRepository.create('corpse', {
+					name: this._name + ' corpse', foreground: this._foreground
+				}));
+			}	
 		}
 	}
-}
+};
 
 Lootr.EntityComponents.Equipper = {
 	name: 'Equipper',
@@ -285,30 +287,10 @@ Lootr.EntityComponents.Destructible = {
 		if(this._hp < 1) {
 			Lootr.sendMessage(attacker, 'You kill the %s', [this.getName()]);
 
-			// If entity is a corpse dropper, try to add a corpse
-			if(this.hasComponent(Lootr.EntityComponents.CorpseDropper)) {
-				this.tryDropCorpse();
-			}
-
-			this.kill();			
-
-			// Give the attacker experience points
-			if(attacker.hasComponent('ExperienceGainer')) {
-				var exp = this.getMaxHp() + this.getDefenseValue();
-				if(this.hasComponent('Attacker')) {
-					exp += this.getAttackValue();
-				}
-
-				// Account for level diffs
-				if(this.hasComponent('ExperienceGainer')) {
-					exp -= (attacker.getLevel() - this.getLevel()) * 3;
-				}
-
-				// Only give experience if more than 0
-				if(exp > 0) {
-					attacker.giveExperience(exp);
-				}
-			}
+			// Raise Events
+			this.raiseEvent('onDeath', attacker);
+			attacker.raiseEvent('onKill', this);
+			this.kill();
 		}
 	},
 	setHp: function(hp) {
@@ -351,8 +333,14 @@ Lootr.EntityComponents.Destructible = {
 		// Add to maxHp
 		this._maxHp += value;
 		Lootr.sendMessage(this, 'You look healthier');
+	},
+	listeners: {
+		onGainLevel: function() {
+			// Heal the entity
+			this.setHp(this.getMaxHp());
+		}
 	}
-}
+};
 
 Lootr.EntityComponents.FungusActor = {
 	name: 'FungusActor',
@@ -494,14 +482,16 @@ Lootr.EntityComponents.MessageRecipient = {
 Lootr.EntityComponents.RandomStatGainer = {
 	name: 'RandomStatGainer',
 	groupName: 'StatGainer',
-	onGainLevel: function() {
-		var statOptions = this.getStatOptions();
+	listeners: {
+		onGainLevel: function() {
+			var statOptions = this.getStatOptions();
 
-		// Randomly select a stat option and execute the callback for each stat point
-		while( this.getStatPoints() > 0 ) {
-			// Call the stat increasing function with this as the context
-			statOptions.random()[1].call(this);
-			this.setStatPoints(this.getStatPoints() - 1);
+			// Randomly select a stat option and execute the callback for each stat point
+			while( this.getStatPoints() > 0 ) {
+				// Call the stat increasing function with this as the context
+				statOptions.random()[1].call(this);
+				this.setStatPoints(this.getStatPoints() - 1);
+			}
 		}
 	}
 };
@@ -509,10 +499,12 @@ Lootr.EntityComponents.RandomStatGainer = {
 Lootr.EntityComponents.PlayerStatGainer = {
 	name: 'PlayerStatGainer',
 	groupName: 'StatGainer',
-	onGainLevel: function() {
-		// Setup the gain stat screen and show it
-		Lootr.Screen.gainStatScreen.setup(this);
-		Lootr.Screen.playScreen.setSubScreen(Lootr.Screen.gainStatScreen);
+	listeners: {
+		onGainLevel: function() {
+			// Setup the gain stat screen and show it
+			Lootr.Screen.gainStatScreen.setup(this);
+			Lootr.Screen.playScreen.setSubScreen(Lootr.Screen.gainStatScreen);
+		}
 	}
 };
 
@@ -583,15 +575,25 @@ Lootr.EntityComponents.ExperienceGainer = {
 		// Check if we gained at leave one level
 		if(levelsGained > 0) {
 			Lootr.sendMessage(this, 'You advanced to level %d', [this._level]);
-
-			// Heal entity if possible
-			if(this.hasComponent('Destructible')) {
-				this.setHp(this.getMaxHp());
+			
+			this.raiseEvent('onGainLevel');
+		}
+	},
+	listeners: {
+		onKill: function(victim) {
+			var exp = victim.getMaxHp() + victim.getDefenseValue();
+			if(victim.hasComponent('Attacker')) {
+				exp += victim.getAttackValue();
 			}
 
-			// Update stat
-			if(this.hasComponent('StatGainer')) {
-				this.onGainLevel();
+			// Account for level diffs
+			if(victim.hasComponent('ExperienceGainer')) {
+				exp -= (this.getLevel() - victim.getLevel()) * 3;
+			}
+
+			// Only give if more than 0
+			if(exp > 0) {
+				this.giveExperience(exp);
 			}
 		}
 	}

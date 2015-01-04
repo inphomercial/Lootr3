@@ -15,14 +15,17 @@ Lootr.DynamicGlyph = function(args) {
 	// Create one for groups
 	this._attachedComponentGroups = {};
 
+	// Setup an object for listeners
+	this._listeners = {};
+
 	// Setup the components
 	var components = args['components'] || {};
 	for(var i=0; i<components.length; i++) {
 		// Copy over all properties from each mixin as long
-		// as it's not the name or init property. also
+		// as it's not the name, init or listeners property. also
 		// dont override a property that already exists
 		for(var key in components[i]) {
-			if(key != 'init' && key != 'name' && !this.hasOwnProperty(key)) {
+			if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
 				this[key] = components[i][key];
 			}
 		}
@@ -33,6 +36,19 @@ Lootr.DynamicGlyph = function(args) {
 		// If a group name is present, add that too
 		if(components[i].groupName) {
 			this._attachedComponentGroups[components[i].groupName] = true;
+		}
+
+		// Add all of our listeners
+		if(components[i].listeners) {
+			for (var key in components[i].listeners) {
+				// If we dont already have a key for this event in our listens
+				// array, add it.
+				if(!this._listeners[key]) {
+					this._listeners[key] = [];
+				}
+				// Add the listener
+				this._listeners[key].push(components[i].listeners[key]);
+			}
 		}
 
 		// Finally call the init function if there is one
@@ -54,6 +70,20 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 	}
 };
 
+Lootr.DynamicGlyph.prototype.raiseEvent = function(event) {
+    // Make sure we have at least one listener or else exit
+    if(!this._listeners[event]) {
+    	return;
+    }
+
+    // Extract any agruments passed, removing the event name
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    // Invoke each listener, with this entity as the context and the arguments
+    for(var i=0; i<this._listeners[event].length; i++) {
+    	this._listeners[event][i].apply(this, args);
+    }
+};
 
 Lootr.DynamicGlyph.prototype.setName = function(name) {
 	this._name = name;
