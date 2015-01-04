@@ -1,7 +1,7 @@
 
 Lootr.Geometry = {
 	getLine: function(startX, startY, endX, endY) {
-		var points = {};
+		var points = [];
 		var dx = Math.abs(endX - startX);
 		var dy = Math.abs(endY - startY);
 		var sx = (startX < endX) ? 1 : -1;

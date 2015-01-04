@@ -339,7 +339,7 @@ Lootr.EntityComponents.Destructible = {
 			// Heal the entity
 			this.setHp(this.getMaxHp());
 		},
-		details: fuction() {
+		details: function() {
 			return [
 				{key: 'defense', value: this.getDefenseValue()},
 				{key: 'hp', value: this.getHp()}

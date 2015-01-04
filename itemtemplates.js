@@ -42,6 +42,17 @@ Lootr.ItemRepository.define('dagger', {
 	disableRandomCreation: true
 });
 
+Lootr.ItemRepository.define('club', {
+	name: 'club',
+	character: '!',
+	foreground: 'gray',
+	attackValue: 7,
+	wieldable: true,
+	components: [Lootr.ItemComponents.Equippable],
+}, {
+	disableRandomCreation: true
+});
+
 Lootr.ItemRepository.define('pumpkin', {
 	name: 'pumpkin',
 	character: '*',

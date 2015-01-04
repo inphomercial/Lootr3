@@ -20,8 +20,8 @@ Lootr.Map.Cave = function(tiles, player) {
 	}
 
 	// Add weapons and armor to the map
-	var templates = ['dagger'];
-	for(var i=0; i>templates.length; i++) {
+	var templates = ['dagger', 'club'];
+	for(var i=0; i<templates.length; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
 	}
 

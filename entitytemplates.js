@@ -1,5 +1,6 @@
 
 Lootr.TemplatePlayer = {
+	name: 'You',
 	character: '@',
 	foreground: 'yellow',
 	background: 'black',
@@ -67,8 +68,8 @@ Lootr.EntityRepository.define('kobold', {
 			     Lootr.EntityComponents.RandomStatGainer]
 });
 
-Lootr.EntityRepository.define('giant zombie', {
-	name: 'giant zombie',
+Lootr.EntityRepository.define('zombie', {
+	name: 'zombie',
 	character: 'Z',
 	foreground: 'teal',
 	maxHp: 30,
