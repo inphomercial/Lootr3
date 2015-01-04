@@ -37,7 +37,9 @@ Lootr.ItemRepository.define('dagger', {
 	foreground: 'gray',
 	attackValue: 5,
 	wieldable: true,
-	components: [Lootr.ItemComponents.Equippable]
+	components: [Lootr.ItemComponents.Equippable],
+}, {
+	disableRandomCreation: true
 });
 
 Lootr.ItemRepository.define('pumpkin', {

@@ -21,64 +21,28 @@ Lootr.Screen.startScreen = {
 
 // Define our playing screen
 Lootr.Screen.playScreen = {
-    _map: null,
     _player: null,
     _gameEnded: false,
     _subScreen: null,
     enter: function() {  
 
     	console.log("Entered play screen");
-
-        var map = [];
+        
         // Create a map based on our size parameters
         var mapWidth = 300;
         var mapHeight = 300;
-        for (var x = 0; x < mapWidth; x++) {
-            // Create the nested array for the y values
-            map.push([]);
-            // Add all the tiles
-            for (var y = 0; y < mapHeight; y++) {
-                map[x].push(Lootr.Tile.nullTile);
-            }
-        }
-
-        // The Entire map layout generation is here --------
-        // Setup the map generator
-        var generator = new ROT.Map.Cellular(mapWidth, mapHeight);
-        generator.randomize(0.5);
-        var totalIterations = 3;
-        
-        // Iteratively smoothen the map
-        for (var i = 0; i < totalIterations - 1; i++) {
-            generator.create();
-        }
-        
-        // Smoothen it one last time and then update our map
-        generator.create(function(x,y,v) {
-            if (v === 1) {
-                if(Math.random() > .98) {
-                    map[x][y] = Lootr.Tile.waterTile;    
-                } else {
-                    map[x][y] = Lootr.Tile.floorTile;    
-                }                                
-            } else {
-                if(Math.random() > .90) {
-                    map[x][y] = Lootr.Tile.wallGemTile;    
-                } else {
-                    map[x][y] = Lootr.Tile.wallTile;    
-                }                
-            }
-        });
-        // -------------------------------------
-
+       
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
 
+        var tiles = new Lootr.Builder(mapWidth, mapHeight).getTiles();
+
         // Create our map from the tiles
-        this._map = new Lootr.Map(map, this._player);
+        var map = [];
+        var map = new Lootr.Map.Cave(tiles, this._player);
 
         // Star the games engine
-        this._map.getEngine().start();
+        map.getEngine().start();
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -95,18 +59,18 @@ Lootr.Screen.playScreen = {
         var topLeftX = Math.max(0, this._player.getX() - (screenWidth / 2));
 
         // Make sure we still have enough space to fit an entire Lootr screen
-        topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
+        topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - screenWidth);
 
         // Make sure the y-axis doesn't above the top bound
         var topLeftY = Math.max(0, this._player.getY() - (screenHeight / 2));
 
         // Make sure we still have enough space to fit an entire Lootr screen
-        topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
+        topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - screenHeight);
 
         // This object will track all visible map cells
         var visibleCells = {};
 
-        var map = this._map;
+        var map = this._player.getMap();
 
         // Find all visible cells and update the object
         map.getFov().compute(
@@ -122,16 +86,16 @@ Lootr.Screen.playScreen = {
         // Render the explored, visible, items and entitiy map cells
         for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
             for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
-                if (this._map.isExplored(x, y)) {
+                if (map.isExplored(x, y)) {
                     // Fetch the glyph for the tile and render it to the screen
-                    var glyph = this._map.getTile(x, y);
+                    var glyph = map.getTile(x, y);
                     var foreground = glyph.getForeground();
 
                     // If we are at a cell that is in the FOV, we need to see
                     // If there are items or entities
                     if(visibleCells[x + ',' + y]) {
                         // Check for items first since we want to draw entities over them
-                        var items = this._map.getItemsAt(x, y);
+                        var items = map.getItemsAt(x, y);
 
                         // If we have items, render the last one
                         if(items) {
@@ -139,8 +103,8 @@ Lootr.Screen.playScreen = {
                         }
                         
                         // If we have entities
-                        if(this._map.getEntityAt(x, y)) {
-                            glyph = this._map.getEntityAt(x, y);
+                        if(map.getEntityAt(x, y)) {
+                            glyph = map.getEntityAt(x, y);
                         }
 
                         // Update the foreground color based on our glphy changed
@@ -205,11 +169,7 @@ Lootr.Screen.playScreen = {
         if (inputType === 'keydown') {
             // If enter is pressed, go to the win screen
             // If escape is pressed, go to lose screen
-            if (inputData.keyCode === ROT.VK_RETURN) {
-                Lootr.switchScreen(Lootr.Screen.winScreen);
-            } else if (inputData.keyCode === ROT.VK_ESCAPE) {
-                Lootr.switchScreen(Lootr.Screen.loseScreen);
-            } else if (inputData.keyCode === ROT.VK_LEFT) {
+            if (inputData.keyCode === ROT.VK_LEFT) {
                 this.move(-1, 0);
             } else if (inputData.keyCode === ROT.VK_RIGHT) {
                 this.move(1, 0);
@@ -238,6 +198,11 @@ Lootr.Screen.playScreen = {
                 this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
                 return;
 
+            } else if (inputData.keyCode === ROT.VK_X) {
+                // show the examine screen
+                this.showItemSubScreen(Lootr.Screen.examineScreen, this._player.getItems(), 'You have nothing to examine.');
+                return;
+
             } else if (inputData.keyCode === ROT.VK_W) {
                 if(inputData.shiftKey) {
                     // Show the wear screen                    
@@ -249,7 +214,7 @@ Lootr.Screen.playScreen = {
                 return;
                 
             } else if (inputData.keyCode === ROT.VK_COMMA) {
-                var items = this._map.getItemsAt(this._player.getX(), this._player.getY());
+                var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
                 // If there are no items, show a message
                 if(!items) {
                     Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
@@ -276,7 +241,7 @@ Lootr.Screen.playScreen = {
             }
 
             // Unlock the engine
-            this._map.getEngine().unlock();
+            this._player.getMap().getEngine().unlock();
         }    
     },
     move: function(dX, dY) {
@@ -286,7 +251,7 @@ Lootr.Screen.playScreen = {
     	var newY = this._player.getY() + dY;
 
     	// Try to move 
-    	this._player.tryMove(newX, newY, this._map);
+    	this._player.tryMove(newX, newY, this._player.getMap());
     },
     setGameEnded: function(gameEnded) {
         this._gameEnded = gameEnded;
@@ -519,6 +484,27 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
             this._player.wear(item);
             Lootr.sendMessage(this._player, 'You are wearing %s', [item.describeA()]);
         }
+    }
+});
+
+Lootr.Screen.examineScreen = new Lootr.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to examine',
+    canSelect: true,
+    canSelectMultipleItems: false,
+    isAcceptable: function(item) {
+        return true;
+    },
+    ok: function(selectedItems) {
+        var keys = Object.keys(selectedItems);
+        if(keys.length > 0) {
+            var item = selectedItems[keys[0]];
+            Lootr.sendMessage(this._player, 'It is %s (%s).',
+                [
+                    item.describeA(false),
+                    item.details()
+                ]);
+        }
+        return true;
     }
 });
 

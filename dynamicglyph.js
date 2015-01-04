@@ -80,9 +80,35 @@ Lootr.DynamicGlyph.prototype.raiseEvent = function(event) {
     var args = Array.prototype.slice.call(arguments, 1);
 
     // Invoke each listener, with this entity as the context and the arguments
+    var results = [];
     for(var i=0; i<this._listeners[event].length; i++) {
-    	this._listeners[event][i].apply(this, args);
+    	results.push(this._listeners[event][i].apply(this, args));
     }
+
+    return results;
+};
+
+Lootr.DynamicGlyph.prototype.details = function() {
+	var details = [];
+	var detailGroups = this.raiseEvent('details');
+
+	// Iterate throughe ach return value, grabbing the details from the array
+	if(detailGroups) {
+		for(var i=0; i<detailGroups.length; i++) {
+			if(detailGroups[i]) {
+				for (var j=0; j<detailGroups[i].length; j++) {
+					details.push(detailGroups[i][j].key + ': ' + detailGroups[i][j].value);
+				}
+			}
+		}
+	}
+
+	return details.join(', ');
+};
+
+Lootr.Glyph.prototype.getRepresentation = function() {
+    return '%c{' + this._foreground + '}%b{' + this._background + '}' + this._char +
+        '%c{white}%b{black}';
 };
 
 Lootr.DynamicGlyph.prototype.setName = function(name) {

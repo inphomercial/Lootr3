@@ -66,3 +66,37 @@ Lootr.EntityRepository.define('kobold', {
 			     Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
 });
+
+Lootr.EntityRepository.define('giant zombie', {
+	name: 'giant zombie',
+	character: 'Z',
+	foreground: 'teal',
+	maxHp: 30,
+	attackValue: 8, 
+	defenseValue: 5,
+	level: 5,
+	sightRadius: 6,
+	components: [Lootr.EntityComponents.GiantZombieActor,
+		         Lootr.EntityComponents.Sight,
+		         Lootr.EntityComponents.Attacker,
+		         Lootr.EntityComponents.Destructible,
+		         Lootr.EntityComponents.CorpseDropper,
+		         Lootr.EntityComponents.ExperienceGainer]
+});
+
+Lootr.EntityRepository.define('slime', {
+	name: 'slime',
+	character: 's',
+	foreground: 'lightgreen',
+	maxHp: 10,
+	attackValue: 5,
+	sightRadius: 3,
+	tasks: ['hunt', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,
+			     Lootr.EntityComponents.Sight,
+			     Lootr.EntityComponents.Attacker,
+			     Lootr.EntityComponents.Destructible,
+			     Lootr.EntityComponents.CorpseDropper,
+			     Lootr.EntityComponents.ExperienceGainer,
+			     Lootr.EntityComponents.RandomStatGainer]
+});

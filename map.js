@@ -1,5 +1,5 @@
 
-Lootr.Map = function(tiles, player) {
+Lootr.Map = function(tiles) {
 	this._tiles = tiles;
 	// Cache the width and height based
 	// on length of the dimensions of the tiles array
@@ -12,9 +12,6 @@ Lootr.Map = function(tiles, player) {
 	// Crate a table to hold items
 	this._items = {};
 
-	// Add the player
-	this._player = player;
-
 	// Setup the field of vision
 	this._fov = null;
 	this.setupFov();
@@ -26,19 +23,6 @@ Lootr.Map = function(tiles, player) {
 	// Create an engine and scheduler
 	this._scheduler = new ROT.Scheduler.Speed();
 	this._engine = new ROT.Engine(this._scheduler);
-
-	// Add the player
-	this.addEntityAtRandomPosition(player);
-
-	// Add random entities
-	for(var i=0; i<500; i++) {
-		this.addEntityAtRandomPosition(Lootr.EntityRepository.createRandom());
-	}	
-
-	// Add random items
-	for(var i=0; i<1500; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
-	}
 };
 
 Lootr.Map.prototype.getPlayer = function() {
@@ -151,6 +135,11 @@ Lootr.Map.prototype.addEntity = function(entity) {
 	if(entity.hasComponent('Actor')) {
 		this._scheduler.add(entity, true);
 	}
+
+	// If the entity is the player, set the player
+	if(entity.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		this._player = entity;
+	}
 };
 
 Lootr.Map.prototype.removeEntity = function(entity) {
@@ -162,6 +151,11 @@ Lootr.Map.prototype.removeEntity = function(entity) {
 	// If the entity is an Actor, remove from scheduler
 	if(entity.hasComponent('Actor')) {
 		this._scheduler.remove(entity);
+	}
+
+	// If the entity is the player, update the player field
+	if(entity.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		this._player = undefined;
 	}
 };
 

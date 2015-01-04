@@ -19,6 +19,23 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
+
+Lootr.Entity.prototype.switchMap = function(newMap) {
+	// If it's the same map, do nothing
+	if(newMap === this.getMap()) {
+		return;
+	}
+
+	this.getMap().removeEntity(this);
+
+	// Clear the position
+	this._x = 0;
+	this._y = 0;
+
+	// Add to the new map
+	newMap.addEntity(this);
+};
+
 Lootr.Entity.prototype.isAlive = function() {
 	return this._alive;
 };
@@ -61,6 +78,11 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			// we cannot attack and cannot move
 			return false;
 	} 
+	// Check if we found the cave
+	else if(tile.isWalkable() && tile === Lootr.Tile.holeToCavernTile && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the boss canern
+		this.switchMap(new Lootr.Map.BossCavern());
+	}
 	// check if we can walk on the tile
 	// if so, walk onto it
 	else if(tile.isWalkable()) {

@@ -338,9 +338,70 @@ Lootr.EntityComponents.Destructible = {
 		onGainLevel: function() {
 			// Heal the entity
 			this.setHp(this.getMaxHp());
+		},
+		details: fuction() {
+			return [
+				{key: 'defense', value: this.getDefenseValue()},
+				{key: 'hp', value: this.getHp()}
+			];
 		}
 	}
 };
+
+Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
+	init: function(template) {
+		// Call the task actor init with the right tasks
+		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
+			'tasks' : ['growArm', 'spawnSlime', 'hunt', 'wander']
+		}));
+
+		// We only want to grow the arm once
+		this._hasGrownArm = false;
+	},
+	canDoTask: function(task) {
+		// If we havent already grown arm and hp <=20, grow arm
+		if(task === 'growArm') {
+			return this.getHp() <= 20 && !this._hasGrownArm;
+
+		// Spawn a slime only at 10% of turns
+		} else if (task === 'spawnSlime') {
+			return Math.round(Math.random() * 100) <= 10;
+		
+		// Call parent canDoTask
+		} else {
+			return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);
+		}
+	},
+	growArm: function() {
+		this._hasGrownArm = true;
+		this.increaseAttackValue(5);
+
+		// Send a message to player
+		Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'An extra arm appears..');
+	},
+	spawnSlime: function() {
+		// Generate a random empty position
+		var xOffSet = Math.floor(Math.random() * 3) - 1;
+		var yOffSet = Math.floor(Math.random() * 3) - 1;
+
+		// Check if we can spawn an entity at that position
+		if(!this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+			return;
+		}
+
+		// Create the entity
+		var slime = Lootr.EntityRepository.create('slime');
+		slime.setX(this.getX() + xOffSet);
+		slime.setY(this.getY() + yOffSet);
+		this.getMap().addEntity(slime);
+	},
+	listeners: {
+		onDeath: function(attacker) {
+			// Switch to win scren when killed!
+			Lootr.switchScreen(Lootr.Screen.winScreen);
+		}
+	}
+})
 
 Lootr.EntityComponents.FungusActor = {
 	name: 'FungusActor',
@@ -575,7 +636,7 @@ Lootr.EntityComponents.ExperienceGainer = {
 		// Check if we gained at leave one level
 		if(levelsGained > 0) {
 			Lootr.sendMessage(this, 'You advanced to level %d', [this._level]);
-			
+
 			this.raiseEvent('onGainLevel');
 		}
 	},
@@ -595,6 +656,9 @@ Lootr.EntityComponents.ExperienceGainer = {
 			if(exp > 0) {
 				this.giveExperience(exp);
 			}
+		},
+		details: function() {
+			return [{key: 'level', value: this.getLevel()}];
 		}
 	}
 };
@@ -642,5 +706,10 @@ Lootr.EntityComponents.Attacker = {
 		// Add attack to value
 		this._attack += value;
 		Lootr.sendMessage(this, 'You look stronger');
+	},
+	listeners: {
+		details: function() {
+			return [{key: 'attack', value: this.getAttackValue()}];
+		}
 	}
 };
