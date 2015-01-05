@@ -4,7 +4,9 @@ Lootr.Map.BossCavern = function() {
 	Lootr.Map.call(this, this._generateTiles(80, 24));
 
 	// Create the giant zombie
-    this.addEntityAtRandomPosition(Lootr.EntityRepository.create('zombie'), 0);
+	var zombie = Lootr.EntityRepository.create('zombie');
+
+    this.addEntityAtRandomPosition(zombie);
 };
 
 Lootr.Map.BossCavern.extend(Lootr.Map);
@@ -72,7 +74,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 	}
 
 	// Return the tiles in an array as we only have 1 depth level
-	return [tiles];
+	return tiles;
 };
 
 Lootr.Map.BossCavern.prototype.addEntity = function(entity) {

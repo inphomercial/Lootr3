@@ -40,6 +40,7 @@ Lootr.Screen.playScreen = {
         // Create our map from the tiles
         var map = [];
         var map = new Lootr.Map.Cave(tiles, this._player);
+        //var map = new Lootr.Map.BossCavern();
 
         // Star the games engine
         map.getEngine().start();
