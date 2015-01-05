@@ -83,6 +83,8 @@ Lootr.EntityRepository.define('zombie', {
 		         Lootr.EntityComponents.Destructible,
 		         Lootr.EntityComponents.CorpseDropper,
 		         Lootr.EntityComponents.ExperienceGainer]
+}, {
+	disableRandomCreation: true
 });
 
 Lootr.EntityRepository.define('slime', {

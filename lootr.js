@@ -3,6 +3,7 @@ var Lootr =  {
     _currentScreen: null,
     _screenWidth: 120,
     _screenHeight: 30,
+    Screen: {},
 	init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,

@@ -57,7 +57,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 
 	// Now we randomly position lakes (3-6 lakes)
 	var lakes = Math.round(Math.random() * 3) + 3;
-	var maxRadius = 2;
+	var maxRadius = 2;z
 	for(var i=0; i<lakes; i++) {
 		// Random position, taking into consideration the radius to make sure we are
 		// within the bounds
@@ -85,6 +85,9 @@ Lootr.Map.BossCavern.prototype.addEntity = function(entity) {
 	if(this.getPlayer() === entity) {
 		var pos = this.getRandomFloorPosition();
 		entity.setPosition(pos.x, pos.y);
+
+		// Add a hole back		
+		//this._tiles[player.getX() + 1][player.getY()] = Lootr.Tile.holeToCavernTile;
 
 		// Start the engine
 		this.getEngine().start();
