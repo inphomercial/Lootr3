@@ -11,6 +11,7 @@ Lootr.Tile = function(args) {
 	this._diggable = args['diggable'] || false;
 	this._blocksLight = args['blocksLight'] == false ? false : true;
 	this._description = args['description'] || '';
+	this._ground = args['ground'] || false;
 };
 
 // Make all tiles inhert all the functionality of glyphs
@@ -32,6 +33,10 @@ Lootr.Tile.prototype.getDescription = function() {
 	return this._description;
 };
 
+Lootr.Tile.prototype.isGround = function() {
+	return this._ground;
+};
+
 // Helper function
 Lootr.getNeighborPositions = function(x, y) {
     var tiles = [];
@@ -50,56 +55,82 @@ Lootr.getNeighborPositions = function(x, y) {
 
 Lootr.Tile.nullTile = new Lootr.Tile({description: '(unknown)'});
 
-Lootr.Tile.floorTile = new Lootr.Tile({
+/*Lootr.Tile.floorTile = new Lootr.Tile({
 	character: '.',
 	walkable: true,
 	blocksLight: false,
 	description: 'A cave floor'
-});
+});*/
 
-Lootr.Tile.floorBloodTile = new Lootr.Tile({
+Lootr.Tile.floorTile = {
+	character: '.',
+	walkable: true,
+	blocksLight: false,
+	ground: true,
+	description: 'A cave floor'
+};
+
+Lootr.Tile.floorBloodTile = {
 	character: '.',
 	foreground: 'red',
 	walkable: true,
+	ground: true,
 	blocksLight: false,
 	description: 'A blood covered cave floor'
-});
+};
 
-Lootr.Tile.wallTile = new Lootr.Tile({
+Lootr.Tile.wallTile = {
 	character: '#',
 	foreground: 'goldenrod',	
 	diggable: true,
 	description: 'A Cave wall'
-});
+};
 
-Lootr.Tile.wallBloodTile = new Lootr.Tile({
+Lootr.Tile.wallBloodTile = {
 	character: '#',
 	foreground: 'red',
 	walkable: false,
 	diggable: true,
 	blocksLight: true,
 	description: 'A blood covered cave wall'
-});
+};
 
-Lootr.Tile.wallGemTile = new Lootr.Tile({
+Lootr.Tile.sandTile = {
+	character: '~',
+	foreground: 'yellow',
+	blocksLight: false,
+	walkable: true,
+	ground: true,
+	description: 'Sand'
+};
+
+Lootr.Tile.rockTile = {
+	character: '*',
+	foreground: 'white',
+	diggable: false,
+	walkable: false,
+	description: 'A rock'
+};
+
+Lootr.Tile.wallGemTile = {
 	character: '#',
 	foreground: '#FF33CC',
 	diggable: false,
 	description: 'A Gem'
-});
+};
 
-Lootr.Tile.waterTile = new Lootr.Tile({
+Lootr.Tile.waterTile = {
 	character: '~',
 	foreground: '#00CCFF',
 	walkable: false,
 	blocksLight: false,
 	description: 'Murky water'
-});
+};
 
-Lootr.Tile.holeToCavernTile = new Lootr.Tile({
+Lootr.Tile.holeToCavernTile = {
 	character: 'O',
 	foreground: 'white',
 	walkable: true,
 	blocksLight: false,
 	description: 'A cave opening'
-});
+};

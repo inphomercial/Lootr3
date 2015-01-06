@@ -1,5 +1,5 @@
 
-Lootr.Map.Cave = function(player) {
+Lootr.Map.Desert = function(player) {
 
 	this._width = 100;
 	this._height = 100;
@@ -37,12 +37,12 @@ Lootr.Map.Cave = function(player) {
 	// Add a hole
 	//var holePosition = this.getRandomFloorPosition();
 	//this._tiles[holePosition.x][holePosition.y] = Lootr.Tile.holeToCavernTile;
-	this._tiles[player.getX() + 3][player.getY() + 3] = new Lootr.Tile(Lootr.Tile.holeToCavernTile);
+	//this._tiles[player.getX() + 3][player.getY() + 3] = Lootr.Tile.holeToCavernTile;
 };
 
-Lootr.Map.Cave.extend(Lootr.Map);
+Lootr.Map.Desert.extend(Lootr.Map);
 
-Lootr.Map.Cave.prototype._generateLevel = function() {
+Lootr.Map.Desert.prototype._generateLevel = function() {
     // Create the empty map
     var map = new Array(this._width);
     for (var w = 0; w < this._width; w++) {
@@ -50,7 +50,10 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     }
     // Setup the cave generator
     var generator = new ROT.Map.Cellular(this._width, this._height);
-    generator.randomize(0.5);
+
+    generator.randomize(0.7);
+
+
     var totalIterations = 3;
     // Iteratively smoothen the map
     for (var i = 0; i < totalIterations - 1; i++) {
@@ -58,10 +61,10 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     }
     // Smoothen it one last time and then update our map
     generator.create(function(x,y,v) {
-        if (v === 1) {        	        
-            map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
+        if (v === 1) {
+            map[x][y] = Lootr.Tile.sandTile;
         } else {
-            map[x][y] = new Lootr.Tile(Lootr.Tile.wallTile);
+            map[x][y] = Lootr.Tile.rockTile;
         }
     });
     return map;

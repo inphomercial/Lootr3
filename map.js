@@ -215,7 +215,7 @@ Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
 	var tile = this.getTile(x, y);
 
 	// If the tile is a floor and no entity is on the space
-	if(tile == Lootr.Tile.floorTile && !this.getEntityAt(x, y)) {
+	if(tile.isGround() && !this.getEntityAt(x, y)) {
 		return true;
 	}
 
@@ -318,7 +318,7 @@ Lootr.Map.prototype.getTile = function(x, y) {
 Lootr.Map.prototype.dig = function(x, y) {
 	// if the tile is diggable, update it to a floor
 	if(this.getTile(x, y).isDiggable()) {
-		this._tiles[x][y] = Lootr.Tile.floorTile;
+		this._tiles[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
 	}
 };
 
@@ -326,11 +326,12 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
 	var pos = this.getRandomFloorPositionAroundTile(x, y);
 	var tile = this.getTile(pos.x, pos.y);
 
-	if(tile === Lootr.Tile.floorTile) {
-		this.setTile(Lootr.Tile.floorBloodTile, pos.x, pos.y);							
-	} else if(tile === Lootr.Tile.wallTile) {
-		this.setTile(Lootr.Tile.wallBloodTile, pos.x, pos.y);							
-	}
+	 // make blooodddy
+    var fc = ROT.Color.fromString(tile.getForeground());
+    var sc = ROT.Color.fromString('salmon');
+    var c = ROT.Color.multiply(fc, sc);                                        
+    foreground = ROT.Color.toHex(c);
+    tile._foreground = foreground;
 };
 
 Lootr.Map.prototype.getRandomFloorPosition = function() {

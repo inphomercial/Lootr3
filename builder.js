@@ -1,4 +1,4 @@
-Lootr.Builder = function(width, height) {
+/*Lootr.Builder = function(width, height) {
     this._width = width;
     this._height = height;
     this._tiles = new Array();
@@ -42,5 +42,5 @@ Lootr.Builder.prototype._generateLevel = function() {
         }
     });
     return map;
-};
+};*/
 

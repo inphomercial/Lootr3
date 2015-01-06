@@ -7,20 +7,14 @@ Lootr.Screen.playScreen = {
     enter: function() {  
 
     	console.log("Entered play screen");
-        
-        // Create a map based on our size parameters
-        var mapWidth = 300;
-        var mapHeight = 300;
        
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
 
-        var tiles = new Lootr.Builder(mapWidth, mapHeight).getTiles();
-
         // Create our map from the tiles
         var map = [];
-        var map = new Lootr.Map.Cave(tiles, this._player);
-        //var map = new Lootr.Map.BossCavern();
+        var map = new Lootr.Map.Cave(this._player);
+        //var map = new Lootr.Map.Desert(this._player);
 
         // Star the games engine
         map.getEngine().start();
@@ -184,7 +178,16 @@ Lootr.Screen.playScreen = {
 
             // Test out stuff
             } else if (inputData.keyCode === ROT.VK_SPACE) {
-                
+                var tile = this._player.getMap().getTile(this._player.getX(), this._player.getY() +1);
+
+                // make grayinterpolate
+                var fc = ROT.Color.fromString(tile.getForeground());
+                var sc = ROT.Color.fromString('lightgreen');
+                var c = ROT.Color.multiply(fc, sc);                                        
+                foreground = ROT.Color.toHex(c);
+                tile._foreground = foreground;
+                Lootr.refresh();
+                return;               
 
             // Help Screen
             } else if (inputData.keyCode === ROT.VK_H) {

@@ -47,7 +47,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 	for(var x=0; x<width; x++) {
 		tiles[x] = new Array(height);
 		for(var y=0; y<height; y++) {
-			tiles[x][y] = Lootr.Tile.wallTile;
+			tiles[x][y] = new Lootr.Tile(Lootr.Tile.wallTile);
 		}
 	}
 

@@ -56,7 +56,7 @@ Lootr.EntityRepository.define('kobold', {
 	name: 'kobold',
 	character: 'k',
 	foreground: 'white',
-	maxHp: 6,
+	maxHp: 25,
 	attackValue: 4,
 	sightRadius: 5,
 	tasks: ['hunt', 'wander'],
