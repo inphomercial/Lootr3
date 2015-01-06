@@ -57,11 +57,28 @@ Lootr.Tile.floorTile = new Lootr.Tile({
 	description: 'A cave floor'
 });
 
+Lootr.Tile.floorBloodTile = new Lootr.Tile({
+	character: '.',
+	foreground: 'red',
+	walkable: true,
+	blocksLight: false,
+	description: 'A blood covered cave floor'
+});
+
 Lootr.Tile.wallTile = new Lootr.Tile({
 	character: '#',
 	foreground: 'goldenrod',	
 	diggable: true,
 	description: 'A Cave wall'
+});
+
+Lootr.Tile.wallBloodTile = new Lootr.Tile({
+	character: '#',
+	foreground: 'red',
+	walkable: false,
+	diggable: true,
+	blocksLight: true,
+	description: 'A blood covered cave wall'
 });
 
 Lootr.Tile.wallGemTile = new Lootr.Tile({

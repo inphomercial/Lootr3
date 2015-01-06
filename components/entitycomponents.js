@@ -296,6 +296,13 @@ Lootr.EntityComponents.Destructible = {
 	setHp: function(hp) {
 		this._hp = hp;
 	},
+	modifyHpBy: function(points) {		
+		this._hp = this._hp + points;
+		
+		if(this._hp > this._maxHp) {
+			this._hp = this._maxHp;
+		}		
+	},
 	getHp: function() {
 		return this._hp;
 	},
@@ -682,6 +689,9 @@ Lootr.EntityComponents.Attacker = {
 			Lootr.sendMessage(target, 'The %s strikes you for %d damage!', [this.getName(), damage]);
 
 			target.takeDamage(this, damage);
+
+			// Make stuff blooooddyyyy
+			target.getMap().bloodyTile(target.getX(), target.getY());
 		}
 	},
 	getAttackValue: function() {

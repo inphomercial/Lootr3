@@ -131,11 +131,16 @@ Lootr.Screen.playScreen = {
                         }
 
                         // Update the foreground color based on our glphy changed
-                        foreground = glyph.getForeground();
+                        foreground = glyph.getForeground();                    
                     } else {
                         // Since the tile was previously explored but is not visible
-                        // make gray
-                        foreground = '#282828';
+                        // make grayinterpolate
+                        var fc = ROT.Color.fromString(foreground);
+                        var sc = ROT.Color.fromString('darkgray');
+                        var c = ROT.Color.multiply(fc, sc);                                        
+                        foreground = ROT.Color.toHex(c);
+
+                        //foreground = '#282828';
                     }
 
                     display.draw(
@@ -210,6 +215,11 @@ Lootr.Screen.playScreen = {
             } else if (inputData.keyCode === ROT.VK_E) {
                 // show eat screen
                 this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
+                return;
+
+             } else if (inputData.keyCode === ROT.VK_Q) {
+                // show quaff screen
+                this.showItemSubScreen(Lootr.Screen.quaffScreen, this._player.getItems(), 'You have nothing to quaff.');
                 return;
 
             } else if (inputData.keyCode === ROT.VK_X) {

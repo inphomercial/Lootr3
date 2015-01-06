@@ -29,6 +29,10 @@ Lootr.Map.prototype.getPlayer = function() {
 	return this._player;
 };
 
+Lootr.Map.prototype.setTile = function(tile, x, y) {
+	this._tiles[x][y] = tile;
+};
+
 Lootr.Map.prototype.getItemsAt = function(x, y) {
 	return this._items[x + ',' + y];
 };
@@ -89,7 +93,8 @@ Lootr.Map.prototype.setExplored = function(x, y, state) {
 Lootr.Map.prototype.setupFov = function() {
 	// keep this in 'map' varaiable so that we dont lose it
 	var map = this;
-	//var lightData = {};
+	/*var lightData = {};
+	var mapData = {};*/
 
 	// Function to determine if x, y is blockinglight
 	var lightPasses = function(x, y) {
@@ -103,21 +108,45 @@ Lootr.Map.prototype.setupFov = function() {
 	map._fov = new ROT.FOV.DiscreteShadowcasting(lightPasses, {topology: 4});
 
 	/*var reflectivity = function(x, y) {
-		return(map.getTile(x, y).isBlockingLight() == true ? 0.3 : 0);
+		return(mapData[x+','+y] == 1 ? 0.3 : 0);
 	}
-
-	// Lighting
+*/
+	/*// Lighting
 	var lighting = new ROT.Lighting(reflectivity, {range: 12, passes: 2});
 	lighting.setFOV(map._fov);
-	lighting.setLight(12, 12, [240, 240, 30]);
-	lighting.setLight(20, 20, [240, 60, 60]);
-	lighting.setLight(45, 25, [200, 200, 200]);
+
+	var pos = this.getRandomFloorPosition();
+	lighting.setLight(pos.x, pos.y, [240, 240, 30]);
+
+	var pos1 = this.getRandomFloorPosition();
+	lighting.setLight(pos1.x, pos1.y, [240, 60, 60]);	
 
 	var lightingCallback = function(x, y, color) {
-		lightData[x + ',' y] = color;
+		lightData[x + ',' + y] = color;
 	}
 
-	lighting.computer(lightingCallback);*/
+	lighting.compute(lightingCallback);
+
+	var display = new ROT.Display({fontSize: 9});
+	display.getContainer();
+
+	 all cells are lit by ambient light; some are also lit by light sources 
+	var ambientLight = [100, 100, 100];
+	for (var id in map) {
+	    var parts = id.split(",");
+	    var x = parseInt(parts[0]);
+	    var y = parseInt(parts[1]);
+
+	    var baseColor = (map[id] ? [100, 100, 100] : [50, 50, 50]);
+	    var light = ambientLight;
+
+	    if (id in lightData) { /* add light from our computation */
+	       /* light = ROT.Color.add(light, lightData[id]);
+	    }
+
+	    var finalColor = ROT.Color.multiply(baseColor, light);
+	    display.draw(x, y, null, null, ROT.Color.toRGB(finalColor));
+	}*/
 };
 
 Lootr.Map.prototype.getFov = function() {
@@ -237,6 +266,15 @@ Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius)
 	return results;
 };
 
+Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
+
+	var tileOptions = Lootr.getNeighborPositions(x, y);
+
+	var tile = tileOptions.slice().pop();
+
+	return tile;
+};
+
 Lootr.Map.prototype.getWidth = function() {
 	return this._width;
 };
@@ -258,6 +296,16 @@ Lootr.Map.prototype.dig = function(x, y) {
 	// if the tile is diggable, update it to a floor
 	if(this.getTile(x, y).isDiggable()) {
 		this._tiles[x][y] = Lootr.Tile.floorTile;
+	}
+};
+
+Lootr.Map.prototype.bloodyTile = function(x, y) {
+	var pos = this.getRandomFloorPositionAroundTile(x, y);
+	var tile = this.getTile(pos.x, pos.y);
+	if(tile === Lootr.Tile.floorTile) {
+		this.setTile(Lootr.Tile.floorBloodTile, pos.x, pos.y);							
+	} else if(tile === Lootr.Tile.wallTile) {
+		this.setTile(Lootr.Tile.wallBloodTile, pos.x, pos.y);							
 	}
 };
 

@@ -57,7 +57,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 
 	// Now we randomly position lakes (3-6 lakes)
 	var lakes = Math.round(Math.random() * 3) + 3;
-	var maxRadius = 2;z
+	var maxRadius = 2;
 	for(var i=0; i<lakes; i++) {
 		// Random position, taking into consideration the radius to make sure we are
 		// within the bounds

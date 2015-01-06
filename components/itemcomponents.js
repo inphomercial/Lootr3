@@ -1,5 +1,33 @@
 Lootr.ItemComponents = {};
 
+// Quaffable ItemComponent
+Lootr.ItemComponents.Quaffable = {
+	name: 'Quaffable',
+	init: function(template) {
+		this._quaffValue = template['quaff_value'] || 5;
+		this._maxQuaffs = template['quaffs'] || 1;
+		this._remainingQuaffs = this._maxQuaffs;
+	},
+	quaff: function(entity) {
+		if(entity.hasComponent('Destructible')) {
+			if(this.hasRemainingQuaffs()) {
+				entity.modifyHpBy(this._quaffValue);
+				this._remainingQuaffs--;
+			}
+		}
+	},
+	describe: function() {
+		if(this._maxQuaffs != this._remainingQuaffs) {
+			return 'partly drank ' + Lootr.Item.prototype.describe.call(this);
+		} else {
+			return this._name;
+		}
+	},
+	hasRemainingQuaffs: function() {
+		return this._remainingQuaffs > 0;
+	}
+};
+
 // Edible ItemComponent
 Lootr.ItemComponents.Edible = {
 	name: 'Edible',

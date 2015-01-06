@@ -21,6 +21,15 @@ Lootr.ItemRepository.define('melon', {
 	components: [Lootr.ItemComponents.Edible]
 });
 
+Lootr.ItemRepository.define('potion', {
+	name: 'potion',
+	character: '?',
+	foreground: '#1975FF',
+	quaff_value: 6,
+	quaffs: 2,
+	components: [Lootr.ItemComponents.Quaffable]
+});
+
 Lootr.ItemRepository.define('corpse', {
 	name: 'corpse',
 	character: '&',
@@ -39,7 +48,7 @@ Lootr.ItemRepository.define('dagger', {
 	wieldable: true,
 	components: [Lootr.ItemComponents.Equippable],
 }, {
-	disableRandomCreation: true
+	disableRandomCreation: false
 });
 
 Lootr.ItemRepository.define('club', {
@@ -50,7 +59,7 @@ Lootr.ItemRepository.define('club', {
 	wieldable: true,
 	components: [Lootr.ItemComponents.Equippable],
 }, {
-	disableRandomCreation: true
+	disableRandomCreation: false
 });
 
 Lootr.ItemRepository.define('pumpkin', {

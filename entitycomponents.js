@@ -4,7 +4,6 @@ Lootr.EntityComponents = {};
 Lootr.EntityComponents.Moveable = {
 	name: 'Moveable',
 	groupName: 'Moveable',
-	
 }
 
 Lootr.EntityComponents.TaskActor = {
@@ -682,6 +681,9 @@ Lootr.EntityComponents.Attacker = {
 			Lootr.sendMessage(target, 'The %s strikes you for %d damage!', [this.getName(), damage]);
 
 			target.takeDamage(this, damage);
+
+			// Make stuff blooooddyyyy
+			target.getMap().bloodyTile(target.getX(), target.getY());
 		}
 	},
 	getAttackValue: function() {

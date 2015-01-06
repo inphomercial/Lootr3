@@ -19,4 +19,3 @@ Lootr.Glyph.prototype.getForeground = function() {
 Lootr.Glyph.prototype.getBackground = function() {
 	return this._background;
 };
-
