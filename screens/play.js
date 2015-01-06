@@ -9,8 +9,8 @@ Lootr.Screen.playScreen = {
     	console.log("Entered play screen");
         
         // Create a map based on our size parameters
-        var mapWidth = 30;
-        var mapHeight = 30;
+        var mapWidth = 300;
+        var mapHeight = 300;
        
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
@@ -214,6 +214,19 @@ Lootr.Screen.playScreen = {
                 return;
 
             } else if (inputData.keyCode === ROT.VK_E) {
+
+                // If on top of an item that is Edible try to eat it instaed of going to eat screen
+                var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
+                if(items) {
+                    if(items.length === 1 && items[0].hasComponent('Edible')) {
+                        Lootr.sendMessage(this._player, 'You eat %s', [items[0].describeThe()]);
+                        item.eat(this._player);
+                        if(!item.hasRemainingConsumptions()) {
+                            this._player.removeItem(key);
+                        }
+                    }
+                }
+
                 // show eat screen
                 this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
                 return;
