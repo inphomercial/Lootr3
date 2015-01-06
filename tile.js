@@ -72,6 +72,10 @@ Lootr.Tile.wallTile = new Lootr.Tile({
 	description: 'A Cave wall'
 });
 
+/*Lootr.Tile.fireTile = new Lootr.Tile({
+
+});*/
+
 Lootr.Tile.wallBloodTile = new Lootr.Tile({
 	character: '#',
 	foreground: 'red',

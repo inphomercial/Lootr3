@@ -4,7 +4,7 @@ Lootr.TemplatePlayer = {
 	character: '@',
 	foreground: 'yellow',
 	background: 'black',
-	sightRadius: 8,
+	sightRadius: 6,
 	maxHp: 100,
 	inventorySlots: 20,
 	components: [Lootr.EntityComponents.PlayerActor, 

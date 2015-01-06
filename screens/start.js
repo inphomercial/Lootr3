@@ -5,8 +5,9 @@ Lootr.Screen.startScreen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // Render our prompt to the screen
-        display.drawText(1,1, "%c{yellow}Javascript Roguelike");
+        display.drawText(1,1, "%c{yellow}Lootr");
         display.drawText(1,2, "Press [Enter] to start!");
+        display.drawText(1,4, "2014");
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
