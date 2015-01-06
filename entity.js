@@ -78,13 +78,29 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			// we cannot attack and cannot move
 			return false;
 	} 
+
 	// Check if we found the cave
 	else if(tile.isWalkable() && tile === Lootr.Tile.holeToCavernTile && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the boss canern
 		this.switchMap(new Lootr.Map.BossCavern());
 	}
-	// check if we can walk on the tile
-	// if so, walk onto it
+
+	// Check if we are standing on gold
+	else if(tile.isWalkable() && this.hasComponent(Lootr.EntityComponents.GoldHolder) && map.tileContainsItem(x, y, 'gold')) {
+		// update the entitys position
+		this.setPosition(x, y);
+
+		// Add gold
+		this.modifyGoldBy(1);
+
+		// Notify of the pickup
+		Lootr.sendMessage(this, 'You pickup some gold');
+
+		// Remove it from game
+		map.removeItemFromTile(x, y, 'gold');
+	}
+
+	// check if we can walk on the tile if so, walk onto it
 	else if(tile.isWalkable()) {
 		// update the entitys position
 		this.setPosition(x, y);
@@ -99,6 +115,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			}
 		}
 		return true;
+
 	// check if tile is diggable and if so dig it
 	} else if (tile.isDiggable()) {
 		if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {

@@ -13,6 +13,7 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.MessageRecipient,
 				 Lootr.EntityComponents.Sight,
 				 Lootr.EntityComponents.InventoryHolder,
+				 Lootr.EntityComponents.GoldHolder,
 				 Lootr.EntityComponents.FoodConsumer,
 				 Lootr.EntityComponents.Equipper,
 				 Lootr.EntityComponents.ExperienceGainer,

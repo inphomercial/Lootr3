@@ -37,6 +37,29 @@ Lootr.Map.prototype.getItemsAt = function(x, y) {
 	return this._items[x + ',' + y];
 };
 
+Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
+	var items = this.getItemsAt(x, y);
+
+	if(items) {
+		for(var i=0; i<items.length; i++) {
+			if(items[i].getName() == item_name) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
+	var key = x + ',' + y;
+
+	if(this._items[key] && this._items[key][0].getName() == item_name) {		
+		delete this._items[key];
+		return;		
+	}
+}
+
 Lootr.Map.prototype.setItemsAt = function(x, y, items) {
 	// If our items array si empty then delete the key from table
 	var key = x + ',' + y;
@@ -302,6 +325,7 @@ Lootr.Map.prototype.dig = function(x, y) {
 Lootr.Map.prototype.bloodyTile = function(x, y) {
 	var pos = this.getRandomFloorPositionAroundTile(x, y);
 	var tile = this.getTile(pos.x, pos.y);
+
 	if(tile === Lootr.Tile.floorTile) {
 		this.setTile(Lootr.Tile.floorBloodTile, pos.x, pos.y);							
 	} else if(tile === Lootr.Tile.wallTile) {

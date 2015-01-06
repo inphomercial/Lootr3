@@ -10,6 +10,11 @@ Lootr.Screen.loseScreen = {
         }
     },
     handleInput: function(inputType, inputData) {
-        // Nothing to do here      
+        // Initialize lootr
+        Lootr.init();
+        // Add the container to our HTML page
+        document.body.appendChild(Lootr.getDisplay().getContainer());
+        // Load the start screen
+        Lootr.switchScreen(Lootr.Screen.startScreen);
     }
 }

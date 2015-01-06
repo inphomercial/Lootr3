@@ -9,8 +9,8 @@ Lootr.Screen.playScreen = {
     	console.log("Entered play screen");
         
         // Create a map based on our size parameters
-        var mapWidth = 300;
-        var mapHeight = 300;
+        var mapWidth = 30;
+        var mapHeight = 30;
        
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
@@ -52,10 +52,11 @@ Lootr.Screen.playScreen = {
 
         // Draw player stats
         var stats = '%c{white}%b{black}';
-        stats += vsprintf('HP: %d/%d L: %d XP: %d', [this._player.getHp(), 
+        stats += vsprintf('HP: %d/%d L: %d XP: %d GOLD: %d' , [this._player.getHp(), 
                                                      this._player.getMaxHp(),
                                                      this._player.getLevel(),
-                                                     this._player.getExperience()]);
+                                                     this._player.getExperience(),
+                                                     this._player.getGold()]);
 
         display.drawText(0, screenHeight, stats);
 
@@ -181,9 +182,9 @@ Lootr.Screen.playScreen = {
             } else if (inputData.keyCode === ROT.VK_DOWN) {
                 this.move(0, 1);
 
-            // Test out animation stuff
+            // Test out stuff
             } else if (inputData.keyCode === ROT.VK_SPACE) {
-                this._map.getEngine().lock();
+                
 
             // Help Screen
             } else if (inputData.keyCode === ROT.VK_H) {

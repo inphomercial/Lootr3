@@ -7,7 +7,7 @@ Lootr.Map.Cave = function(tiles, player) {
 	this.addEntityAtRandomPosition(player);
 
 	// Add random entities
-	for(var i=0; i<100; i++) {
+	for(var i=0; i<10; i++) {
 		var entity = Lootr.EntityRepository.createRandom();
 
 		// Add a random entity
@@ -15,7 +15,7 @@ Lootr.Map.Cave = function(tiles, player) {
 	}
 
 	// Add random items
-	for(var i=0; i<100; i++) {
+	for(var i=0; i<200; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
 	}
 

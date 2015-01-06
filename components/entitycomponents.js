@@ -168,6 +168,24 @@ Lootr.EntityComponents.PlayerActor = {
 	}
 }
 
+Lootr.EntityComponents.GoldHolder = {
+	name: 'GoldHolder',
+	init: function(template) {
+		this._gold = template['gold'] || 0;
+	},
+	getGold: function() {
+		return this._gold;
+	},
+	modifyGoldBy: function(amount) {
+		this._gold += amount;
+	},
+	listeners: {
+		onPickup: function(amount) {
+			this.modifyGoldBy(amount);
+		}
+	}
+};
+
 Lootr.EntityComponents.FoodConsumer = {
 	name: 'FoodConsumer',
 	init: function(template) {
@@ -500,6 +518,7 @@ Lootr.EntityComponents.InventoryHolder = {
 
 		// Iterate through all indices
 		for(var i=0; i<indices.length; i++) {
+			
 			// Try to add the item. If our inventory is not full, then splice the 
 			// Item out of the list of items. In order to fetch the right item,
 			// we have to offset the number of items already added

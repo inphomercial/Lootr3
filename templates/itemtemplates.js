@@ -12,6 +12,12 @@ Lootr.ItemRepository.define('apple', {
 	components: [Lootr.ItemComponents.Edible]
 });
 
+Lootr.ItemRepository.define('gold', {
+	name: 'gold',
+	character: '$',
+	foreground: 'gold'	
+});
+
 Lootr.ItemRepository.define('melon', {
 	name: 'melon',
 	character: '%',
