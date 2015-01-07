@@ -25,6 +25,39 @@ Lootr.EntityRepository = {};
 // Create our central Entity template repository
 Lootr.EntityRepository = new Lootr.Repository('entities', Lootr.Entity);
 
+Lootr.EntityRepository.define('spider nest', {
+	name: 'spider nest',
+	character: '&',
+	foreground: 'white',
+	background: 'gray',
+	maxHp: 15,
+	speed: 50,
+	components: [Lootr.EntityComponents.SpiderNestActor,
+				 Lootr.EntityComponents.Destructible]
+}, {
+	disableRandomCreation: false
+});
+
+Lootr.EntityRepository.define('spider', {
+	name: 'spider',
+	character: 'm',
+	foreground: 'red',
+	background: 'black',
+	maxHp: 5,
+	speed: 1000,
+	corpseDropRate: 50,
+	tasks: ['hunt', 'wander'],
+	components: [Lootr.EntityComponents.Destructible,
+				 Lootr.EntityComponents.TaskActor,
+				 Lootr.EntityComponents.Attacker,
+				 Lootr.EntityComponents.CorpseDropper,
+				 Lootr.EntityComponents.Sight,
+				 Lootr.EntityComponents.ExperienceGainer,
+				 Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
+});
+
 Lootr.EntityRepository.define('fungus', {
 	name: 'fungus',
 	character: 'f',
@@ -35,6 +68,8 @@ Lootr.EntityRepository.define('fungus', {
 				 Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.RandomStatGainer]	
+}, {
+	disableRandomCreation: false
 });
 
 Lootr.EntityRepository.define('bat', {
@@ -50,14 +85,16 @@ Lootr.EntityRepository.define('bat', {
 				 Lootr.EntityComponents.CorpseDropper,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
 });
 
 Lootr.EntityRepository.define('kobold', {
 	name: 'kobold',
 	character: 'k',
 	foreground: 'white',
-	maxHp: 25,
-	attackValue: 4,
+	maxHp: 10,
+	attack: 4,
 	sightRadius: 5,
 	tasks: ['hunt', 'wander'],
 	components: [Lootr.EntityComponents.TaskActor,
@@ -67,6 +104,25 @@ Lootr.EntityRepository.define('kobold', {
 			     Lootr.EntityComponents.CorpseDropper,
 			     Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
+});
+
+Lootr.EntityRepository.define('vampire', {
+	name: 'vampire',
+	character: 'v',
+	maxHp: 15,
+	attack: 10,
+	defense: 3,
+	sightRadius: 2,
+	components: [Lootr.EntityComponents.VampireActor,
+				 Lootr.EntityComponents.Sight,
+		         Lootr.EntityComponents.Attacker,
+		         Lootr.EntityComponents.Destructible,
+		         Lootr.EntityComponents.ExperienceGainer,
+			     Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
 });
 
 Lootr.EntityRepository.define('zombie', {
@@ -74,8 +130,8 @@ Lootr.EntityRepository.define('zombie', {
 	character: 'Z',
 	foreground: 'teal',
 	maxHp: 30,
-	attackValue: 8, 
-	defenseValue: 5,
+	attack: 8, 
+	defense: 5,
 	level: 5,
 	sightRadius: 6,
 	components: [Lootr.EntityComponents.GiantZombieActor,
@@ -93,14 +149,15 @@ Lootr.EntityRepository.define('slime', {
 	character: 's',
 	foreground: 'lightgreen',
 	maxHp: 10,
-	attackValue: 5,
-	sightRadius: 3,
-	tasks: ['hunt', 'wander'],
-	components: [Lootr.EntityComponents.TaskActor,
-			     Lootr.EntityComponents.Sight,
+	attack: 5,
+	sight: 3,	
+	components: [Lootr.EntityComponents.SlimeActor,				 
+			     Lootr.EntityComponents.Sight,			     
 			     Lootr.EntityComponents.Attacker,
 			     Lootr.EntityComponents.Destructible,
 			     Lootr.EntityComponents.CorpseDropper,
 			     Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
 });

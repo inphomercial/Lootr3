@@ -145,7 +145,7 @@ Lootr.EntityComponents.PlayerActor = {
 		}*/
 
 		this._acting = true;
-		this.addTurnHunger();
+		this.addTurnHunger();		
 
 		// Detect if game is over or dead
 		if(!this.isAlive()) {
@@ -373,6 +373,33 @@ Lootr.EntityComponents.Destructible = {
 	}
 };
 
+Lootr.EntityComponents.VampireActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
+	init: function(template) {
+		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
+			'tasks' : ['suckCorpse', 'wander']
+		}));
+	},
+	canDoTask: function(task) {
+
+		// Ensure we are on standing on a corpse
+		if(task === 'suckCorpse') {
+			return this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');						
+		} else {
+			return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);
+		}
+	},
+	suckCorpse: function() {
+		// Gain 
+		this.increaseAttackValue(5);
+
+		// Remove Corpse
+		this.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
+
+		// Send a message to player
+		Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A vampire has drank a corpse.');
+	}
+});
+
 Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
 	init: function(template) {
 		// Call the task actor init with the right tasks
@@ -426,7 +453,80 @@ Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.Ta
 			Lootr.switchScreen(Lootr.Screen.winScreen);
 		}
 	}
-})
+});
+
+Lootr.EntityComponents.SpiderNestActor = {
+	name: 'SpiderNestActor',
+	groupName: 'Actor',
+	init: function() {
+		this._hasSpawned = false;
+		this._spawnAmount = 8;
+	},
+	act: function() {
+		// See if we have already spawned
+		if(!this._hasSpawned) {
+			if(Math.random() <= 0.52) {
+				this._hasSpawned = true;
+				
+				while(this._spawnAmount > 0) {
+					// Generate the coordinates of a random adjacent square
+					// by generating an offset between [-1, 0, 1] for both
+					// the x and y. to do this we get a number from 0-2 and then sub 1
+					var xOffSet = Math.floor(Math.random() * 3) - 1;
+					var yOffSet = Math.floor(Math.random() * 3) - 1;
+
+					// Make sure we arent trying to spawn on the same tile
+					if(xOffSet != 0 && yOffSet != 0) {
+						// check if we can actually grow at location
+						if(this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+							var entity = Lootr.EntityRepository.create('spider');
+							entity.setX(this.getX() + xOffSet);
+							entity.setY(this.getY() + yOffSet);
+
+							this.getMap().addEntity(entity);										
+						}
+					}
+
+					// Decrement regardless incase of walls/items
+					this._spawnAmount--;	
+				}
+
+				// Send a message nearby
+				Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A nest breaks..');
+
+				// Remove entity
+				this.kill();	
+			}					
+		}	
+	}	
+};
+
+Lootr.EntityComponents.SlimeActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
+	init: function(template) {
+		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
+			'tasks' : ['hunt', 'wander']
+		}));
+	},
+	canDoTask: function(task) {
+
+		// We want to do this every turn, is this the best place to put it ?!
+		this.slimeTrail();
+		
+		return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);		
+
+	},
+	slimeTrail: function() {
+		var tile = this.getMap().getTile(this.getX(), this.getY());
+		        
+        var fc = ROT.Color.fromString(tile.getForeground());
+        var sc = ROT.Color.fromString('lightgreen');
+        var c = ROT.Color.multiply(fc, sc);                                        
+        foreground = ROT.Color.toHex(c);
+        tile._foreground = foreground;
+        
+        return;         
+	}
+});
 
 Lootr.EntityComponents.FungusActor = {
 	name: 'FungusActor',

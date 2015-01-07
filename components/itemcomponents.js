@@ -25,6 +25,11 @@ Lootr.ItemComponents.Quaffable = {
 	},
 	hasRemainingQuaffs: function() {
 		return this._remainingQuaffs > 0;
+	},
+	listeners: {
+		details: function() {
+			return [{key: 'quaff', value: this._quaffValue}];
+		}
 	}
 };
 

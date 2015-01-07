@@ -10,8 +10,6 @@ Lootr.Screen.loseScreen = {
         }
     },
     handleInput: function(inputType, inputData) {
-        Lootr.refresh();
-
         // Initialize lootr
         Lootr.init();
         // Add the container to our HTML page

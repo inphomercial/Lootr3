@@ -55,13 +55,6 @@ Lootr.getNeighborPositions = function(x, y) {
 
 Lootr.Tile.nullTile = new Lootr.Tile({description: '(unknown)'});
 
-/*Lootr.Tile.floorTile = new Lootr.Tile({
-	character: '.',
-	walkable: true,
-	blocksLight: false,
-	description: 'A cave floor'
-});*/
-
 Lootr.Tile.floorTile = {
 	character: '.',
 	walkable: true,
@@ -70,29 +63,11 @@ Lootr.Tile.floorTile = {
 	description: 'A cave floor'
 };
 
-Lootr.Tile.floorBloodTile = {
-	character: '.',
-	foreground: 'red',
-	walkable: true,
-	ground: true,
-	blocksLight: false,
-	description: 'A blood covered cave floor'
-};
-
 Lootr.Tile.wallTile = {
 	character: '#',
 	foreground: 'goldenrod',	
 	diggable: true,
 	description: 'A Cave wall'
-};
-
-Lootr.Tile.wallBloodTile = {
-	character: '#',
-	foreground: 'red',
-	walkable: false,
-	diggable: true,
-	blocksLight: true,
-	description: 'A blood covered cave wall'
 };
 
 Lootr.Tile.sandTile = {
@@ -114,7 +89,7 @@ Lootr.Tile.rockTile = {
 
 Lootr.Tile.wallGemTile = {
 	character: '#',
-	foreground: '#FF33CC',
+	foreground: 'azure',
 	diggable: false,
 	description: 'A Gem'
 };
@@ -123,6 +98,7 @@ Lootr.Tile.waterTile = {
 	character: '~',
 	foreground: '#00CCFF',
 	walkable: false,
+	ground: true,
 	blocksLight: false,
 	description: 'Murky water'
 };

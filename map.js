@@ -42,7 +42,8 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
 
 	if(items) {
 		for(var i=0; i<items.length; i++) {
-			if(items[i].getName() == item_name) {
+			/*if(items[i].getName() == item_name) {*/
+			if(items[i].getName().indexOf(item_name) > -1) {
 				return true;
 			}
 		}
@@ -54,7 +55,8 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
 Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
 	var key = x + ',' + y;
 
-	if(this._items[key] && this._items[key][0].getName() == item_name) {		
+	/*if(this._items[key] && this._items[key][0].getName() == item_name) {		*/
+	if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {		
 		delete this._items[key];
 		return;		
 	}
@@ -329,7 +331,7 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
 	 // make blooodddy
     var fc = ROT.Color.fromString(tile.getForeground());
     var sc = ROT.Color.fromString('salmon');
-    var c = ROT.Color.multiply(fc, sc);                                        
+    var c = ROT.Color.multiply_(fc, sc);                                        
     foreground = ROT.Color.toHex(c);
     tile._foreground = foreground;
 };

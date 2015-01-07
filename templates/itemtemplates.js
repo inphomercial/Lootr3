@@ -4,18 +4,14 @@ Lootr.ItemRepository = {};
 // Create our central Item template repository
 Lootr.ItemRepository = new Lootr.Repository('items', Lootr.Item);
 
+
+// Edibles
 Lootr.ItemRepository.define('apple', {
 	name: 'apple',
 	character: '%',
 	foreground: 'red',
 	foodValue: 50,
 	components: [Lootr.ItemComponents.Edible]
-});
-
-Lootr.ItemRepository.define('gold', {
-	name: 'gold',
-	character: '$',
-	foreground: 'gold'	
 });
 
 Lootr.ItemRepository.define('melon', {
@@ -25,15 +21,6 @@ Lootr.ItemRepository.define('melon', {
 	foodValue: 35,
 	comsumptions: 4,
 	components: [Lootr.ItemComponents.Edible]
-});
-
-Lootr.ItemRepository.define('potion', {
-	name: 'potion',
-	character: '?',
-	foreground: '#1975FF',
-	quaff_value: 6,
-	quaffs: 2,
-	components: [Lootr.ItemComponents.Quaffable]
 });
 
 Lootr.ItemRepository.define('corpse', {
@@ -46,6 +33,24 @@ Lootr.ItemRepository.define('corpse', {
 	disableRandomCreation: true
 });
 
+// Quaffables
+Lootr.ItemRepository.define('potion', {
+	name: 'potion',
+	character: '?',
+	foreground: '#1975FF',
+	quaff_value: 6,
+	quaffs: 2,
+	components: [Lootr.ItemComponents.Quaffable]
+});
+
+// Non-edible/quaffable
+Lootr.ItemRepository.define('gold', {
+	name: 'gold',
+	character: '$',
+	foreground: 'gold'	
+});
+
+// Weapons
 Lootr.ItemRepository.define('dagger', {
 	name: 'dagger',
 	character: ')',
@@ -55,6 +60,15 @@ Lootr.ItemRepository.define('dagger', {
 	components: [Lootr.ItemComponents.Equippable],
 }, {
 	disableRandomCreation: false
+});
+
+Lootr.ItemRepository.define('robe', {
+	name: 'robe',
+	character: ']',
+	foreground: 'lightskyblue',
+	wearable: true,
+	defenseValue: 3,
+	components: [Lootr.ItemComponents.Equippable]
 });
 
 Lootr.ItemRepository.define('club', {

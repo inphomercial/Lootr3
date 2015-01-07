@@ -10,13 +10,13 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
     },
     ok: function(item) {
         // Check if we selected no item
-        var keys = Object.keys(selectedItems);
+        var keys = Object.keys(item);
         if(keys.length === 0) {
             this._player.takeOff();
             Lootr.sendMessage(this._player, 'You are not wearing anything.');            
         } else {
             // Make sure to unequip the item first in case it is the weapon
-            var item = selectedItems[keys[0]];
+            var item = item[keys[0]];
             this._player.unequip(item);
             this._player.wear(item);
             Lootr.sendMessage(this._player, 'You are wearing %s', [item.describeA()]);

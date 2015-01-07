@@ -131,9 +131,10 @@ Lootr.Screen.playScreen = {
                         // Since the tile was previously explored but is not visible
                         // make grayinterpolate
                         var fc = ROT.Color.fromString(foreground);
-                        var sc = ROT.Color.fromString('darkgray');
+                        var sc = ROT.Color.fromString('slategray');
                         var c = ROT.Color.multiply(fc, sc);                                        
-                        foreground = ROT.Color.toHex(c);
+                        var d = ROT.Color.multiply(c, sc);
+                        foreground = ROT.Color.toHex(d);
 
                         //foreground = '#282828';
                     }
@@ -244,14 +245,15 @@ Lootr.Screen.playScreen = {
                 this.showItemSubScreen(Lootr.Screen.examineScreen, this._player.getItems(), 'You have nothing to examine.');
                 return;
 
-            } else if (inputData.keyCode === ROT.VK_W) {
-                if(inputData.shiftKey) {
-                    // Show the wear screen                    
-                    this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');                
-                } else {
-                    // Show the wield screen
-                    this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');                
-                }
+            // Show the put on screen (wear)
+            } else if (inputData.keyCode === ROT.VK_P) {            
+                // Show the wear screen                    
+                this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');       
+                return;
+
+            } else if (inputData.keyCode === ROT.VK_W) {                         
+                // Show the wield screen
+                this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');                        
                 return;
                 
             } else if (inputData.keyCode === ROT.VK_COMMA) {

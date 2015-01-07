@@ -1,0 +1,27 @@
+
+TODO
+add corpse decaying
+fire tiles
+figure out lights
+status ailments
+snow level w/ foot prints
+scent tracks
+get the game to restart on death
+be able to draw text directly to the screen from in screen
+more items slots besides equip and wear (hand & wear)
+add a way to remove/unequip items
+test out making an overworld map similar to shovelknight/smb
+player profile screen
+make send to near by function take a optional radius
+make it so enemies arent glued
+make better wall gem tiles
+coffins
+come up with good solution to corpses having entity name appended to it for (map.tileContainsItem)
+make entitytemplates be able to take a task from a component and have it able to run
+
+DONE
+vampires eat corpses
+fix wear screen (wearable items dont equip/modify stats)
+spider nest + lings
+spider corpses = gold pickup?!
+slime trails
