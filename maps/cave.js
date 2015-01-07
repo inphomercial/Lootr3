@@ -17,23 +17,23 @@ Lootr.Map.Cave = function(player) {
 	// Add random entities
 	for(var i=0; i<100; i++) {
 		//var entity = Lootr.EntityRepository.createRandom();
-        var entity = Lootr.EntityRepository.create('slime');
+        var entity = Lootr.EntityRepository.create('spider nest');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);
 	}
 
 	// Add random items
-	for(var i=0; i<150; i++) {
+	for(var i=0; i<100; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
 	}
 
 	// Add weapons and armor to the map
-	var templates = ['dagger', 'club'];
+	/*var templates = ['dagger', 'club'];
 	
 	for(var i=0; i<templates.length; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
-	}
+	}*/
 
 	// Add a hole
 	//var holePosition = this.getRandomFloorPosition();
@@ -75,10 +75,10 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
 
     ///////////////////////////////
     // *** TESTING
-    /*var layout = [
-    	[1,1,1,1,1],
+ /*   var layout = [
+    	[1,2,1,1,1],
     	[1,0,0,2,1],
-    	[1,1,1,1,1]
+    	[1,1,2,1,1]
     ];
 
     var map = new Array(layout.length);
@@ -97,7 +97,6 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     		} else {
     			map[y][x] = Lootr.Tile.nullTile;
     		}
-    		
     	}
     }
 

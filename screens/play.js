@@ -179,15 +179,11 @@ Lootr.Screen.playScreen = {
 
             // Test out stuff
             } else if (inputData.keyCode === ROT.VK_SPACE) {
-                var tile = this._player.getMap().getTile(this._player.getX(), this._player.getY() +1);
-
-                // make grayinterpolate
-                var fc = ROT.Color.fromString(tile.getForeground());
-                var sc = ROT.Color.fromString('lightgreen');
-                var c = ROT.Color.multiply(fc, sc);                                        
-                foreground = ROT.Color.toHex(c);
-                tile._foreground = foreground;
+                
+                var fire = Lootr.EntityRepository.create('fire');                
+                this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
                 Lootr.refresh();
+                
                 return;               
 
             // Help Screen

@@ -4,7 +4,6 @@ Lootr.EntityComponents = {};
 Lootr.EntityComponents.Moveable = {
 	name: 'Moveable',
 	groupName: 'Moveable',
-	
 }
 
 Lootr.EntityComponents.TaskActor = {
@@ -18,64 +17,43 @@ Lootr.EntityComponents.TaskActor = {
 		// Iterate through all tasks
 		for(var i=0; i<this._tasks.length; i++) {
 			if(this.canDoTask(this._tasks[i])) {
-				// If we can perform the task, execute the function for it
-				this[this._tasks[i]]();
-				return;
+				// if task doesnt end turn, run it and go to the next, else finish turn
+				var ends = this._tasks[i] + 'EndsTurn';
+				if(!this[ends]) {
+					this[this._tasks[i]]();
+					continue;				
+				} else {
+					this[this._tasks[i]]();
+					return;
+				}						
 			}
 		}
 	},
 	canDoTask: function(task) {
-		if(task === 'hunt') {
-			return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());
-		} else if (task === 'wander') {
-			return true;
-		} else {
-			throw new Error('Tried to perform undefined task ' + task);
+		switch(task) {
+			case 'hunt':
+				return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());				
+			case 'wander':
+				return this.hasComponent('Wander');				
+			case 'leaveTrail':
+				return this.hasComponent('LeaveTrail');				
+			case 'corpseEater':
+				return this.hasComponent('CorpseEater') && this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');	
+			case 'spawnEntity':
+				return this.hasComponent('SpawnEntity') && Math.round(Math.random() * 100) <= 10;				
+			case 'growArm':
+				return this.hasComponent('GrowArm') && this.getHp() <= 20 && !this._hasGrownArm;
+			case 'fireSpread':
+				return this.hasComponent('FireSpread');
+			default: 
+				throw new Error('Tried to perform undefined task ' + task);
 		}
-	},
-	hunt: function() {
+	}
+}
 
-		console.log(this.name + "starts to hunt");
-
-		var player = this.getMap().getPlayer();
-
-		// If we are adjacent to the player, then attack instead of hunting
-		var offsets = Math.abs(player.getX() - this.getX()) +
-					  Math.abs(player.getY() - this.getY());
-
-		if(offsets === 1) {
-			if(this.hasComponent('Attacker')) {
-				this.attack(player);
-				return;
-			}
-		}
-
-		// Generate the path and move to the first tile
-		var source = this;
-		var path = new ROT.Path.AStar(player.getX(), player.getY(), function(x, y) {
-			// If entity is present at the tile, cannot move there
-			var entity = source.getMap().getEntityAt(x, y);
-			if(entity && entity !== player && entity !== source) {
-				return false;
-			}
-
-			return source.getMap().getTile(x, y).isWalkable();
-		}, {topology: 4});
-
-		// Once we've gotten the path, we want to move to the second cell
-		// that is passed in the callbback (first is the entitys starting point)
-		var count = 0;
-		path.compute(source.getX(), source.getY(), function(x, y) {
-			if(count === 1) {
-				source.tryMove(x, y);
-			}
-			count++;
-		});
-	},
+Lootr.EntityComponents.Wander = {
+	name: 'Wander',
 	wander: function() {
-
-		console.log(this.name + ' starts to wander');
-
 		// Flip coin to determine if moving by 1 in the positive or neg direction
 		var moveOffset = (Math.round(Math.random()) === 1) ? 1 : -1;
 		// Flip coin to determine if moving in x direction or y direction
@@ -84,8 +62,9 @@ Lootr.EntityComponents.TaskActor = {
 		} else {
 			this.tryMove(this.getX(), this.getY() + moveOffset);
 		}
-	}
-}
+	},
+	wanderEndsTurn: true
+};
 
 Lootr.EntityComponents.Sight = {
 	name: 'Sight',
@@ -166,7 +145,51 @@ Lootr.EntityComponents.PlayerActor = {
 		// Clear the message queue
 		this.clearMessages();
 	}
-}
+};
+
+Lootr.EntityComponents.HuntPlayer = {
+	name: 'HuntPlayer',
+	hunt: function() {
+
+		console.log(this.name + "starts to hunt");
+
+		var player = this.getMap().getPlayer();
+
+		// If we are adjacent to the player, then attack instead of hunting
+		var offsets = Math.abs(player.getX() - this.getX()) +
+					  Math.abs(player.getY() - this.getY());
+
+		if(offsets === 1) {
+			if(this.hasComponent('Attacker')) {
+				this.attack(player);
+				return;
+			}
+		}
+
+		// Generate the path and move to the first tile
+		var source = this;
+		var path = new ROT.Path.AStar(player.getX(), player.getY(), function(x, y) {
+			// If entity is present at the tile, cannot move there
+			var entity = source.getMap().getEntityAt(x, y);
+			if(entity && entity !== player && entity !== source) {
+				return false;
+			}
+
+			return source.getMap().getTile(x, y).isWalkable();
+		}, {topology: 4});
+
+		// Once we've gotten the path, we want to move to the second cell
+		// that is passed in the callbback (first is the entitys starting point)
+		var count = 0;
+		path.compute(source.getX(), source.getY(), function(x, y) {
+			if(count === 1) {
+				source.tryMove(x, y);
+			}
+			count++;
+		});
+	},
+	huntEndsTurn: true
+};
 
 Lootr.EntityComponents.GoldHolder = {
 	name: 'GoldHolder',
@@ -373,56 +396,28 @@ Lootr.EntityComponents.Destructible = {
 	}
 };
 
-Lootr.EntityComponents.VampireActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
-	init: function(template) {
-		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
-			'tasks' : ['suckCorpse', 'wander']
-		}));
-	},
-	canDoTask: function(task) {
-
-		// Ensure we are on standing on a corpse
-		if(task === 'suckCorpse') {
-			return this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');						
-		} else {
-			return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);
+Lootr.EntityComponents.CorpseEater = {
+	name: 'CorpseEater',
+	corpseEater: function() {
+		
+		if(this.hasComponent('Attacker')) {
+			// Gets stronger
+			this.increaseAttackValue(5);	
 		}
-	},
-	suckCorpse: function() {
-		// Gain 
-		this.increaseAttackValue(5);
-
+		
 		// Remove Corpse
 		this.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
 
 		// Send a message to player
-		Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A vampire has drank a corpse.');
-	}
-});
-
-Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
-	init: function(template) {
-		// Call the task actor init with the right tasks
-		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
-			'tasks' : ['growArm', 'spawnSlime', 'hunt', 'wander']
-		}));
-
-		// We only want to grow the arm once
-		this._hasGrownArm = false;
+		Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A corpse has been consumed.');
 	},
-	canDoTask: function(task) {
-		// If we havent already grown arm and hp <=20, grow arm
-		if(task === 'growArm') {
-			return this.getHp() <= 20 && !this._hasGrownArm;
+	corpseEaterEndsTurn: true
+};
 
-		// Spawn a slime only at 10% of turns
-		} else if (task === 'spawnSlime') {
-			return Math.round(Math.random() * 100) <= 10;
-		
-		// Call parent canDoTask
-		} else {
-			return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);
-		}
+Lootr.EntityComponents.GrowArm = {
+	name: 'GrowArm',
+	init: function() {
+		this._hasGrownArm = false;
 	},
 	growArm: function() {
 		this._hasGrownArm = true;
@@ -431,7 +426,15 @@ Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.Ta
 		// Send a message to player
 		Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'An extra arm appears..');
 	},
-	spawnSlime: function() {
+	growArmEndsTurn: true
+};
+
+Lootr.EntityComponents.SpawnEntity = {
+	name: 'SpawnEntity',
+	init: function(template) {
+		this._spawnEntityType = template['spawnEntityType'] || 'slime';
+	},
+	spawnEntity: function() {
 		// Generate a random empty position
 		var xOffSet = Math.floor(Math.random() * 3) - 1;
 		var yOffSet = Math.floor(Math.random() * 3) - 1;
@@ -442,18 +445,13 @@ Lootr.EntityComponents.GiantZombieActor = Lootr.extend(Lootr.EntityComponents.Ta
 		}
 
 		// Create the entity
-		var slime = Lootr.EntityRepository.create('slime');
-		slime.setX(this.getX() + xOffSet);
-		slime.setY(this.getY() + yOffSet);
-		this.getMap().addEntity(slime);
+		var entity = Lootr.EntityRepository.create(this._spawnEntityType);
+		entity.setX(this.getX() + xOffSet);
+		entity.setY(this.getY() + yOffSet);
+		this.getMap().addEntity(entity);
 	},
-	listeners: {
-		onDeath: function(attacker) {
-			// Switch to win scren when killed!
-			Lootr.switchScreen(Lootr.Screen.winScreen);
-		}
-	}
-});
+	spawnEntityEndsTurn: true
+};
 
 Lootr.EntityComponents.SpiderNestActor = {
 	name: 'SpiderNestActor',
@@ -472,8 +470,8 @@ Lootr.EntityComponents.SpiderNestActor = {
 					// Generate the coordinates of a random adjacent square
 					// by generating an offset between [-1, 0, 1] for both
 					// the x and y. to do this we get a number from 0-2 and then sub 1
-					var xOffSet = Math.floor(Math.random() * 3) - 1;
-					var yOffSet = Math.floor(Math.random() * 3) - 1;
+					var xOffSet = Math.floor(Math.random() * 3);
+					var yOffSet = Math.floor(Math.random() * 3);
 
 					// Make sure we arent trying to spawn on the same tile
 					if(xOffSet != 0 && yOffSet != 0) {
@@ -501,32 +499,112 @@ Lootr.EntityComponents.SpiderNestActor = {
 	}	
 };
 
-Lootr.EntityComponents.SlimeActor = Lootr.extend(Lootr.EntityComponents.TaskActor, {
+Lootr.EntityComponents.LeaveTrail = {
+	name: 'LeaveTrail',
 	init: function(template) {
-		Lootr.EntityComponents.TaskActor.init.call(this, Lootr.extend(template, {
-			'tasks' : ['hunt', 'wander']
-		}));
+		this._trailColor = template['trailColor'] || 'lightgreen';
 	},
-	canDoTask: function(task) {
-
-		// We want to do this every turn, is this the best place to put it ?!
-		this.slimeTrail();
-		
-		return Lootr.EntityComponents.TaskActor.canDoTask.call(this, task);		
-
-	},
-	slimeTrail: function() {
+	leaveTrail: function() {
 		var tile = this.getMap().getTile(this.getX(), this.getY());
 		        
         var fc = ROT.Color.fromString(tile.getForeground());
-        var sc = ROT.Color.fromString('lightgreen');
+        var sc = ROT.Color.fromString(this._trailColor);
         var c = ROT.Color.multiply(fc, sc);                                        
         foreground = ROT.Color.toHex(c);
         tile._foreground = foreground;
         
         return;         
-	}
-});
+	},
+	leaveTrailEndsTurn: false
+};
+
+Lootr.EntityComponents.FireSpread = {
+	name: 'FireSpread',
+	init: function() {
+		this._fuelRemaining = 100;
+	},
+	modifyFuelBy: function(amount) {		
+		this._fuelRemaining += amount;
+	},
+	getFireColor: function() {
+		if(this._fuelRemaining <= 25) {
+			this._foreground = 'white';
+		} else if(this._fuelRemaining <= 50) {
+			this._foreground = 'yellow';
+		}
+	},
+	setFireColor: function(color) {
+		this._foreground = color;
+	},
+	fireSpread: function() {
+		// Check if we grow this turn
+		if(this._fuelRemaining > 0) {
+
+			// Update fire look
+			this.getFireColor();
+
+			if(Math.random() <= 0.22) {
+				// Generate the coordinates of a random adjacent square
+				// by generating an offset between [-1, 0, 1] for both
+				// the x and y. to do this we get a number from 0-2
+				var xOffSet = Math.floor(Math.random() * 3);
+				var yOffSet = Math.floor(Math.random() * 3);
+
+				// Make sure we arent trying to spawn on the same tile
+				if(xOffSet != 0 && yOffSet != 0) {
+
+					// Check if tile has an entity with Destructbile
+
+					// check if tile has a corpse
+					if(this.getMap().tileContainsItem(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse')) {
+
+						var that = this;
+
+						// Remove corpse
+						this.getMap().removeItemFromTile(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
+
+						// Add fuel
+						this.modifyFuelBy(5);
+
+						// Make the fire glow
+						that.setFireColor('blue');
+
+						// Create new fire entity
+						var entity = Lootr.EntityRepository.create('fire');
+						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);
+
+						// Send a message nearby
+						Lootr.sendMessageNearby(this.getMap(), entity.getX(), entity.getY(), 'The fire grows brightly!');
+					}
+
+					// check if we can actually grow at location
+					else if (this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+						
+						var entity = Lootr.EntityRepository.create('fire');
+						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);						
+						
+						// Send a message nearby
+						Lootr.sendMessageNearby(this.getMap(), entity.getX(), entity.getY(), 'The fire grows.');
+					}
+				}
+			}
+
+			// Always losing fuel
+			this._fuelRemaining--;	
+		} else {
+			this.kill();
+
+			// Scorch tile
+			var tile = this.getMap().getTile(this.getX(), this.getY());
+			var fc = ROT.Color.fromString(tile.getForeground());
+            var sc = ROT.Color.fromString('slategray');
+            var c = ROT.Color.multiply(fc, sc);                                        
+            var d = ROT.Color.multiply(c, sc);
+            tile._foreground = ROT.Color.toHex(d);
+		}
+	},
+	fireSpreadEndsTurn: true
+};
 
 Lootr.EntityComponents.FungusActor = {
 	name: 'FungusActor',
@@ -541,8 +619,8 @@ Lootr.EntityComponents.FungusActor = {
 				// Generate the coordinates of a random adjacent square
 				// by generating an offset between [-1, 0, 1] for both
 				// the x and y. to do this we get a number from 0-2 and then sub 1
-				var xOffSet = Math.floor(Math.random() * 3) - 1;
-				var yOffSet = Math.floor(Math.random() * 3) - 1;
+				var xOffSet = Math.floor(Math.random() * 3);
+				var yOffSet = Math.floor(Math.random() * 3);
 
 				// Make sure we arent trying to spawn on the same tile
 				if(xOffSet != 0 && yOffSet != 0) {

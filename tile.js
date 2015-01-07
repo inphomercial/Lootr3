@@ -89,7 +89,7 @@ Lootr.Tile.rockTile = {
 
 Lootr.Tile.wallGemTile = {
 	character: '#',
-	foreground: 'azure',
+	foreground: 'aquamarine',
 	diggable: false,
 	description: 'A Gem'
 };

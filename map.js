@@ -178,6 +178,19 @@ Lootr.Map.prototype.getFov = function() {
 	return this._fov;
 };
 
+Lootr.Map.prototype.addEntityAt = function(x, y, entity) {
+
+	if(this.isTileEmptyFloor(x, y)) {
+		entity.setX(x);
+		entity.setY(y);
+		this.addEntity(entity);	
+
+		return true;
+	}	
+
+	return false;
+};
+
 Lootr.Map.prototype.addEntity = function(entity) {
 	// Update the entitys map
 	entity.setMap(this);

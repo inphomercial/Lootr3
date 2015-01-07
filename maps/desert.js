@@ -62,9 +62,9 @@ Lootr.Map.Desert.prototype._generateLevel = function() {
     // Smoothen it one last time and then update our map
     generator.create(function(x,y,v) {
         if (v === 1) {
-            map[x][y] = Lootr.Tile.sandTile;
+            map[x][y] = new Lootr.Tile(Lootr.Tile.sandTile);
         } else {
-            map[x][y] = Lootr.Tile.rockTile;
+            map[x][y] = new Lootr.Tile(Lootr.Tile.rockTile);
         }
     });
     return map;

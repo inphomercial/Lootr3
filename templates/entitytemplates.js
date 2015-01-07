@@ -50,6 +50,8 @@ Lootr.EntityRepository.define('spider', {
 	components: [Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.TaskActor,
 				 Lootr.EntityComponents.Attacker,
+				 Lootr.EntityComponents.HuntPlayer,
+				 Lootr.EntityComponents.Wander,
 				 Lootr.EntityComponents.CorpseDropper,
 				 Lootr.EntityComponents.Sight,
 				 Lootr.EntityComponents.ExperienceGainer,
@@ -79,8 +81,10 @@ Lootr.EntityRepository.define('bat', {
 	background: 'gray',
 	speed: 2000,
 	maxHp: 10,
+	tasks: ['wander'],
 	components: [Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.TaskActor,
+				 Lootr.EntityComponents.Wander,
 				 Lootr.EntityComponents.Attacker,
 				 Lootr.EntityComponents.CorpseDropper,
 				 Lootr.EntityComponents.ExperienceGainer,
@@ -100,10 +104,25 @@ Lootr.EntityRepository.define('kobold', {
 	components: [Lootr.EntityComponents.TaskActor,
 			     Lootr.EntityComponents.Sight,
 			     Lootr.EntityComponents.Attacker,
+			     Lootr.EntityComponents.HuntPlayer,
+			     Lootr.EntityComponents.Wander,
 			     Lootr.EntityComponents.Destructible,
 			     Lootr.EntityComponents.CorpseDropper,
 			     Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
+});
+
+Lootr.EntityRepository.define('fire', {
+	name: 'fire',
+	character: 'W',
+	foreground: 'red',
+	background: 'orange',
+	speed: 800,
+	tasks: ['fireSpread'],
+	components: [Lootr.EntityComponents.TaskActor,
+				 Lootr.EntityComponents.FireSpread]
 }, {
 	disableRandomCreation: false
 });
@@ -115,9 +134,13 @@ Lootr.EntityRepository.define('vampire', {
 	attack: 10,
 	defense: 3,
 	sightRadius: 2,
-	components: [Lootr.EntityComponents.VampireActor,
+	tasks: ['corpseEater', 'hunt', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,
 				 Lootr.EntityComponents.Sight,
 		         Lootr.EntityComponents.Attacker,
+		         Lootr.EntityComponents.HuntPlayer,
+		         Lootr.EntityComponents.Wander,
+		         Lootr.EntityComponents.CorpseEater,
 		         Lootr.EntityComponents.Destructible,
 		         Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
@@ -134,9 +157,15 @@ Lootr.EntityRepository.define('zombie', {
 	defense: 5,
 	level: 5,
 	sightRadius: 6,
-	components: [Lootr.EntityComponents.GiantZombieActor,
+	spawnEntityType: 'slime',
+	tasks: ['growArm', 'spawnEntity', 'hunt', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,
 		         Lootr.EntityComponents.Sight,
 		         Lootr.EntityComponents.Attacker,
+		         Lootr.EntityComponents.SpawnEntity,
+		         Lootr.EntityComponents.Wander,			     			     
+			     Lootr.EntityComponents.HuntPlayer,
+			     Lootr.EntityComponents.GrowArm,
 		         Lootr.EntityComponents.Destructible,
 		         Lootr.EntityComponents.CorpseDropper,
 		         Lootr.EntityComponents.ExperienceGainer]
@@ -151,8 +180,12 @@ Lootr.EntityRepository.define('slime', {
 	maxHp: 10,
 	attack: 5,
 	sight: 3,	
-	components: [Lootr.EntityComponents.SlimeActor,				 
+	tasks: ['leaveTrail', 'hunt', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,			     
+			     Lootr.EntityComponents.LeaveTrail,				 
 			     Lootr.EntityComponents.Sight,			     
+			     Lootr.EntityComponents.HuntPlayer,			     
+			     Lootr.EntityComponents.Wander,			     
 			     Lootr.EntityComponents.Attacker,
 			     Lootr.EntityComponents.Destructible,
 			     Lootr.EntityComponents.CorpseDropper,
