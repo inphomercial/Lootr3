@@ -4,10 +4,10 @@ Lootr.Screen.playScreen = {
     _player: null,
     _gameEnded: false,
     _subScreen: null,
-    enter: function() {  
+    enter: function() {
 
     	console.log("Entered play screen");
-       
+
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
 
@@ -33,9 +33,12 @@ Lootr.Screen.playScreen = {
         // Render the tiles
         this.renderTiles(display);
 
+        // Render player stats
+        this.renderStats(display);
+
         // Draw messages
         var messages = this._player.getMessages();
-        var messageY = 0;
+        var messageY = 20;
         for(var i=0; i<messages.length; i++) {
         	// Draw each message adding the number of lines
         	messageY += display.drawText(
@@ -44,42 +47,82 @@ Lootr.Screen.playScreen = {
         		'%c{white}%b{black}' + messages[i]);
         }
 
-        // Draw player stats
-        var stats = '%c{white}%b{black}';
-        stats += vsprintf('HP: %d/%d L: %d XP: %d GOLD: %d' , [this._player.getHp(), 
-                                                     this._player.getMaxHp(),
-                                                     this._player.getLevel(),
-                                                     this._player.getExperience(),
-                                                     this._player.getGold()]);
-
-        display.drawText(0, screenHeight, stats);
-
-        // Draw player hunger stat
-        var hungerState = this._player.getHungerState();
-        display.drawText(screenWidth - hungerState.length, screenHeight, hungerState);
-
     },
     getScreenOffsets: function() {
         // Make sure the x-axis doesn't go to the left of the left bound
-        var topLeftX = Math.max(0, this._player.getX() - (Lootr.getScreenWidth() / 2));
-
+       // var topLeftX = Math.max(0, this._player.getX() - (Lootr.getScreenWidth() / 2));
+        var topLeftX = Math.max(0, this._player.getX() - (Lootr._mapScreenWidth / 2));
         // Make sure we still have enough space to fit an entire Lootr screen
-        topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Lootr.getScreenWidth());
+        topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Lootr._mapScreenWidth);
+        // topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Lootr.getScreenWidth());
 
         // Make sure the y-axis doesn't above the top bound
-        var topLeftY = Math.max(0, this._player.getY() - (Lootr.getScreenHeight() / 2));
+        var topLeftY = Math.max(0, this._player.getY() - (Lootr._mapScreenHeight / 2));
+        // var topLeftY = Math.max(0, this._player.getY() - (Lootr.getScreenHeight() / 2));
 
         // Make sure we still have enough space to fit an entire Lootr screen
-        topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - Lootr.getScreenHeight());
+        topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - Lootr._mapScreenHeight);
+        // topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - Lootr.getScreenHeight());
 
         return {
             x: topLeftX,
             y: topLeftY
         };
     },
+    renderStats: function(display) {
+        var statsY = 1;
+
+        var name = '%c{yellow}%b{black}';
+        name += vsprintf('Name: Inpho');
+        display.drawText(82, statsY++, name);
+        statsY++;
+
+        var hp = '%c{teal}%b{black}';
+        hp += vsprintf('HP: %d/%d', [this._player.getHp(), this._player.getMaxHp()]);
+        display.drawText(82, statsY++, hp);
+
+        var level = '%c{teal}%b{black}';
+        level += vsprintf('LEVEL: %d', [this._player.getLevel()]);
+        display.drawText(82, statsY++, level);
+
+        var xp = '%c{teal}%b{black}';
+        xp += vsprintf('XP: %d', [this._player.getExperience()]);
+        display.drawText(82, statsY++, xp);
+
+        var gold = '%c{teal}%b{black}';
+        gold += vsprintf('GOLD: %d', [this._player.getGold()]);
+        display.drawText(82, statsY++, gold);
+
+        var hungerState = '%c{teal}%b{black}';
+        hungerState += 'HUNGER: ' + this._player.getHungerState();
+        display.drawText(82, statsY++, hungerState);
+        statsY++; statsY++;
+
+        var weap = '%c{teal}%b{black}';
+        var w = this._player.getWeapon();
+        if(w) {
+             weap += vsprintf('Weapon: %s', [w.getName()]);
+             display.drawText(82, statsY++, weap);
+         } else {
+             weap += "Weapon: -";
+             display.drawText(82, statsY++, weap);
+         }
+
+        var wear = '%c{teal}%b{black}';
+        var w = this._player.getArmor();
+        if(w) {
+             wear += vsprintf('Wearing: %s', [w.getName()]);
+             display.drawText(82, statsY++, wear);
+         } else {
+             wear += "Wearing: -";
+             display.drawText(82, statsY++, wear);
+         }
+    },
     renderTiles: function(display) {
-        var screenWidth = Lootr.getScreenWidth();
-        var screenHeight = Lootr.getScreenHeight();
+        //var screenWidth = Lootr.getScreenWidth();
+        //var screenHeight = Lootr.getScreenHeight();
+        var screenWidth = Lootr._mapScreenWidth;
+        var screenHeight = Lootr._mapScreenHeight;
         var offsets = this.getScreenOffsets();
         var topLeftX = offsets.x;
         var topLeftY = offsets.y;
@@ -87,13 +130,13 @@ Lootr.Screen.playScreen = {
         // This object will track all visible map cells
         var visibleCells = {};
 
-        // Store this._player.getMap() 
+        // Store this._player.getMap()
         var map = this._player.getMap();
 
         // Find all visible cells and update the object
         map.getFov().compute(
-            this._player.getX(), this._player.getY(), 
-            this._player.getSightRadius(), 
+            this._player.getX(), this._player.getY(),
+            this._player.getSightRadius(),
             function(x, y, radius, visibility) {
                 visibleCells[x + "," + y] = true;
 
@@ -119,20 +162,20 @@ Lootr.Screen.playScreen = {
                         if(items) {
                             glyph = items[items.length -1];
                         }
-                        
+
                         // If we have entities
                         if(map.getEntityAt(x, y)) {
                             glyph = map.getEntityAt(x, y);
                         }
 
                         // Update the foreground color based on our glphy changed
-                        foreground = glyph.getForeground();                    
+                        foreground = glyph.getForeground();
                     } else {
                         // Since the tile was previously explored but is not visible
                         // make grayinterpolate
                         var fc = ROT.Color.fromString(foreground);
                         var sc = ROT.Color.fromString('slategray');
-                        var c = ROT.Color.multiply(fc, sc);                                        
+                        var c = ROT.Color.multiply(fc, sc);
                         var d = ROT.Color.multiply(c, sc);
                         foreground = ROT.Color.toHex(d);
 
@@ -142,8 +185,8 @@ Lootr.Screen.playScreen = {
                     display.draw(
                         x - topLeftX,
                         y - topLeftY,
-                        glyph.getChar(), 
-                        foreground, 
+                        glyph.getChar(),
+                        foreground,
                         glyph.getBackground());
                 }
             }
@@ -179,12 +222,12 @@ Lootr.Screen.playScreen = {
 
             // Test out stuff
             } else if (inputData.keyCode === ROT.VK_SPACE) {
-                
-                var fire = Lootr.EntityRepository.create('fire');                
+
+                var fire = Lootr.EntityRepository.create('fire');
                 this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
                 Lootr.refresh();
-                
-                return;               
+
+                return;
 
             // Help Screen
             } else if (inputData.keyCode === ROT.VK_H) {
@@ -201,7 +244,7 @@ Lootr.Screen.playScreen = {
                     offsets.x, offsets.y);
                 this.setSubScreen(Lootr.Screen.lookScreen);
                 return;
-            
+
             // Inventory Stuff
             } else if (inputData.keyCode === ROT.VK_I) {
                 // show inventory screen
@@ -209,7 +252,7 @@ Lootr.Screen.playScreen = {
                 return;
 
             } else if (inputData.keyCode === ROT.VK_D) {
-                // Show Drop screen                
+                // Show Drop screen
                 this.showItemSubScreen(Lootr.Screen.dropScreen, this._player.getItems(), 'You have nothing to drop.');
                 return;
 
@@ -235,9 +278,9 @@ Lootr.Screen.playScreen = {
              } else if (inputData.keyCode === ROT.VK_PERIOD) {
                 // Skip a turn
                 Lootr.sendMessage(this._player, 'You rest a turn.');
-                
+
                 // Unlock the engine
-                this._player.getMap().getEngine().unlock();                
+                this._player.getMap().getEngine().unlock();
                 return;
 
              } else if (inputData.keyCode === ROT.VK_Q) {
@@ -251,16 +294,16 @@ Lootr.Screen.playScreen = {
                 return;
 
             // Show the put on screen (wear)
-            } else if (inputData.keyCode === ROT.VK_P) {            
-                // Show the wear screen                    
-                this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');       
+            } else if (inputData.keyCode === ROT.VK_P) {
+                // Show the wear screen
+                this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');
                 return;
 
-            } else if (inputData.keyCode === ROT.VK_W) {                         
+            } else if (inputData.keyCode === ROT.VK_W) {
                 // Show the wield screen
-                this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');                        
+                this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');
                 return;
-                
+
             } else if (inputData.keyCode === ROT.VK_COMMA) {
                 var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
                 // If there are no items, show a message
@@ -290,7 +333,7 @@ Lootr.Screen.playScreen = {
 
             // Unlock the engine
             this._player.getMap().getEngine().unlock();
-        }    
+        }
     },
     move: function(dX, dY) {
     	console.log("Trying to move");
@@ -298,7 +341,7 @@ Lootr.Screen.playScreen = {
     	var newX = this._player.getX() + dX;
     	var newY = this._player.getY() + dY;
 
-    	// Try to move 
+    	// Try to move
     	this._player.tryMove(newX, newY, this._player.getMap());
     },
     setGameEnded: function(gameEnded) {

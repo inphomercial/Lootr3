@@ -21,7 +21,7 @@ make tasks have a taskNamePercent that it rolls on
 move library files into assets folder
 Races // Classes
 have a way to update a tile's description
-item stat rolling 
+item stat rolling
 spider queens that can lay new nests
 invisibility component
 friend entity (dog)
@@ -29,7 +29,7 @@ getter/setting for foreground/background/char
 springTrap listener/raiseEvent
 spike trap ^^^
            ^.^ <- trigger to spring surrounding spikes
-           ^^^ 
+           ^^^
 make gold a random amount
 entities turn red to indicate being hit
 fix up lose screen
@@ -38,8 +38,13 @@ orb inventory screen
 work on help screen
 make fire able to shoot in all directions and only when closer to player
 fix the map entity/item lookups return booleans
+build a static character set for items/entities
+crit
+accuracy
+Work on stat screen
 
 DONE
+Make the map viewing area smaller to allow for stats/messages
 DRAGONS THAT BREATHE FIREEEEE
 Add a rest key
 vampires eat corpses

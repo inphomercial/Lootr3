@@ -2,12 +2,14 @@ var Lootr =  {
 	_display: null,
     _currentScreen: null,
     _screenWidth: 120,
-    _screenHeight: 30,
+    _screenHeight: 20,
+    _mapScreenWidth: 80,
+    _mapScreenHeight: 20,
     Screen: {},
-    storyFlags: {
-    	finishCave: false,
-    	finishCaveBoss: false
-    },
+    // storyFlags: {
+    // 	finishCave: false,
+    // 	finishCaveBoss: false
+    // },
 	init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,
@@ -20,8 +22,8 @@ var Lootr =  {
                 // When an event is received, send it to the
                 // screen if there is one
                 if (lootr._currentScreen !== null) {
-                    // Send the event type and data to the screen           
-                    lootr._currentScreen.handleInput(event, e);                    
+                    // Send the event type and data to the screen
+                    lootr._currentScreen.handleInput(event, e);
                 }
             });
         }
@@ -35,7 +37,7 @@ var Lootr =  {
     	this._display.clear();
 
     	// Render the screen
-    	this._currentScreen.render(this._display);    	
+    	this._currentScreen.render(this._display);
     },
 	getDisplay: function() {
 		return this._display;
@@ -66,7 +68,7 @@ var Lootr =  {
 		// make sure the recip can get messages
 		// before doing anything
 		if(recipient.hasComponent('MessageRecipient')) {
-			// If args were passed, then we format the message else 
+			// If args were passed, then we format the message else
 			// just pass the message
 			if(args) {
 				message = vsprintf(message, args);

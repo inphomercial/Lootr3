@@ -36,7 +36,7 @@ Lootr.Map.prototype.setTile = function(tile, x, y) {
 Lootr.Map.prototype.getItemsAt = function(x, y) {
 	var items = this._items[x + ',' + y];
 
-	if(items !== undefined) {
+	if(items != null) {
 		return items;
 	}
 
@@ -55,6 +55,7 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
 	if(items) {
 		for(var i=0; i<items.length; i++) {
 			/*if(items[i].getName() == item_name) {*/
+            // removed above to help capture things like 'rat corpse' when looking for just generic 'corpse'
 			if(items[i].getName().indexOf(item_name) > -1) {
 				return true;
 			}
@@ -68,9 +69,10 @@ Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
 	var key = x + ',' + y;
 
 	/*if(this._items[key] && this._items[key][0].getName() == item_name) {		*/
-	if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {		
+    // removed below to help capture things like 'rat corpse' when looking for just generic 'corpse'
+	if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {
 		delete this._items[key];
-		return;		
+		return;
 	}
 }
 
@@ -114,7 +116,7 @@ Lootr.Map.prototype.setupExploredArray = function() {
 Lootr.Map.prototype.isExplored = function(x, y) {
 	// Only return the value if within bounds
 	if(this.getTile(x, y) !== Lootr.Tile.nullTile) {
-		return this._explored[x][y];		
+		return this._explored[x][y];
 	} else {
 		return false;
 	}
@@ -156,7 +158,7 @@ Lootr.Map.prototype.setupFov = function() {
 	lighting.setLight(pos.x, pos.y, [240, 240, 30]);
 
 	var pos1 = this.getRandomFloorPosition();
-	lighting.setLight(pos1.x, pos1.y, [240, 60, 60]);	
+	lighting.setLight(pos1.x, pos1.y, [240, 60, 60]);
 
 	var lightingCallback = function(x, y, color) {
 		lightData[x + ',' + y] = color;
@@ -167,7 +169,7 @@ Lootr.Map.prototype.setupFov = function() {
 	var display = new ROT.Display({fontSize: 9});
 	display.getContainer();
 
-	 all cells are lit by ambient light; some are also lit by light sources 
+	 all cells are lit by ambient light; some are also lit by light sources
 	var ambientLight = [100, 100, 100];
 	for (var id in map) {
 	    var parts = id.split(",");
@@ -195,10 +197,10 @@ Lootr.Map.prototype.addEntityAt = function(x, y, entity) {
 	if(this.isTileEmptyFloor(x, y)) {
 		entity.setX(x);
 		entity.setY(y);
-		this.addEntity(entity);	
+		this.addEntity(entity);
 
 		return true;
-	}	
+	}
 
 	return false;
 };
@@ -388,7 +390,7 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
 	 // make blooodddy
     var fc = ROT.Color.fromString(tile.getForeground());
     var sc = ROT.Color.fromString('salmon');
-    var c = ROT.Color.multiply_(fc, sc);                                        
+    var c = ROT.Color.multiply_(fc, sc);
     foreground = ROT.Color.toHex(c);
     tile._foreground = foreground;
 };

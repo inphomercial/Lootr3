@@ -4,7 +4,7 @@ Lootr.Map.Cave = function(player) {
 	this._width = 100;
 	this._height = 100;
 
-	// Build Map	
+	// Build Map
 	var tiles = this._generateLevel();
 
 	// Call the Map constructor
@@ -30,7 +30,7 @@ Lootr.Map.Cave = function(player) {
 
 	// Add weapons and armor to the map
 	/*var templates = ['dagger', 'club'];
-	
+
 	for(var i=0; i<templates.length; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
 	}*/
@@ -60,21 +60,21 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     }
     // Smoothen it one last time and then update our map
     generator.create(function(x,y,v) {
-        if (v === 1) {        	        
-            
+        if (v === 1) {
+
             if(Math.floor(Math.random() * 100) >= 96) {
-                map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);    
+                map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);
             } else {
-                map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);    
-            }    
+                map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
+            }
 
         } else {
 
             if(Math.floor(Math.random() * 10) >= 9) {
-                map[x][y] = new Lootr.Tile(Lootr.Tile.wallGemTile);    
+                map[x][y] = new Lootr.Tile(Lootr.Tile.wallGemTile);
             } else {
-                map[x][y] = new Lootr.Tile(Lootr.Tile.wallTile);    
-            }    
+                map[x][y] = new Lootr.Tile(Lootr.Tile.wallTile);
+            }
         }
     });
     return map;
@@ -89,17 +89,17 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
 
     var map = new Array(layout.length);
 	for (var y=0; y < layout.length; y++) {
-		map[y] = new Array(layout[0].length);	
-	}  	
+		map[y] = new Array(layout[0].length);
+	}
 
     for(var y=0; y<layout.length; y++) {
     	for(var x=0; x<layout[0].length; x++) {
     		if(layout[y][x] === 1) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.wallTile);	
+    			map[y][x] = new Lootr.Tile(Lootr.Tile.wallTile);
     		} else if(layout[y][x] === 2) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);	
+    			map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
     		} else if(layout[y][x] === 0) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);	
+    			map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);
     		} else {
     			map[y][x] = Lootr.Tile.nullTile;
     		}
@@ -108,6 +108,6 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
 
     return map;*/
     // **** END TESTING
-    
-    
+
+
 };

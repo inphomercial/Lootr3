@@ -21,36 +21,36 @@ Lootr.EntityComponents.TaskActor = {
 				var ends = this._tasks[i] + 'EndsTurn';
 				if(!this[ends]) {
 					this[this._tasks[i]]();
-					continue;				
+					continue;
 				} else {
 					this[this._tasks[i]]();
 					return;
-				}						
+				}
 			}
 		}
 	},
 	canDoTask: function(task) {
 		switch(task) {
 			case 'hunt':
-				return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());				
+				return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());
 			case 'wander':
-				return this.hasComponent('Wander');				
+				return this.hasComponent('Wander');
 			case 'leaveTrail':
-				return this.hasComponent('LeaveTrail');				
+				return this.hasComponent('LeaveTrail');
 			case 'corpseEater':
-				return this.hasComponent('CorpseEater') && this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');	
+				return this.hasComponent('CorpseEater') && this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');
 			case 'spawnEntity':
-				return this.hasComponent('SpawnEntity') && Math.round(Math.random() * 100) <= 10;				
+				return this.hasComponent('SpawnEntity') && Math.round(Math.random() * 100) <= 10;
 			case 'growArm':
 				return this.hasComponent('GrowArm') && this.getHp() <= 20 && !this._hasGrownArm;
 			case 'fireSpread':
 				return this.hasComponent('FireSpread');
 			case 'breathFire':
-				return this.hasComponent('FireBreather') && 
+				return this.hasComponent('FireBreather') &&
 					   Math.round(Math.random() * 100) <= 10 &&
-					   this.hasComponent('Sight') && 
+					   this.hasComponent('Sight') &&
 					   this.canSee(this.getMap().getPlayer());
-			default: 
+			default:
 				throw new Error('Tried to perform undefined task ' + task);
 		}
 	}
@@ -66,15 +66,15 @@ Lootr.EntityComponents.FireBreather = {
 
 		var offset = (Math.round(Math.random()) === 1) ? 1 : -1
 
-		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {	
-			var fire1 = Lootr.EntityRepository.create('fire');			
+		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {
+			var fire1 = Lootr.EntityRepository.create('fire');
 			fire1.setX(this.getX());
 			fire1.setY(this.getY()+offset);
-			this.getMap().addEntity(fire1);			
+			this.getMap().addEntity(fire1);
 		}
 
 		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + ++offset )) {
-			var fire2 = Lootr.EntityRepository.create('fire');			
+			var fire2 = Lootr.EntityRepository.create('fire');
 			fire2.setX(this.getX());
 			fire2.setY(this.getY()+offset);
 			this.getMap().addEntity(fire2);
@@ -156,12 +156,12 @@ Lootr.EntityComponents.PlayerActor = {
 		}*/
 
 		this._acting = true;
-		this.addTurnHunger();		
+		this.addTurnHunger();
 
 		// Detect if game is over or dead
 		if(!this.isAlive()) {
 			Lootr.Screen.playScreen.setGameEnded(true);
-		
+
 			// Send last message to player
 			Lootr.sendMessage(this, 'Press [Enter] to continue');
 
@@ -267,26 +267,32 @@ Lootr.EntityComponents.FoodConsumer = {
 	getHungerState: function() {
 		// Fullness points per percent of max fullness
 		var perPercent = this._maxFullness / 100;
+        var result = "";
 
 		// 5% of max fullness or less = starving
 		if(this._fullness <= perPercent * 5) {
-			return '%c{red}Starving';
+			// result = '%c{red}Starving';
+            return 'Starving';
 		}
 		// 25%
 		else if(this._fullness <= perPercent * 25) {
-			return '%c{yellow}Hungry';
-		}		
+			// result = '%c{yellow}Hungry';
+            return 'Hungry';
+		}
 		// 75
 		else if(this._fullness <= perPercent * 75) {
-			return 'Full';
+			// result = 'Full';
+            return 'Full';
 		}
 		// 95
 		else if(this._fullness <= perPercent * 95) {
-			return 'Oversatiated';
+			// result = 'Oversatiated';
+            return 'Oversatiated';
 		}
 		// Anything else = no hungry
 		else {
-			return 'Not Hungry';
+			// result = 'Not Hungry';
+            return 'Not Hungry';
 		}
 	}
 };
@@ -305,7 +311,7 @@ Lootr.EntityComponents.CorpseDropper = {
 				this._map.addItem(this.getX(), this.getY(), Lootr.ItemRepository.create('corpse', {
 					name: this._name + ' corpse', foreground: this.getForeground()
 				}));
-			}	
+			}
 		}
 	}
 };
@@ -369,12 +375,12 @@ Lootr.EntityComponents.Destructible = {
 	setHp: function(hp) {
 		this._hp = hp;
 	},
-	modifyHpBy: function(points) {		
+	modifyHpBy: function(points) {
 		this._hp = this._hp + points;
-		
+
 		if(this._hp > this._maxHp) {
 			this._hp = this._maxHp;
-		}		
+		}
 	},
 	getHp: function() {
 		return this._hp;
@@ -431,12 +437,12 @@ Lootr.EntityComponents.Destructible = {
 Lootr.EntityComponents.CorpseEater = {
 	name: 'CorpseEater',
 	corpseEater: function() {
-		
+
 		if(this.hasComponent('Attacker')) {
 			// Gets stronger
-			this.increaseAttackValue(5);	
+			this.increaseAttackValue(5);
 		}
-		
+
 		// Remove Corpse
 		this.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
 
@@ -497,7 +503,7 @@ Lootr.EntityComponents.SpiderNestActor = {
 		if(!this._hasSpawned) {
 			if(Math.random() <= 0.20) {
 				this._hasSpawned = true;
-				
+
 				while(this._spawnAmount > 0) {
 					// Generate the coordinates of a random adjacent square
 					// by generating an offset between [-1, 0, 1] for both
@@ -513,22 +519,22 @@ Lootr.EntityComponents.SpiderNestActor = {
 							entity.setX(this.getX() + xOffSet);
 							entity.setY(this.getY() + yOffSet);
 
-							this.getMap().addEntity(entity);										
+							this.getMap().addEntity(entity);
 						}
 					}
 
 					// Decrement regardless incase of walls/items
-					this._spawnAmount--;	
+					this._spawnAmount--;
 				}
 
 				// Send a message nearby
 				Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A nest breaks..');
 
 				// Remove entity
-				this.kill();	
-			}					
-		}	
-	}	
+				this.kill();
+			}
+		}
+	}
 };
 
 Lootr.EntityComponents.LeaveTrail = {
@@ -538,13 +544,13 @@ Lootr.EntityComponents.LeaveTrail = {
 	},
 	leaveTrail: function() {
 		var tile = this.getMap().getTile(this.getX(), this.getY());
-		        
+
         var fc = ROT.Color.fromString(tile.getForeground());
         var sc = ROT.Color.fromString(this._trailColor);
-        var c = ROT.Color.multiply(fc, sc);                                        
+        var c = ROT.Color.multiply(fc, sc);
         tile.setForeground(c);
-        
-        return;         
+
+        return;
 	},
 	leaveTrailEndsTurn: false
 };
@@ -554,15 +560,15 @@ Lootr.EntityComponents.FireSpread = {
 	init: function() {
 		this._fuelRemaining = 100;
 	},
-	modifyFuelBy: function(amount) {		
+	modifyFuelBy: function(amount) {
 		this._fuelRemaining += amount;
 	},
-	getFireColor: function() {	
-		var c = this.getForeground();		
+	getFireColor: function() {
+		var c = this.getForeground();
 		if(!(c instanceof Array)) {
 			var c = ROT.Color.fromString(c);
 		}
-		
+
 		if(Math.random() * 1 > 0.98) {
 			this.setForeground('white');
 			return;
@@ -575,12 +581,12 @@ Lootr.EntityComponents.FireSpread = {
 
 		// Check for full yellow
 		if(c[1] == 255) {
-			var s = ROT.Color.fromString('red');			
+			var s = ROT.Color.fromString('red');
 		} else {
-			var s = ROT.Color.fromString('yellow');	
+			var s = ROT.Color.fromString('yellow');
 		}
-		
-		var i = ROT.Color.interpolate(s, c, 0.2);		
+
+		var i = ROT.Color.interpolate(s, c, 0.2);
 		this.setForeground(i)	;
 		//var h = ROT.Color.toHex(i);
 		//this._foreground = h;
@@ -595,7 +601,7 @@ Lootr.EntityComponents.FireSpread = {
 			// Update fire look
 			this.getFireColor();
 
-			if(Math.random() <= 0.22) {
+			if(Math.random() <= 0.42) {
 				// Generate the coordinates of a random adjacent square
 				// by generating an offset between [-1, 0, 1] for both
 				// the x and y. to do this we get a number from 0-2
@@ -614,7 +620,7 @@ Lootr.EntityComponents.FireSpread = {
 
 						// Remove corpse
 						this.getMap().removeItemFromTile(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
-						
+
 						// Create new fire entity
 						var entity = Lootr.EntityRepository.create('fire');
 
@@ -634,10 +640,10 @@ Lootr.EntityComponents.FireSpread = {
 					// check if we can actually grow at location
 					//else if (this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
 					else if (this.getMap().isTileWithoutEntity(this.getX() + xOffSet, this.getY() + yOffSet)) {
-						
+
 						var entity = Lootr.EntityRepository.create('fire');
-						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);						
-						
+						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);
+
 						// Send a message nearby
 						Lootr.sendMessageNearby(this.getMap(), entity.getX(), entity.getY(), 'The fire grows.');
 					}
@@ -645,7 +651,7 @@ Lootr.EntityComponents.FireSpread = {
 			}
 
 			// Always losing fuel
-			this._fuelRemaining--;	
+			this._fuelRemaining--;
 		} else {
 			this.kill();
 
@@ -653,7 +659,7 @@ Lootr.EntityComponents.FireSpread = {
 			var tile = this.getMap().getTile(this.getX(), this.getY());
 			var fc = ROT.Color.fromString(tile.getForeground());
             var sc = ROT.Color.fromString('slategray');
-            var c = ROT.Color.multiply(fc, sc);                                        
+            var c = ROT.Color.multiply(fc, sc);
             var d = ROT.Color.multiply(c, sc);
             tile._foreground = ROT.Color.toHex(d);
 		}
@@ -720,7 +726,7 @@ Lootr.EntityComponents.InventoryHolder = {
 				return true;
 			}
 		}
-		
+
 		return false;
 	},
 	removeItem: function(i) {
@@ -751,8 +757,8 @@ Lootr.EntityComponents.InventoryHolder = {
 
 		// Iterate through all indices
 		for(var i=0; i<indices.length; i++) {
-			
-			// Try to add the item. If our inventory is not full, then splice the 
+
+			// Try to add the item. If our inventory is not full, then splice the
 			// Item out of the list of items. In order to fetch the right item,
 			// we have to offset the number of items already added
 			if(this.addItem(mapItems[indices[i] - added])) {
@@ -775,11 +781,11 @@ Lootr.EntityComponents.InventoryHolder = {
 		if(this._items[i]) {
 			if(this._map) {
 				// Put item back on map
-				this._map.addItem(this.getX(), this.getY(), this._items[i]);		
+				this._map.addItem(this.getX(), this.getY(), this._items[i]);
 			}
 		}
-		
-		this.removeItem(i);		
+
+		this.removeItem(i);
 	}
 }
 
