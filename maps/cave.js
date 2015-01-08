@@ -4,8 +4,7 @@ Lootr.Map.Cave = function(player) {
 	this._width = 100;
 	this._height = 100;
 
-	// Build Map
-	//var tiles = new Lootr.Builder(this._width, this._height).getTiles();
+	// Build Map	
 	var tiles = this._generateLevel();
 
 	// Call the Map constructor
@@ -16,8 +15,8 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random entities
 	for(var i=0; i<100; i++) {
-		//var entity = Lootr.EntityRepository.createRandom();
-        var entity = Lootr.EntityRepository.create('spider nest');
+		var entity = Lootr.EntityRepository.createRandom();
+        //var entity = Lootr.EntityRepository.create('zombie');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);

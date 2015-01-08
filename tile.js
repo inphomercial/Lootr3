@@ -56,7 +56,7 @@ Lootr.getNeighborPositions = function(x, y) {
 Lootr.Tile.nullTile = new Lootr.Tile({description: '(unknown)'});
 
 Lootr.Tile.floorTile = {
-	character: '.',
+	character: '.',	
 	walkable: true,
 	blocksLight: false,
 	ground: true,

@@ -40,8 +40,8 @@ Lootr.EntityRepository.define('spider nest', {
 
 Lootr.EntityRepository.define('spider', {
 	name: 'spider',
-	character: 'm',
-	foreground: 'red',
+	character: '*',
+	foreground: 'firebrick',
 	background: 'black',
 	maxHp: 5,
 	speed: 1000,
@@ -170,7 +170,7 @@ Lootr.EntityRepository.define('zombie', {
 		         Lootr.EntityComponents.CorpseDropper,
 		         Lootr.EntityComponents.ExperienceGainer]
 }, {
-	disableRandomCreation: true
+	disableRandomCreation: false
 });
 
 Lootr.EntityRepository.define('slime', {

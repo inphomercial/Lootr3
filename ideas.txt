@@ -1,7 +1,6 @@
 
 TODO
 add corpse decaying
-fire tiles
 figure out lights
 status ailments
 snow level w/ foot prints
@@ -19,8 +18,14 @@ coffins
 come up with good solution to corpses having entity name appended to it for (map.tileContainsItem)
 make a hunt for corpse component, add to vampire
 make tasks have a taskNamePercent that it rolls on
-modify color based on how much fuel/hot a fire tile is.
-fix the blue fire on corpse consume
+move library files into assets folder
+Races // Classes
+Add a rest key
+have a way to update a tile's description
+item stat rolling 
+DRAGONS THAT BREATHE FIREEEEE
+spider queens that can lay new nests
+
 
 DONE
 vampires eat corpses
@@ -30,3 +35,6 @@ spider corpses = gold pickup?!
 slime trails
 make entitytemplates be able to take a task from a component and have it able to run
 seperated out coupled components from entities
+fire
+modify color based on how much fuel/hot a fire tile is.
+fix the blue fire on corpse consume

@@ -12,6 +12,7 @@ Lootr.Screen.lookScreen = new Lootr.Screen.TargetBasedScreen({
                 // If we have items, we want to render the top most item
                 if (items) {
                     var item = items[items.length - 1];
+                    console.log(item);
                     return String.format('%s - %s (%s)',
                         item.getRepresentation(),
                         item.describeA(true),
@@ -19,6 +20,7 @@ Lootr.Screen.lookScreen = new Lootr.Screen.TargetBasedScreen({
                 // Else check if there's an entity
                 } else if (map.getEntityAt(x, y)) {
                     var entity = map.getEntityAt(x, y);
+                    console.log(entity);
                     return String.format('%s - %s (%s)',
                         entity.getRepresentation(),
                         entity.describeA(true),

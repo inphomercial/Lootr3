@@ -463,7 +463,7 @@ Lootr.EntityComponents.SpiderNestActor = {
 	act: function() {
 		// See if we have already spawned
 		if(!this._hasSpawned) {
-			if(Math.random() <= 0.52) {
+			if(Math.random() <= 0.20) {
 				this._hasSpawned = true;
 				
 				while(this._spawnAmount > 0) {
@@ -526,12 +526,32 @@ Lootr.EntityComponents.FireSpread = {
 	modifyFuelBy: function(amount) {		
 		this._fuelRemaining += amount;
 	},
-	getFireColor: function() {
-		if(this._fuelRemaining <= 25) {
-			this._foreground = 'white';
-		} else if(this._fuelRemaining <= 50) {
-			this._foreground = 'yellow';
+	getFireColor: function() {	
+		var c = this.getForeground();		
+		if(!(c instanceof Array)) {
+			var c = ROT.Color.fromString(c);
 		}
+		
+		if(Math.random() * 1 > 0.98) {
+			this._foreground = 'white';
+			return;
+		}
+
+		if(Math.random() * 1 > 0.9) {
+			this._foreground = 'maroon';
+			return;
+		}
+
+		// Check for full yellow
+		if(c[1] == 255) {
+			var s = ROT.Color.fromString('red');			
+		} else {
+			var s = ROT.Color.fromString('yellow');	
+		}
+		
+		var i = ROT.Color.interpolate(s, c, 0.2);			
+		var h = ROT.Color.toHex(i);
+		this._foreground = h;
 	},
 	setFireColor: function(color) {
 		this._foreground = color;
@@ -564,13 +584,15 @@ Lootr.EntityComponents.FireSpread = {
 						this.getMap().removeItemFromTile(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
 
 						// Add fuel
-						this.modifyFuelBy(5);
-
-						// Make the fire glow
-						that.setFireColor('blue');
+						this.modifyFuelBy(50);
 
 						// Create new fire entity
 						var entity = Lootr.EntityRepository.create('fire');
+
+						// Give the fire a stoke
+						entity.setFireColor('blue');
+
+						// Place it into new tile spot
 						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);
 
 						// Send a message nearby
