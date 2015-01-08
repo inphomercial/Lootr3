@@ -14,7 +14,7 @@ Lootr.extend = function(src, dest) {
 	return result;
 };
 
-Lootr.lightenColor = function(color, amount) {
+/*Lootr.lightenColor = function(color, amount) {
 
 	if(color.constructor == String) {
 		var rgb = ROT.Color.fromString(color);
@@ -27,5 +27,4 @@ Lootr.lightenColor = function(color, amount) {
 	rgb[2] = Math.min(255, rgb[2] + 255 * amount);
 	
 	return ROT.Color.toHex(rgb);
-	
-}
+}*/

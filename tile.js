@@ -91,6 +91,7 @@ Lootr.Tile.wallGemTile = {
 	character: '#',
 	foreground: 'aquamarine',
 	diggable: false,
+	blocksLight: false,
 	description: 'A Gem'
 };
 

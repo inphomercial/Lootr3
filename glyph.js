@@ -19,3 +19,14 @@ Lootr.Glyph.prototype.getForeground = function() {
 Lootr.Glyph.prototype.getBackground = function() {
 	return this._background;
 };
+
+Lootr.Glyph.prototype.setForeground = function(color) {
+
+	if(color.constructor == String) {
+		this._foreground = color;
+	} else if (color instanceof Array) {
+		this._foreground = ROT.Color.toHex(color);
+	} else {
+		throw new Error('Dont know color type ' + color);
+	}
+}

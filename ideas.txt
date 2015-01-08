@@ -20,14 +20,28 @@ make a hunt for corpse component, add to vampire
 make tasks have a taskNamePercent that it rolls on
 move library files into assets folder
 Races // Classes
-Add a rest key
 have a way to update a tile's description
 item stat rolling 
-DRAGONS THAT BREATHE FIREEEEE
 spider queens that can lay new nests
-
+invisibility component
+friend entity (dog)
+getter/setting for foreground/background/char
+springTrap listener/raiseEvent
+spike trap ^^^
+           ^.^ <- trigger to spring surrounding spikes
+           ^^^ 
+make gold a random amount
+entities turn red to indicate being hit
+fix up lose screen
+fix up win screen
+orb inventory screen
+work on help screen
+make fire able to shoot in all directions and only when closer to player
+fix the map entity/item lookups return booleans
 
 DONE
+DRAGONS THAT BREATHE FIREEEEE
+Add a rest key
 vampires eat corpses
 fix wear screen (wearable items dont equip/modify stats)
 spider nest + lings

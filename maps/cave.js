@@ -15,8 +15,8 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random entities
 	for(var i=0; i<100; i++) {
-		var entity = Lootr.EntityRepository.createRandom();
-        //var entity = Lootr.EntityRepository.create('zombie');
+		//var entity = Lootr.EntityRepository.createRandom();
+        var entity = Lootr.EntityRepository.create('bat');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);
@@ -25,6 +25,7 @@ Lootr.Map.Cave = function(player) {
 	// Add random items
 	for(var i=0; i<100; i++) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
+        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('spike trap'));
 	}
 
 	// Add weapons and armor to the map
@@ -60,7 +61,13 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     // Smoothen it one last time and then update our map
     generator.create(function(x,y,v) {
         if (v === 1) {        	        
-            map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
+            
+            if(Math.floor(Math.random() * 100) >= 96) {
+                map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);    
+            } else {
+                map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);    
+            }    
+
         } else {
 
             if(Math.floor(Math.random() * 10) >= 9) {

@@ -34,7 +34,19 @@ Lootr.Map.prototype.setTile = function(tile, x, y) {
 };
 
 Lootr.Map.prototype.getItemsAt = function(x, y) {
-	return this._items[x + ',' + y];
+	var items = this._items[x + ',' + y];
+
+	if(items !== undefined) {
+		return items;
+	}
+
+	return false;
+};
+
+Lootr.Map.prototype.isItemsAt = function(x, y) {
+	var items = this.getItemsAt(x, y);
+
+	return items;
 };
 
 Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
@@ -226,15 +238,29 @@ Lootr.Map.prototype.removeEntity = function(entity) {
 	}
 };
 
+Lootr.Map.prototype.isTileGround = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	return tile.isGround();
+};
+
+Lootr.Map.prototype.isTileWithoutEntity = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	return tile.isGround() && this.isEntityAt(x, y) == false;
+};
+
 Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
 	var tile = this.getTile(x, y);
 
+	return tile.isGround() && !this.isEntityAt(x, y) && !this.isItemsAt(x, y);
+
 	// If the tile is a floor and no entity is on the space
-	if(tile.isGround() && !this.getEntityAt(x, y)) {
+	/*if(tile.isGround() && !this.getEntityAt(x, y)) {
 		return true;
 	}
 
-	return false;
+	return false;*/
 };
 
 Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
@@ -277,10 +303,28 @@ Lootr.Map.prototype.getEntities = function() {
 	return this._entities;
 };
 
+Lootr.Map.prototype.isEntityAt = function(x, y) {
+	var result = this.getEntityAt(x, y);
+
+	if(result) {
+		return true;
+	}
+
+	return false;
+};
+
 Lootr.Map.prototype.getEntityAt = function(x, y) {
 
 	// Get the entity based on position key
-	return this._entities[x + ',' + y];
+	//return this._entities[x + ',' + y];
+
+	var entity = this._entities[x + ',' + y];
+
+	if(entity !== undefined) {
+		return entity;
+	}
+
+	return false;
 };
 
 Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius) {

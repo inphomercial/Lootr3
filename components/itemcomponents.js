@@ -69,6 +69,53 @@ Lootr.ItemComponents.Edible = {
 	}
 };
 
+Lootr.ItemComponents.SpringTrap = {
+	name: 'SpringTrap',
+	init: function(template) {
+		this._hasSprung = false;
+		this._trapDamage = template['trapDamage'] || 1;
+	},
+	springTrap: function(entity) {
+		
+		if(!this._hasSprung) {
+
+			// Set sprung so it cannot happen again
+			this._hasSprung = true;
+
+			// Send message
+			Lootr.sendMessage(entity, 'You spring a trap!!');
+
+			// Apply Damage
+			if(entity.hasComponent('Destructible')) {			
+				entity.takeDamage(this, this._trapDamage * 2);			
+			}
+
+		// Stepping on it after already sprung	
+		} else {
+			// Send message
+			Lootr.sendMessage(entity, 'You step on a trap!!');
+
+			// Apply Damage
+			if(entity.hasComponent('Destructible')) {			
+				entity.takeDamage(this, this._trapDamage);			
+			}
+		}
+
+		// Update tile character			
+		this._char = '^';	
+
+		// make blooodddy
+	    var fc = ROT.Color.fromString(this.getForeground());
+	    var sc = ROT.Color.fromString('red');
+	    var c = ROT.Color.multiply_(fc, sc);                                        
+	    
+	    this.setForeground(c);
+
+	    // Make surrounding tiles blooodddyyyy
+	    entity.getMap().bloodyTile(entity.getX(), entity.getY());
+	}
+};
+
 Lootr.ItemComponents.Equippable = {
 	name: 'Equippable',
 	init: function(template) {

@@ -4,7 +4,7 @@ Lootr.TemplatePlayer = {
 	character: '@',
 	foreground: 'yellow',
 	background: 'black',
-	sightRadius: 6,
+	sightRadius: 100,
 	maxHp: 100,
 	inventorySlots: 20,
 	components: [Lootr.EntityComponents.PlayerActor, 
@@ -15,7 +15,7 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.InventoryHolder,
 				 Lootr.EntityComponents.GoldHolder,
 				 Lootr.EntityComponents.FoodConsumer,
-				 Lootr.EntityComponents.Equipper,
+				 Lootr.EntityComponents.Equipper,				 				 
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.PlayerStatGainer]
 }
@@ -77,7 +77,7 @@ Lootr.EntityRepository.define('fungus', {
 Lootr.EntityRepository.define('bat', {
 	name: 'bat',
 	character: 'b',
-	foreground: 'white',
+	foreground: 'purple',
 	background: 'gray',
 	speed: 2000,
 	maxHp: 10,
@@ -85,6 +85,7 @@ Lootr.EntityRepository.define('bat', {
 	components: [Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.TaskActor,
 				 Lootr.EntityComponents.Wander,
+				 Lootr.EntityComponents.Flight,
 				 Lootr.EntityComponents.Attacker,
 				 Lootr.EntityComponents.CorpseDropper,
 				 Lootr.EntityComponents.ExperienceGainer,
@@ -106,6 +107,29 @@ Lootr.EntityRepository.define('kobold', {
 			     Lootr.EntityComponents.Attacker,
 			     Lootr.EntityComponents.HuntPlayer,
 			     Lootr.EntityComponents.Wander,
+			     Lootr.EntityComponents.Destructible,
+			     Lootr.EntityComponents.CorpseDropper,
+			     Lootr.EntityComponents.ExperienceGainer,
+			     Lootr.EntityComponents.RandomStatGainer]
+}, {
+	disableRandomCreation: false
+});
+
+Lootr.EntityRepository.define('dragon', {
+	name: 'dragon',
+	character: 'D',
+	foreground: 'green',
+	maxHp: 40,
+	attack: 3,
+	defense: 5,
+	sightRadius: 5,
+	speed: 1000,
+	tasks: ['breathFire', 'wander'],
+	components: [Lootr.EntityComponents.TaskActor,
+			     Lootr.EntityComponents.FireBreather,
+			     Lootr.EntityComponents.Attacker,
+			     Lootr.EntityComponents.Wander,
+			     Lootr.EntityComponents.Sight,
 			     Lootr.EntityComponents.Destructible,
 			     Lootr.EntityComponents.CorpseDropper,
 			     Lootr.EntityComponents.ExperienceGainer,

@@ -231,6 +231,15 @@ Lootr.Screen.playScreen = {
                 this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
                 return;
 
+             // Rest a turn
+             } else if (inputData.keyCode === ROT.VK_PERIOD) {
+                // Skip a turn
+                Lootr.sendMessage(this._player, 'You rest a turn.');
+                
+                // Unlock the engine
+                this._player.getMap().getEngine().unlock();                
+                return;
+
              } else if (inputData.keyCode === ROT.VK_Q) {
                 // show quaff screen
                 this.showItemSubScreen(Lootr.Screen.quaffScreen, this._player.getItems(), 'You have nothing to quaff.');

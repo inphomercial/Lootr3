@@ -45,11 +45,43 @@ Lootr.EntityComponents.TaskActor = {
 				return this.hasComponent('GrowArm') && this.getHp() <= 20 && !this._hasGrownArm;
 			case 'fireSpread':
 				return this.hasComponent('FireSpread');
+			case 'breathFire':
+				return this.hasComponent('FireBreather') && 
+					   Math.round(Math.random() * 100) <= 10 &&
+					   this.hasComponent('Sight') && 
+					   this.canSee(this.getMap().getPlayer());
 			default: 
 				throw new Error('Tried to perform undefined task ' + task);
 		}
 	}
 }
+
+Lootr.EntityComponents.Flight = {
+	name: 'Flight'
+};
+
+Lootr.EntityComponents.FireBreather = {
+	name: 'FireBreather',
+	breathFire: function() {
+
+		var offset = (Math.round(Math.random()) === 1) ? 1 : -1
+
+		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {	
+			var fire1 = Lootr.EntityRepository.create('fire');			
+			fire1.setX(this.getX());
+			fire1.setY(this.getY()+offset);
+			this.getMap().addEntity(fire1);			
+		}
+
+		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + ++offset )) {
+			var fire2 = Lootr.EntityRepository.create('fire');			
+			fire2.setX(this.getX());
+			fire2.setY(this.getY()+offset);
+			this.getMap().addEntity(fire2);
+		}
+	},
+	breathFireEndsTurn: true
+};
 
 Lootr.EntityComponents.Wander = {
 	name: 'Wander',
@@ -271,7 +303,7 @@ Lootr.EntityComponents.CorpseDropper = {
 			if(Math.round(Math.random() * 100) <= this._corpseDropRate) {
 				// Create a new corpse item and drop it.
 				this._map.addItem(this.getX(), this.getY(), Lootr.ItemRepository.create('corpse', {
-					name: this._name + ' corpse', foreground: this._foreground
+					name: this._name + ' corpse', foreground: this.getForeground()
 				}));
 			}	
 		}
@@ -510,8 +542,7 @@ Lootr.EntityComponents.LeaveTrail = {
         var fc = ROT.Color.fromString(tile.getForeground());
         var sc = ROT.Color.fromString(this._trailColor);
         var c = ROT.Color.multiply(fc, sc);                                        
-        foreground = ROT.Color.toHex(c);
-        tile._foreground = foreground;
+        tile.setForeground(c);
         
         return;         
 	},
@@ -533,12 +564,12 @@ Lootr.EntityComponents.FireSpread = {
 		}
 		
 		if(Math.random() * 1 > 0.98) {
-			this._foreground = 'white';
+			this.setForeground('white');
 			return;
 		}
 
 		if(Math.random() * 1 > 0.9) {
-			this._foreground = 'maroon';
+			this.setForeground('maroon');
 			return;
 		}
 
@@ -549,12 +580,13 @@ Lootr.EntityComponents.FireSpread = {
 			var s = ROT.Color.fromString('yellow');	
 		}
 		
-		var i = ROT.Color.interpolate(s, c, 0.2);			
-		var h = ROT.Color.toHex(i);
-		this._foreground = h;
+		var i = ROT.Color.interpolate(s, c, 0.2);		
+		this.setForeground(i)	;
+		//var h = ROT.Color.toHex(i);
+		//this._foreground = h;
 	},
 	setFireColor: function(color) {
-		this._foreground = color;
+		this.setForeground(color);
 	},
 	fireSpread: function() {
 		// Check if we grow this turn
@@ -582,15 +614,15 @@ Lootr.EntityComponents.FireSpread = {
 
 						// Remove corpse
 						this.getMap().removeItemFromTile(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
-
-						// Add fuel
-						this.modifyFuelBy(50);
-
+						
 						// Create new fire entity
 						var entity = Lootr.EntityRepository.create('fire');
 
 						// Give the fire a stoke
-						entity.setFireColor('blue');
+						entity.setFireColor('royalblue');
+
+						// Add fuel
+						entity.modifyFuelBy(50);
 
 						// Place it into new tile spot
 						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);
@@ -600,7 +632,8 @@ Lootr.EntityComponents.FireSpread = {
 					}
 
 					// check if we can actually grow at location
-					else if (this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+					//else if (this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+					else if (this.getMap().isTileWithoutEntity(this.getX() + xOffSet, this.getY() + yOffSet)) {
 						
 						var entity = Lootr.EntityRepository.create('fire');
 						this.getMap().addEntityAt(this.getX() + xOffSet, this.getY() + yOffSet, entity);						

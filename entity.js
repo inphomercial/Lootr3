@@ -100,6 +100,29 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		map.removeItemFromTile(x, y, 'gold');
 	}
 
+	// Check for trap
+	else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap') && !this.hasComponent('Flight')) {
+		var trap = map.getItemsAt(x, y, 'spike trap');
+
+		// update the entitys position
+		this.setPosition(x, y);
+
+		// Trap will spring, updating the tile character
+		// damaging entity
+		// sending messing		
+		trap[0].springTrap(this);
+
+		return true;
+	}
+
+	// Check for GROUND tile while having flight
+	else if(tile.isGround() && this.hasComponent('Flight')) {
+		// update the entitys position
+		this.setPosition(x, y);
+
+		return true;
+	}
+
 	// check if we can walk on the tile if so, walk onto it
 	else if(tile.isWalkable()) {
 		// update the entitys position

@@ -23,6 +23,14 @@ Lootr.ItemRepository.define('melon', {
 	components: [Lootr.ItemComponents.Edible]
 });
 
+Lootr.ItemRepository.define('spike trap', {
+	name: 'spike trap',
+	character: '.',
+	trapDamage: 10,
+	foreground: 'gray',
+	components: [Lootr.ItemComponents.SpringTrap]
+});
+
 Lootr.ItemRepository.define('corpse', {
 	name: 'corpse',
 	character: '&',

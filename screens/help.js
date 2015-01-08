@@ -11,10 +11,11 @@ Lootr.Screen.helpScreen = {
         display.drawText(0, y++, 'asdf');
         y += 3;
         display.drawText(0, y++, '[,] to pick up items');
+        display.drawText(0, y++, '[.] to rest a turn');
         display.drawText(0, y++, '[d] to drop items');
         display.drawText(0, y++, '[e] to eat items');
         display.drawText(0, y++, '[w] to wield items');
-        display.drawText(0, y++, '[W] to wield items');
+        display.drawText(0, y++, '[p] to put on items');
         display.drawText(0, y++, '[x] to examine items');
         display.drawText(0, y++, '[l] to look around you');
         display.drawText(0, y++, '[?] to show this help screen');
