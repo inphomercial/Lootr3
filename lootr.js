@@ -30,7 +30,7 @@ var Lootr =  {
         }
         // Bind keyboard input events
         bindEventToScreen('keydown');
-        bindEventToScreen('mousemove');
+        //bindEventToScreen('mousemove');
         //bindEventToScreen('keyup');
         //bindEventToScreen('keypress');
     },

@@ -116,7 +116,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 	}
 
 	// Check for GROUND tile while having flight
-	else if(tile.isGround() && this.hasComponent('Flight')) {
+	else if(tile.isGround() && this.hasComponent('Flight') && this.isFlying()) {
 		// update the entitys position
 		this.setPosition(x, y);
 
@@ -168,6 +168,10 @@ Lootr.Entity.prototype.setPosition = function(x, y) {
 
 Lootr.Entity.prototype.setSpeed = function(speed) {
 	this._speed = speed;
+};
+
+Lootr.Entity.prototype.modifySpeedBy = function(amount) {
+	this._speed += amount;
 };
 
 Lootr.Entity.prototype.getSpeed = function() {

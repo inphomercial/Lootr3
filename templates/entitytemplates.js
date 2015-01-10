@@ -16,6 +16,7 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.GoldHolder,
 				 Lootr.EntityComponents.FoodConsumer,
 				 Lootr.EntityComponents.Equipper,				 				 
+				 Lootr.EntityComponents.Flight,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.PlayerStatGainer]
 }
@@ -81,6 +82,7 @@ Lootr.EntityRepository.define('bat', {
 	background: 'gray',
 	speed: 2000,
 	maxHp: 10,
+	isFlying: true,
 	tasks: ['wander'],
 	components: [Lootr.EntityComponents.Destructible,
 				 Lootr.EntityComponents.TaskActor,

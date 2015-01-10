@@ -57,7 +57,32 @@ Lootr.EntityComponents.TaskActor = {
 }
 
 Lootr.EntityComponents.Flight = {
-	name: 'Flight'
+	name: 'Flight',
+	init: function(template) {
+		this._isFlying = template['isFlying'] || false;
+	},
+	land: function() {
+
+		if(this.getMap().isTileItemSpawnable(this.getX(), this.getY())) {
+			Lootr.sendMessage(this, 'You land on the ground.');
+			Lootr.sendMessage(this, 'You slow down.');
+			this._isFlying = false;
+			this.modifySpeedBy(-50);
+			this.setForeground('yellow');	
+		} else {
+			Lootr.sendMessage(this, 'You cannot land here.');
+		}		
+	},
+	fly: function() {
+		Lootr.sendMessage(this, 'You start to fly.');
+		Lootr.sendMessage(this, 'You speed up.');
+		this._isFlying = true;
+		this.modifySpeedBy(50);
+		this.setForeground('lightblue');
+	},
+	isFlying: function() {
+		return this._isFlying;
+	}
 };
 
 Lootr.EntityComponents.FireBreather = {

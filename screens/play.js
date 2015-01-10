@@ -120,6 +120,13 @@ Lootr.Screen.playScreen = {
              wear += "Wearing: %c{#7E7F7A}none";
              display.drawText(82, statsY++, wear);
          }
+
+         var status = "%c{yellow}%b{black}";
+         if(this._player.isFlying()) {
+            statsY++;
+            status += 'Flying';
+            display.drawText(82, statsY++, status);
+         } 
     },
     renderTiles: function(display) {
         //var screenWidth = Lootr.getScreenWidth();
@@ -243,6 +250,21 @@ Lootr.Screen.playScreen = {
 
                 var fire = Lootr.EntityRepository.create('fire');
                 this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
+                Lootr.refresh();
+
+                return;
+
+            // Test out stuff
+            } else if (inputData.keyCode === ROT.VK_F) {
+                
+                if(this._player.hasComponent('Flight')) {
+                    if(this._player.isFlying()) {
+                        this._player.land();
+                    } else {
+                        this._player.fly();
+                    }
+                }
+                
                 Lootr.refresh();
 
                 return;
