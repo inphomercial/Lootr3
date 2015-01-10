@@ -14,6 +14,7 @@ var Lootr =  {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,
                                          height: this._screenHeight + 1, fontSize: 18});
+
         // Create a helper function for binding to an event
         // and making it send it to the screen
         var lootr = this; // So that we don't lose this
@@ -29,6 +30,7 @@ var Lootr =  {
         }
         // Bind keyboard input events
         bindEventToScreen('keydown');
+        bindEventToScreen('mousemove');
         //bindEventToScreen('keyup');
         //bindEventToScreen('keypress');
     },

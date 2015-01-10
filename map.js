@@ -31,6 +31,8 @@ Lootr.Map.prototype.getPlayer = function() {
 
 Lootr.Map.prototype.setTile = function(tile, x, y) {
 	this._tiles[x][y] = tile;
+
+	return this;
 };
 
 Lootr.Map.prototype.getItemsAt = function(x, y) {
@@ -240,22 +242,26 @@ Lootr.Map.prototype.removeEntity = function(entity) {
 	}
 };
 
-Lootr.Map.prototype.isTileGround = function(x, y) {
-	var tile = this.getTile(x, y);
-
-	return tile.isGround();
-};
-
 Lootr.Map.prototype.isTileWithoutEntity = function(x, y) {
 	var tile = this.getTile(x, y);
 
 	return tile.isGround() && this.isEntityAt(x, y) == false;
 };
 
+Lootr.Map.prototype.isTileItemSpawnable = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	if(!tile.isGround()) {
+		return false;
+	}
+
+	return tile.isItemSpawnable();
+}
+
 Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
 	var tile = this.getTile(x, y);
 
-	return tile.isGround() && !this.isEntityAt(x, y) && !this.isItemsAt(x, y);
+	return (!this.isEntityAt(x, y) && !this.isItemsAt(x, y) && this.isTileItemSpawnable(x, y));
 
 	// If the tile is a floor and no entity is on the space
 	/*if(tile.isGround() && !this.getEntityAt(x, y)) {

@@ -42,6 +42,8 @@ build a static character set for items/entities
 crit
 accuracy
 Work on stat screen
+dynamicglyph - fill out addComponent & removeComponent methods
+tile objects can contains entities & items
 
 DONE
 Make the map viewing area smaller to allow for stats/messages

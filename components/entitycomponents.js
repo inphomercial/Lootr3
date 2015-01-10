@@ -271,27 +271,22 @@ Lootr.EntityComponents.FoodConsumer = {
 
 		// 5% of max fullness or less = starving
 		if(this._fullness <= perPercent * 5) {
-			// result = '%c{red}Starving';
-            return 'Starving';
+			return '%c{red}Starving';            
 		}
 		// 25%
 		else if(this._fullness <= perPercent * 25) {
-			// result = '%c{yellow}Hungry';
-            return 'Hungry';
+			return '%c{yellow}Hungry';            
 		}
 		// 75
 		else if(this._fullness <= perPercent * 75) {
-			// result = 'Full';
-            return 'Full';
+			return 'Full';            
 		}
 		// 95
-		else if(this._fullness <= perPercent * 95) {
-			// result = 'Oversatiated';
+		else if(this._fullness <= perPercent * 95) {			
             return 'Oversatiated';
 		}
 		// Anything else = no hungry
-		else {
-			// result = 'Not Hungry';
+		else {			
             return 'Not Hungry';
 		}
 	}
@@ -782,6 +777,8 @@ Lootr.EntityComponents.InventoryHolder = {
 			if(this._map) {
 				// Put item back on map
 				this._map.addItem(this.getX(), this.getY(), this._items[i]);
+
+				Lootr.sendMessage(this, 'You drop %s', [this._items[i].describeA()]);
 			}
 		}
 

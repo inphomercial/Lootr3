@@ -72,49 +72,52 @@ Lootr.Screen.playScreen = {
     renderStats: function(display) {
         var statsY = 1;
 
-        var name = '%c{yellow}%b{black}';
-        name += vsprintf('Name: Inpho');
+        var name = '%c{#91AA9D}%b{black}';
+        name += 'Name: %c{#CCB4B0}Inpho';
         display.drawText(82, statsY++, name);
         statsY++;
 
-        var hp = '%c{teal}%b{black}';
-        hp += vsprintf('HP: %d/%d', [this._player.getHp(), this._player.getMaxHp()]);
+        var hp = '%c{#91AA9D}%b{black}';
+        hp += 'HP: %c{#FCFFF5}' + this._player.getHp() + '/' + this._player.getMaxHp();
+        //hp += vsprintf('HP: %d/%d', [this._player.getHp(), this._player.getMaxHp()]);
         display.drawText(82, statsY++, hp);
 
-        var level = '%c{teal}%b{black}';
-        level += vsprintf('LEVEL: %d', [this._player.getLevel()]);
+        var level = '%c{#91AA9D}%b{black}';
+        //level += vsprintf('LEVEL: %d', [this._player.getLevel()]);
+        level += 'LVL: %c{#FCFFF5}' + this._player.getLevel();
         display.drawText(82, statsY++, level);
 
-        var xp = '%c{teal}%b{black}';
-        xp += vsprintf('XP: %d', [this._player.getExperience()]);
+        var xp = '%c{#91AA9D}%b{black}';
+        xp += 'XP: %c{#FCFFF5}' + this._player.getExperience();
+        //xp += vsprintf('XP: %d', [this._player.getExperience()]);
         display.drawText(82, statsY++, xp);
 
-        var gold = '%c{teal}%b{black}';
-        gold += vsprintf('GOLD: %d', [this._player.getGold()]);
+        var gold = '%c{#91AA9D}%b{black}';
+        gold += 'GOLD: %c{#FCFFF5}' + this._player.getGold();
         display.drawText(82, statsY++, gold);
 
-        var hungerState = '%c{teal}%b{black}';
-        hungerState += 'HUNGER: ' + this._player.getHungerState();
+        var hungerState = '%c{#91AA9D}%b{black}';
+        hungerState += 'HUNGER: %c{#FCFFF5}' + this._player.getHungerState();
         display.drawText(82, statsY++, hungerState);
-        statsY++; statsY++;
+        statsY++;
 
-        var weap = '%c{teal}%b{black}';
+        var weap = '%c{#91AA9D}%b{black}';
         var w = this._player.getWeapon();
         if(w) {
-             weap += vsprintf('Weapon: %s', [w.getName()]);
+             weap += 'Wielding: %c{#7E7F7A}' + w.getName();
              display.drawText(82, statsY++, weap);
          } else {
-             weap += "Weapon: -";
+             weap += "Wielding: %c{#7E7F7A}none";
              display.drawText(82, statsY++, weap);
          }
 
-        var wear = '%c{teal}%b{black}';
+        var wear = '%c{#91AA9D}%b{black}';
         var w = this._player.getArmor();
         if(w) {
-             wear += vsprintf('Wearing: %s', [w.getName()]);
+             wear += 'Wearing: %c{#7E7F7A}' + w.getName();
              display.drawText(82, statsY++, wear);
          } else {
-             wear += "Wearing: -";
+             wear += "Wearing: %c{#7E7F7A}none";
              display.drawText(82, statsY++, wear);
          }
     },
@@ -148,7 +151,7 @@ Lootr.Screen.playScreen = {
         for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
             for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
                 if (map.isExplored(x, y)) {
-                    // Fetch the glyph for the tile and render it to the screen
+                    // Fetch the tile and render it to the screen
                     var glyph = map.getTile(x, y);
                     var foreground = glyph.getForeground();
 
@@ -207,6 +210,21 @@ Lootr.Screen.playScreen = {
             this._subScreen.handleInput(inputType, inputData);
             return;
         }
+
+        /*if (inputType === 'mousemove') {
+            var pos = Lootr.getMousePos(Lootr.getDisplay().getContainer(), inputData);
+            console.log(this._player.getMap().getTile(pos.x, pos.y));
+
+            //var tile = this._player.getMap().getTile(pos.x, pos.y);
+            //tile.setBackground('pink');
+            var display = Lootr.getDisplay();
+            display.draw(pos.x, pos.y, " ", "#f00", '#009');
+
+            console.log(inputData);
+
+            console.log(this._player.getMap().getEntityAt(pos.x, pos.y));
+            console.log(this._player.getMap().getItemsAt(pos.x, pos.y));
+        };*/
 
         if (inputType === 'keydown') {
             // If enter is pressed, go to the win screen

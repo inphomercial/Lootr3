@@ -70,6 +70,12 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 	}
 };
 
+Lootr.DynamicGlyph.prototype.addComponent = function(component) {
+};
+
+Lootr.DynamicGlyph.prototype.removeComponent = function(component) {
+};
+
 Lootr.DynamicGlyph.prototype.raiseEvent = function(event) {
     // Make sure we have at least one listener or else exit
     if(!this._listeners[event]) {

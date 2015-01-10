@@ -30,3 +30,14 @@ Lootr.Glyph.prototype.setForeground = function(color) {
 		throw new Error('Dont know color type ' + color);
 	}
 }
+
+Lootr.Glyph.prototype.setBackground = function(color) {
+
+	if(color.constructor == String) {
+		this._background = color;
+	} else if (color instanceof Array) {
+		this._background = ROT.Color.toHex(color);
+	} else {
+		throw new Error('Dont know color type ' + color);
+	}
+}
