@@ -122,22 +122,23 @@ Lootr.EntityRepository.define('dragon', {
 	character: 'D',
 	foreground: 'green',
 	maxHp: 40,
-	attack: 3,
-	defense: 5,
+	attack: 15,
+	defense: 15,
 	sightRadius: 5,
 	speed: 1000,
-	tasks: ['breathFire', 'wander'],
+	tasks: ['breathFire', 'hunt', 'wander'],
 	components: [Lootr.EntityComponents.TaskActor,
 			     Lootr.EntityComponents.FireBreather,
 			     Lootr.EntityComponents.Attacker,
 			     Lootr.EntityComponents.Wander,
+			     Lootr.EntityComponents.HuntPlayer,
 			     Lootr.EntityComponents.Sight,
 			     Lootr.EntityComponents.Destructible,
 			     Lootr.EntityComponents.CorpseDropper,
 			     Lootr.EntityComponents.ExperienceGainer,
 			     Lootr.EntityComponents.RandomStatGainer]
 }, {
-	disableRandomCreation: false
+	disableRandomCreation: true
 });
 
 Lootr.EntityRepository.define('fire', {
