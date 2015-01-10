@@ -66,18 +66,22 @@ Lootr.EntityComponents.FireBreather = {
 
 		var offset = (Math.round(Math.random()) === 1) ? 1 : -1
 
-		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {
+		/*if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {*/
+		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + offset)) {
 			var fire1 = Lootr.EntityRepository.create('fire');
-			fire1.setX(this.getX());
+			/*fire1.setX(this.getX());
 			fire1.setY(this.getY()+offset);
-			this.getMap().addEntity(fire1);
+			this.getMap().addEntity(fire1);*/
+			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire1);
 		}
 
-		if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + ++offset )) {
+		/*if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + ++offset )) {*/
+		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + ++offset )) {
 			var fire2 = Lootr.EntityRepository.create('fire');
-			fire2.setX(this.getX());
+		/*	fire2.setX(this.getX());
 			fire2.setY(this.getY()+offset);
-			this.getMap().addEntity(fire2);
+			this.getMap().addEntity(fire2); */
+			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire2);
 		}
 	},
 	breathFireEndsTurn: true

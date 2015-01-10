@@ -25,14 +25,71 @@ Lootr.Map = function(tiles) {
 	this._engine = new ROT.Engine(this._scheduler);
 };
 
+// *************
+// ** GETTERS **
+// *************
 Lootr.Map.prototype.getPlayer = function() {
 	return this._player;
 };
 
-Lootr.Map.prototype.setTile = function(tile, x, y) {
-	this._tiles[x][y] = tile;
+Lootr.Map.prototype.getWidth = function() {
+	return this._width;
+};
 
-	return this;
+Lootr.Map.prototype.getHeight = function() {
+	return this._height;
+};
+
+Lootr.Map.prototype.getFov = function() {
+	return this._fov;
+};
+
+Lootr.Map.prototype.getEngine = function() {
+	return this._engine;
+};
+
+Lootr.Map.prototype.getEntities = function() {
+	return this._entities;
+};
+
+Lootr.Map.prototype.getTile = function(x, y) {
+	// Make suer we are inside the bounds, otherwise return nullTile
+	if( x < 0 || x >= this._width || y < 0 || y >= this._height) {
+		return Lootr.Tile.nullTile;
+	} else {
+		return this._tiles[x][y] || Lootr.Tile.nullTile;
+	}
+};
+
+Lootr.Map.prototype.getEntityAt = function(x, y) {
+
+	// Get the entity based on position key
+	//return this._entities[x + ',' + y];
+
+	var entity = this._entities[x + ',' + y];
+
+	if(entity !== undefined) {
+		return entity;
+	}
+
+	return false;
+};
+
+Lootr.Map.prototype.getRandomFloorPosition = function() {
+	// Randomly generate a tile which is a floor
+	var x, y;
+	do {
+		x = Math.floor(Math.random() * this._width);
+		y = Math.floor(Math.random() * this._height);
+	} while(!this.isTileEmptyFloor(x, y));
+	return {x: x, y: y};
+};
+
+Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
+	var tileOptions = Lootr.getNeighborPositions(x, y);
+	var tile = tileOptions.slice().pop();
+
+	return tile;
 };
 
 Lootr.Map.prototype.getItemsAt = function(x, y) {
@@ -45,10 +102,121 @@ Lootr.Map.prototype.getItemsAt = function(x, y) {
 	return false;
 };
 
+Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius) {
+	var results = [];
+
+	// Determine our bounds
+	var leftX = centerX - radius;
+	var rightX = centerX + radius;
+	var topY = centerY - radius;
+	var bottomY = centerY + radius;
+
+	// Iterate through our entities, adding any that are within
+	for(var key in this._entities) {
+		var entity = this._entities[key];
+		if(entity.getX() >= leftX && entity.getX() <= rightX &&
+		   entity.getY() >= topY && entity.getY() <= bottomY) {
+			results.push(entity);
+		}
+	}
+
+	return results;
+};
+
+
+// *************
+// ** SETTERS **
+// *************
+Lootr.Map.prototype.setTile = function(tile, x, y) {
+	this._tiles[x][y] = tile;
+
+	return this;
+};
+
+Lootr.Map.prototype.setExplored = function(x, y, state) {
+	// Only update if the tile is within bounds
+	if(this.getTile(x, y) !== Lootr.Tile.nullTile) {
+		this._explored[x][y] = state;
+	}
+};
+
+Lootr.Map.prototype.setItemsAt = function(x, y, items) {
+	// If our items array si empty then delete the key from table
+	var key = x + ',' + y;
+	if(items.length === 0) {
+		if(this._items[key]) {
+			delete this._items[key];
+		}
+	} else {
+		// Simple update the items at that key
+		this._items[key] = items;
+	}
+};
+
+
+// *************
+// **   IS    **
+// *************
 Lootr.Map.prototype.isItemsAt = function(x, y) {
 	var items = this.getItemsAt(x, y);
 
 	return items;
+};
+
+Lootr.Map.prototype.isExplored = function(x, y) {
+	// Only return the value if within bounds
+	if(this.getTile(x, y) !== Lootr.Tile.nullTile) {
+		return this._explored[x][y];
+	} else {
+		return false;
+	}
+};
+
+Lootr.Map.prototype.isTileWithoutEntity = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	return tile.isGround() && this.isEntityAt(x, y) == false;
+};
+
+Lootr.Map.prototype.isTileItemSpawnable = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	if(!tile.isGround()) {
+		return false;
+	}
+
+	return tile.isItemSpawnable();
+}
+
+Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
+	var tile = this.getTile(x, y);
+
+	return (!this.isEntityAt(x, y) && !this.isItemsAt(x, y) && this.isTileItemSpawnable(x, y));
+};
+
+Lootr.Map.prototype.isEntityAt = function(x, y) {
+	var result = this.getEntityAt(x, y);
+
+	return result;
+
+	/*if(result) {
+		return true;
+	}
+
+	return false;*/
+};
+
+
+
+
+Lootr.Map.prototype.addItem = function(x, y, item) {
+	// If we already have items at that position, simply append the item to the list
+	var key = x + ',' + y;
+	if(this._items[key] == item) {
+		this._items[key].push(item);
+	} else {
+		this._items[key] = [item];
+	}
 };
 
 Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
@@ -78,29 +246,6 @@ Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
 	}
 }
 
-Lootr.Map.prototype.setItemsAt = function(x, y, items) {
-	// If our items array si empty then delete the key from table
-	var key = x + ',' + y;
-	if(items.length === 0) {
-		if(this._items[key]) {
-			delete this._items[key];
-		}
-	} else {
-		// Simple update the items at that key
-		this._items[key] = items;
-	}
-};
-
-Lootr.Map.prototype.addItem = function(x, y, item) {
-	// If we already have items at that position, simply append the item to the list
-	var key = x + ',' + y;
-	if(this._items[key] == item) {
-		this._items[key].push(item);
-	} else {
-		this._items[key] = [item];
-	}
-};
-
 Lootr.Map.prototype.addItemAtRandomPosition = function(item) {
 	var pos = this.getRandomFloorPosition();
 	this.addItem(pos.x, pos.y, item);
@@ -115,21 +260,7 @@ Lootr.Map.prototype.setupExploredArray = function() {
     }
 };
 
-Lootr.Map.prototype.isExplored = function(x, y) {
-	// Only return the value if within bounds
-	if(this.getTile(x, y) !== Lootr.Tile.nullTile) {
-		return this._explored[x][y];
-	} else {
-		return false;
-	}
-};
 
-Lootr.Map.prototype.setExplored = function(x, y, state) {
-	// Only update if the tile is within bounds
-	if(this.getTile(x, y) !== Lootr.Tile.nullTile) {
-		this._explored[x][y] = state;
-	}
-};
 
 Lootr.Map.prototype.setupFov = function() {
 	// keep this in 'map' varaiable so that we dont lose it
@@ -190,13 +321,10 @@ Lootr.Map.prototype.setupFov = function() {
 	}*/
 };
 
-Lootr.Map.prototype.getFov = function() {
-	return this._fov;
-};
-
 Lootr.Map.prototype.addEntityAt = function(x, y, entity) {
 
-	if(this.isTileEmptyFloor(x, y)) {
+	/*if(this.isTileEmptyFloor(x, y)) {*/
+	if(this.isTileWithoutEntity(x, y)) {
 		entity.setX(x);
 		entity.setY(y);
 		this.addEntity(entity);
@@ -242,34 +370,7 @@ Lootr.Map.prototype.removeEntity = function(entity) {
 	}
 };
 
-Lootr.Map.prototype.isTileWithoutEntity = function(x, y) {
-	var tile = this.getTile(x, y);
 
-	return tile.isGround() && this.isEntityAt(x, y) == false;
-};
-
-Lootr.Map.prototype.isTileItemSpawnable = function(x, y) {
-	var tile = this.getTile(x, y);
-
-	if(!tile.isGround()) {
-		return false;
-	}
-
-	return tile.isItemSpawnable();
-}
-
-Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
-	var tile = this.getTile(x, y);
-
-	return (!this.isEntityAt(x, y) && !this.isItemsAt(x, y) && this.isTileItemSpawnable(x, y));
-
-	// If the tile is a floor and no entity is on the space
-	/*if(tile.isGround() && !this.getEntityAt(x, y)) {
-		return true;
-	}
-
-	return false;*/
-};
 
 Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
 	// Delete the old key if it is the same entity and we have old pos.
@@ -298,88 +399,10 @@ Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
 
 Lootr.Map.prototype.addEntityAtRandomPosition = function(entity) {
 	var pos = this.getRandomFloorPosition();
-	entity.setX(pos.x);
+	/*entity.setX(pos.x);
 	entity.setY(pos.y);
-	this.addEntity(entity);
-};
-
-Lootr.Map.prototype.getEngine = function() {
-	return this._engine;
-};
-
-Lootr.Map.prototype.getEntities = function() {
-	return this._entities;
-};
-
-Lootr.Map.prototype.isEntityAt = function(x, y) {
-	var result = this.getEntityAt(x, y);
-
-	if(result) {
-		return true;
-	}
-
-	return false;
-};
-
-Lootr.Map.prototype.getEntityAt = function(x, y) {
-
-	// Get the entity based on position key
-	//return this._entities[x + ',' + y];
-
-	var entity = this._entities[x + ',' + y];
-
-	if(entity !== undefined) {
-		return entity;
-	}
-
-	return false;
-};
-
-Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius) {
-	var results = [];
-
-	// Determine our bounds
-	var leftX = centerX - radius;
-	var rightX = centerX + radius;
-	var topY = centerY - radius;
-	var bottomY = centerY + radius;
-
-	// Iterate through our entities, adding any that are within
-	for(var key in this._entities) {
-		var entity = this._entities[key];
-		if(entity.getX() >= leftX && entity.getX() <= rightX &&
-		   entity.getY() >= topY && entity.getY() <= bottomY) {
-			results.push(entity);
-		}
-	}
-
-	return results;
-};
-
-Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
-
-	var tileOptions = Lootr.getNeighborPositions(x, y);
-
-	var tile = tileOptions.slice().pop();
-
-	return tile;
-};
-
-Lootr.Map.prototype.getWidth = function() {
-	return this._width;
-};
-
-Lootr.Map.prototype.getHeight = function() {
-	return this._height;
-};
-
-Lootr.Map.prototype.getTile = function(x, y) {
-	// Make suer we are inside the bounds, otherwise return nullTile
-	if( x < 0 || x >= this._width || y < 0 || y >= this._height) {
-		return Lootr.Tile.nullTile;
-	} else {
-		return this._tiles[x][y] || Lootr.Tile.nullTile;
-	}
+	this.addEntity(entity);*/
+	this.addEntityAt(pos.x, pos.y, entity);
 };
 
 Lootr.Map.prototype.dig = function(x, y) {
@@ -401,12 +424,3 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
     tile._foreground = foreground;
 };
 
-Lootr.Map.prototype.getRandomFloorPosition = function() {
-	// Randomly generate a tile which is a floor
-	var x, y;
-	do {
-		x = Math.floor(Math.random() * this._width);
-		y = Math.floor(Math.random() * this._height);
-	} while(!this.isTileEmptyFloor(x, y));
-	return {x: x, y: y};
-};
