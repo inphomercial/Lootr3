@@ -15,8 +15,8 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random entities
 	for(var i=0; i<100; i++) {
-		//var entity = Lootr.EntityRepository.createRandom();
-        var entity = Lootr.EntityRepository.create('bat');
+		var entity = Lootr.EntityRepository.createRandom();
+        //var entity = Lootr.EntityRepository.create('bat');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);
