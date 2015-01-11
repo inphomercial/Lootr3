@@ -68,15 +68,19 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
 	// If an entity was present at the tile
 	if(target) {
-		// An entity can only attack if the entity has the attack component
-		// and either the target or the target is the player
+		// this can attack
 		if(this.hasComponent('Attacker') &&
-			(this.hasComponent(Lootr.EntityComponents.PlayerActor) || target.hasComponent(Lootr.EntityComponents.PlayerActor))) {
+		  // One of the entities is the player
+		  (this.hasComponent(Lootr.EntityComponents.PlayerActor) || target.hasComponent(Lootr.EntityComponents.PlayerActor)) &&
+		  // Whatever is being hit has destructible
+		  target.hasComponent(Lootr.EntityComponents.Destructible)) {
 			this.attack(target);
 			return true;
-		}
+		} else {
 			// we cannot attack and cannot move
+			Lootr.sendMessage(this, 'You bump into something.');
 			return false;
+		}			
 	} 
 
 	// Check if we found the cave

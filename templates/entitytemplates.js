@@ -64,6 +64,23 @@ Lootr.EntityRepository.define('spider', {
 	disableRandomCreation: false
 });
 
+Lootr.EntityRepository.define('ghost', {
+	name: 'ghost',
+	character: 'g',
+	foreground: 'whitesmoke',
+	maxHp: 15,
+	speeD: 600,
+	isInvisible: true,
+	isFlying: true,
+	task: ['wander'],
+	components: [Lootr.EntityComponents.TaskActor,
+			     Lootr.EntityComponents.Wander,
+			     Lootr.EntityComponents.Invisiblity,
+			     Lootr.EntityComponents.Flight]
+}, {
+	disableRandomCreation: false
+});
+
 Lootr.EntityRepository.define('fungus', {
 	name: 'fungus',
 	character: 'f',
