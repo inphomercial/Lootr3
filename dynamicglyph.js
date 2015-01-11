@@ -63,6 +63,18 @@ Lootr.DynamicGlyph.extend(Lootr.Glyph);
 
 Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 	// allow passing the component itself or the name / group as a string
+	/*if(typeof obj === 'object') {
+		if(this._attachedComponents[obj.name]) {
+			return this;
+		}		
+	} else {
+		if(this._attachedComponents[obj] || this._attachedComponentGroups[obj]) {
+			return this;
+		}		
+	}
+
+	return false;*/
+
 	if(typeof obj === 'object') {
 		return this._attachedComponents[obj.name];
 	} else {

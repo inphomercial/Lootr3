@@ -68,7 +68,7 @@ Lootr.EntityComponents.Flight = {
 			Lootr.sendMessage(this, 'You slow down.');
 			this._isFlying = false;
 			this.modifySpeedBy(-50);
-			this.setForeground('yellow');	
+			this.setForeground(this.getOriginalForeground());	
 		} else {
 			Lootr.sendMessage(this, 'You cannot land here.');
 		}		
@@ -82,6 +82,42 @@ Lootr.EntityComponents.Flight = {
 	},
 	isFlying: function() {
 		return this._isFlying;
+	},
+	listeners: {
+		onHit: function() {						
+			// If entity is hit while invisible, make him visible
+			if(this.isFlying()) {
+				this.land();
+			}
+		}
+	}
+};
+
+Lootr.EntityComponents.Invisiblity = {
+	name: 'Invisiblity',
+	init: function(template) {
+		this._isInvisible = template['isInvisible'] || false;		
+	},
+	turnInvisible: function() {
+		this._isInvisible = true;
+		Lootr.sendMessage(this, 'You fade away.');
+		this.setForeground('gray');
+	},
+	turnVisible: function() {
+		this._isInvisible = false;
+		Lootr.sendMessage(this, 'You slowly reappear.');
+		this.setForeground(this.getOriginalForeground());
+	},
+	isInvisible: function() {
+		return this._isInvisible;
+	},
+	listeners: {
+		onHit: function() {						
+			// If entity is hit while invisible, make him visible
+			if(this.isInvisible()) {
+				this.turnVisible();
+			}			
+		}
 	}
 };
 
@@ -147,6 +183,13 @@ Lootr.EntityComponents.Sight = {
 		// if not on the same map then exit early
 		if(!entity || this._map !== entity.getMap()) {
 			return false;
+		}
+
+		// Check if entity is invisible
+		if(entity.hasComponent('Invisiblity')) {
+			if(entity.isInvisible()) {
+				return false;
+			}	
 		}
 
 		var otherX = entity.getX();
@@ -385,6 +428,9 @@ Lootr.EntityComponents.Destructible = {
 	},
 	takeDamage: function(attacker, damage) {
 		this._hp -= damage;
+
+		// Raise onHit event to victim
+		this.raiseEvent('onHit', this);
 
 		// If less than 1 hp, remove ourselves
 		if(this._hp < 1) {

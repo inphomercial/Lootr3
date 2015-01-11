@@ -19,9 +19,9 @@ Lootr.Map.Cave = function(player) {
     this.addEntityAtRandomPosition(dragon);
 
 	// Add random entities
-	for(var i=0; i<100; i++) {
-		var entity = Lootr.EntityRepository.createRandom();
-        //var entity = Lootr.EntityRepository.create('dragon');
+	for(var i=0; i<225; i++) {
+		//var entity = Lootr.EntityRepository.createRandom();
+        var entity = Lootr.EntityRepository.create('spider');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);

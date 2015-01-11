@@ -17,6 +17,7 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.FoodConsumer,
 				 Lootr.EntityComponents.Equipper,				 				 
 				 Lootr.EntityComponents.Flight,
+				 Lootr.EntityComponents.Invisiblity,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.PlayerStatGainer]
 }
@@ -46,6 +47,7 @@ Lootr.EntityRepository.define('spider', {
 	background: 'black',
 	maxHp: 5,
 	speed: 1000,
+	isInvisible: true,
 	corpseDropRate: 50,
 	tasks: ['hunt', 'wander'],
 	components: [Lootr.EntityComponents.Destructible,
@@ -54,6 +56,7 @@ Lootr.EntityRepository.define('spider', {
 				 Lootr.EntityComponents.HuntPlayer,
 				 Lootr.EntityComponents.Wander,
 				 Lootr.EntityComponents.CorpseDropper,
+				 Lootr.EntityComponents.Invisiblity,
 				 Lootr.EntityComponents.Sight,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.RandomStatGainer]

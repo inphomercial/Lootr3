@@ -121,12 +121,19 @@ Lootr.Screen.playScreen = {
              display.drawText(82, statsY++, wear);
          }
 
-         var status = "%c{yellow}%b{black}";
-         if(this._player.isFlying()) {
+        var status = "%c{yellow}%b{black}";
+         if(this._player.hasComponent('Flight') && this._player.isFlying()) {
+            //statsY++;
+            status += 'Flying ';
+            //display.drawText(82, statsY++, status);
+         }
+         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
             statsY++;
-            status += 'Flying';
-            display.drawText(82, statsY++, status);
-         } 
+            status += 'Invisible ';            
+         }  
+
+         // Draw the total status string
+         display.drawText(82, statsY++, status);
     },
     renderTiles: function(display) {
         //var screenWidth = Lootr.getScreenWidth();
@@ -174,8 +181,19 @@ Lootr.Screen.playScreen = {
                         }
 
                         // If we have entities
-                        if(map.getEntityAt(x, y)) {
-                            glyph = map.getEntityAt(x, y);
+                        if(map.getEntityAt(x, y)) {                            
+                            
+                            // We dont want to print any entity that is invisible, unless it's the player
+                            var en = map.getEntityAt(x, y);
+                            if(en.hasComponent('PlayerActor')) {
+                                glyph = en;
+                            } else if (en.hasComponent('Invisiblity')) {
+                                if(!en.isInvisible()) {
+                                    glyph = en;    
+                                }                                
+                            } else {
+                                glyph = en;
+                            }                     
                         }
 
                         // Update the foreground color based on our glphy changed
@@ -250,6 +268,20 @@ Lootr.Screen.playScreen = {
 
                 var fire = Lootr.EntityRepository.create('fire');
                 this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
+                Lootr.refresh();
+
+                return;
+
+            } else if (inputData.keyCode === ROT.VK_G) {
+                
+                if(this._player.hasComponent('Invisiblity')) {
+                    if(this._player.isInvisible()) {
+                        this._player.turnVisible();
+                    } else {
+                        this._player.turnInvisible();
+                    }
+                }
+                
                 Lootr.refresh();
 
                 return;
