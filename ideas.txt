@@ -48,6 +48,7 @@ doodad templates for map use
 
 
 DONE
+Start of a working overworld with level selection
 passthroughwall component
 getter/setting for foreground/background/char
 logging window with mutiple viewable entries

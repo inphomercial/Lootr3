@@ -80,10 +80,23 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			// we cannot attack and cannot move
 			Lootr.sendMessage(this, 'You bump into something.');
 			return false;
-		}			
+		}
+	}	
+
+	// Check if we found the cave
+	else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the boss canern
+		this.switchMap(new Lootr.Map.Cave(this));
+	}	
+
+	// Check if we found the cave
+	else if(tile.getDescription() === Lootr.Tile.holeToDesertTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the boss canern
+		this.switchMap(new Lootr.Map.Desert(this));
+	}		
 
 	// check if tile is not ground (a wall) and have PassThroughWalls
-	} else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
+	else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
 		// update the entitys position
 
 		// Make sure the entitys position is within bounds
@@ -96,11 +109,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		this.setPosition(x, y);
 	}
 
-	// Check if we found the cave
-	else if(tile.isWalkable() && tile === Lootr.Tile.holeToCavernTile && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the boss canern
-		this.switchMap(new Lootr.Map.BossCavern());
-	}
 
 	// Check if we are standing on gold
 	else if(tile.isWalkable() && this.hasComponent(Lootr.EntityComponents.GoldHolder) && map.tileContainsItem(x, y, 'gold')) {

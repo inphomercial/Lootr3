@@ -13,8 +13,8 @@ Lootr.Screen.playScreen = {
 
         // Create our map from the tiles
         var map = [];
-        var map = new Lootr.Map.Cave(this._player);
-        //var map = new Lootr.Map.Desert(this._player);
+        //var map = new Lootr.Map.Cave(this._player);
+        var map = new Lootr.Map.Overworld(this._player);
 
         // Star the games engine
         map.getEngine().start();

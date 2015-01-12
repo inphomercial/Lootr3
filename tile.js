@@ -94,10 +94,18 @@ Lootr.Tile.waterTile = {
 	description: 'Murky water'
 };
 
-Lootr.Tile.holeToCavernTile = {
+Lootr.Tile.holeToCaveTile = {
 	character: 'O',
 	foreground: 'white',
 	walkable: true,
 	blocksLight: false,
 	description: 'A cave opening'
+};
+
+Lootr.Tile.holeToDesertTile = {
+	character: 'O',
+	foreground: 'yellow',
+	walkable: true,
+	blocksLight: false,
+	description: 'A desert opening'
 };
