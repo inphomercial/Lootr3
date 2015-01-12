@@ -81,7 +81,20 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			Lootr.sendMessage(this, 'You bump into something.');
 			return false;
 		}			
-	} 
+
+	// check if tile is not ground (a wall) and have PassThroughWalls
+	} else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
+		// update the entitys position
+
+		// Make sure the entitys position is within bounds
+		if(x < 0 || x >= this.getMap()._width ||
+		   y < 0 || y >= this.getMap()._height) {
+			return false;
+		}
+
+		// If we are inbounds, update pos.
+		this.setPosition(x, y);
+	}
 
 	// Check if we found the cave
 	else if(tile.isWalkable() && tile === Lootr.Tile.holeToCavernTile && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
@@ -151,7 +164,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		}		
 
 		return false;
-	}
+	}	
 
 	return false;
 };

@@ -2,7 +2,7 @@ var Lootr =  {
 	_display: null,
     _currentScreen: null,
     _screenWidth: 120,
-    _screenHeight: 20,
+    _screenHeight: 25,
     _mapScreenWidth: 80,
     _mapScreenHeight: 20,
     Screen: {},

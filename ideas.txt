@@ -23,9 +23,7 @@ Races // Classes
 have a way to update a tile's description
 item stat rolling
 spider queens that can lay new nests
-invisibility component
 friend entity (dog)
-getter/setting for foreground/background/char
 springTrap listener/raiseEvent
 spike trap ^^^
            ^.^ <- trigger to spring surrounding spikes
@@ -45,10 +43,16 @@ Work on stat screen
 dynamicglyph - fill out addComponent & removeComponent methods
 tile objects can contains entities & items
 diggable item component
-
+allow for see invis
+doodad templates for map use
 
 
 DONE
+passthroughwall component
+getter/setting for foreground/background/char
+logging window with mutiple viewable entries
+ghosts
+invisibility component
 flight component
 Make the map viewing area smaller to allow for stats/messages
 DRAGONS THAT BREATHE FIREEEEE

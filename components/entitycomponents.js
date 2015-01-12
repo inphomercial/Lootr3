@@ -625,6 +625,10 @@ Lootr.EntityComponents.LeaveTrail = {
 	leaveTrailEndsTurn: false
 };
 
+Lootr.EntityComponents.PassThroughWalls = {
+	name: 'PassThroughWalls'
+}
+
 Lootr.EntityComponents.FireSpread = {
 	name: 'FireSpread',
 	init: function() {

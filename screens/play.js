@@ -38,13 +38,11 @@ Lootr.Screen.playScreen = {
 
         // Draw messages
         var messages = this._player.getMessages();
-        var messageY = 20;
+        var messageY = 21;
         for(var i=0; i<messages.length; i++) {
-        	// Draw each message adding the number of lines
-        	messageY += display.drawText(
-        		0,
-        		messageY,
-        		'%c{white}%b{black}' + messages[i]);
+        	// Draw each message adding the number of lines        	
+            display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
+            messageY++
         }
 
     },
@@ -121,15 +119,17 @@ Lootr.Screen.playScreen = {
              display.drawText(82, statsY++, wear);
          }
 
+        // Current Player status'
+        statsY++;
         var status = "%c{yellow}%b{black}";
-         if(this._player.hasComponent('Flight') && this._player.isFlying()) {
-            //statsY++;
-            status += 'Flying ';
-            //display.drawText(82, statsY++, status);
+         if(this._player.hasComponent('Flight') && this._player.isFlying()) {    
+            status += 'Flying ';            
          }
-         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
-            statsY++;
+         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {            
             status += 'Invisible ';            
+         }  
+         if(this._player.hasComponent('PassThroughWalls')) {            
+            status += 'Walls ';            
          }  
 
          // Draw the total status string
