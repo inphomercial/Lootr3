@@ -9,7 +9,6 @@ get the game to restart on death
 be able to draw text directly to the screen from in screen
 more items slots besides equip and wear (hand & wear)
 add a way to remove/unequip items
-test out making an overworld map similar to shovelknight/smb
 player profile screen
 make send to near by function take a optional radius
 make it so enemies arent glued
@@ -28,7 +27,6 @@ springTrap listener/raiseEvent
 spike trap ^^^
            ^.^ <- trigger to spring surrounding spikes
            ^^^
-make gold a random amount
 entities turn red to indicate being hit
 fix up lose screen
 fix up win screen
@@ -45,9 +43,14 @@ tile objects can contains entities & items
 diggable item component
 allow for see invis
 doodad templates for map use
+spells & mana
+item stacking on same tile is broken...
 
 
 DONE
+Gold component for items & mobs
+make gold a random amount
+test out making an overworld map similar to shovelknight/smb
 Start of a working overworld with level selection
 passthroughwall component
 getter/setting for foreground/background/char

@@ -74,6 +74,7 @@ Lootr.EntityComponents.Flight = {
 		}		
 	},
 	fly: function() {
+
 		Lootr.sendMessage(this, 'You start to fly.');
 		Lootr.sendMessage(this, 'You speed up.');
 		this._isFlying = true;
@@ -127,21 +128,13 @@ Lootr.EntityComponents.FireBreather = {
 
 		var offset = (Math.round(Math.random()) === 1) ? 1 : -1
 
-		/*if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + offset)) {*/
 		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + offset)) {
-			var fire1 = Lootr.EntityRepository.create('fire');
-			/*fire1.setX(this.getX());
-			fire1.setY(this.getY()+offset);
-			this.getMap().addEntity(fire1);*/
+			var fire1 = Lootr.EntityRepository.create('fire');			
 			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire1);
 		}
-
-		/*if(this.getMap().isTileEmptyFloor(this.getX(), this.getY() + ++offset )) {*/
+		
 		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + ++offset )) {
 			var fire2 = Lootr.EntityRepository.create('fire');
-		/*	fire2.setX(this.getX());
-			fire2.setY(this.getY()+offset);
-			this.getMap().addEntity(fire2); */
 			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire2);
 		}
 	},
@@ -309,6 +302,11 @@ Lootr.EntityComponents.GoldHolder = {
 	listeners: {
 		onPickup: function(amount) {
 			this.modifyGoldBy(amount);
+		},
+		onDeath: function() {
+			var g = Lootr.ItemRepository.create('gold');	
+			g.modifyGoldBy(this._gold);
+			this.getMap().addItem(this.getX(), this.getY(), g);
 		}
 	}
 };
@@ -388,6 +386,7 @@ Lootr.EntityComponents.Equipper = {
 	init: function(template) {
 		this._weapon = null;
 		this._armor = null;
+		this._head = null;
 	},
 	wield: function(item) {
 		this._weapon = item;
@@ -396,7 +395,13 @@ Lootr.EntityComponents.Equipper = {
 		this._weapon = null;
 	},
 	wear: function(item) {
-		this._armor = item;
+		/*if(item._slot == Lootr.ITEM_SLOTS.BODY) {
+			this._armor = item;	
+		} else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
+			this._head = item;
+		}		*/
+
+		this._armor = item;	
 	},
 	takeOff: function() {
 		this._armor = null;

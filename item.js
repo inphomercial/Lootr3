@@ -7,6 +7,7 @@ Lootr.Item = function(args) {
 
 	// Instantiate any properties from the args
 	this._name = args['name'];
+	this._slot = args['slot'];
 };
 
  // Items inhert all functionality of glyphs

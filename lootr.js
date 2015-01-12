@@ -6,10 +6,20 @@ var Lootr =  {
     _mapScreenWidth: 80,
     _mapScreenHeight: 20,
     Screen: {},
+
+    ITEM_SLOTS: {
+    	HAND: 'hand',
+    	HEAD: 'head',
+    	BODY: 'body',
+    	FINGER: 'finger',
+    	FEET: 'feet'
+    },
+
     // storyFlags: {
     // 	finishCave: false,
     // 	finishCaveBoss: false
     // },
+    
 	init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,

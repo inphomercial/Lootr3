@@ -20,8 +20,8 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random entities
 	for(var i=0; i<225; i++) {
-		var entity = Lootr.EntityRepository.createRandom();
-        //var entity = Lootr.EntityRepository.create('ghost');
+		//var entity = Lootr.EntityRepository.createRandom();
+        var entity = Lootr.EntityRepository.create('dragon');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);
@@ -29,8 +29,9 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random items
 	for(var i=0; i<100; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
-        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('spike trap'));
+		//this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
+        this.addItemAtRandomPosition(Lootr.ItemRepository.create('robe'));
+        this.addItemAtRandomPosition(Lootr.ItemRepository.create('pumpkin'));
 	}
 
 	// Add weapons and armor to the map
@@ -83,36 +84,4 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
         }
     });
     return map;
-
-    ///////////////////////////////
-    // *** TESTING
- /*   var layout = [
-    	[1,2,1,1,1],
-    	[1,0,0,2,1],
-    	[1,1,2,1,1]
-    ];
-
-    var map = new Array(layout.length);
-	for (var y=0; y < layout.length; y++) {
-		map[y] = new Array(layout[0].length);
-	}
-
-    for(var y=0; y<layout.length; y++) {
-    	for(var x=0; x<layout[0].length; x++) {
-    		if(layout[y][x] === 1) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.wallTile);
-    		} else if(layout[y][x] === 2) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
-    		} else if(layout[y][x] === 0) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);
-    		} else {
-    			map[y][x] = Lootr.Tile.nullTile;
-    		}
-    	}
-    }
-
-    return map;*/
-    // **** END TESTING
-
-
 };

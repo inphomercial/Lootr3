@@ -115,11 +115,15 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		// update the entitys position
 		this.setPosition(x, y);
 
-		// Add gold
-		this.modifyGoldBy(1);
+		// Generate a random amount
+		// @todo Maybe make something like luck an attribute to multiply against		
+		var gold = map.getItemsAt(x, y);
+
+		// Add gold		
+		this.modifyGoldBy(gold[0].getGold());
 
 		// Notify of the pickup
-		Lootr.sendMessage(this, 'You pickup some gold');
+		Lootr.sendMessage(this, 'You pickup ' + gold[0].getGold() + ' gold');
 
 		// Remove it from game
 		map.removeItemFromTile(x, y, 'gold');

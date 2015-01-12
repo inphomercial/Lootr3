@@ -69,6 +69,19 @@ Lootr.ItemComponents.Edible = {
 	}
 };
 
+Lootr.ItemComponents.Gold = {
+	name: 'Gold',
+	init: function(template) {
+		this._value = template['gold'] || 1;
+	},
+	modifyGoldBy: function(amount) {
+		this._value += amount;
+	},
+	getGold: function() {
+		return this._value;
+	}
+};
+
 Lootr.ItemComponents.SpringTrap = {
 	name: 'SpringTrap',
 	init: function(template) {

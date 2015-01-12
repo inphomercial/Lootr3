@@ -55,7 +55,8 @@ Lootr.ItemRepository.define('potion', {
 Lootr.ItemRepository.define('gold', {
 	name: 'gold',
 	character: '$',
-	foreground: 'gold'	
+	foreground: 'gold',
+	components: [Lootr.ItemComponents.Gold]
 });
 
 // Weapons
@@ -65,6 +66,7 @@ Lootr.ItemRepository.define('dagger', {
 	foreground: 'gray',
 	attackValue: 5,
 	wieldable: true,
+	slot: Lootr.ITEM_SLOTS.HAND,
 	components: [Lootr.ItemComponents.Equippable],
 }, {
 	disableRandomCreation: false
@@ -75,6 +77,7 @@ Lootr.ItemRepository.define('robe', {
 	character: ']',
 	foreground: 'lightskyblue',
 	wearable: true,
+	slot: Lootr.ITEM_SLOTS.BODY,
 	defenseValue: 3,
 	components: [Lootr.ItemComponents.Equippable]
 });
@@ -85,6 +88,7 @@ Lootr.ItemRepository.define('club', {
 	foreground: 'gray',
 	attackValue: 7,
 	wieldable: true,
+	slot: Lootr.ITEM_SLOTS.HAND,
 	components: [Lootr.ItemComponents.Equippable],
 }, {
 	disableRandomCreation: false
@@ -100,6 +104,7 @@ Lootr.ItemRepository.define('pumpkin', {
 	comsumptions: 1,
 	wearable: true,
 	wieldable: true,
+	slot: Lootr.ITEM_SLOTS.HEAD,
 	components: [Lootr.ItemComponents.Equippable,
 			     Lootr.ItemComponents.Edible]
 });

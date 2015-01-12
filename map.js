@@ -198,16 +198,17 @@ Lootr.Map.prototype.isEntityAt = function(x, y) {
 	var result = this.getEntityAt(x, y);
 
 	return result;
-
-	/*if(result) {
-		return true;
-	}
-
-	return false;*/
 };
 
+Lootr.Map.prototype.isPlayerAt = function(x, y) {
+	var entity = this.getEntityAt(x, y);
 
-
+	if(entity.hasComponent('PlayerActor')) {
+		return true;
+	} else {
+		return false;
+	}
+};
 
 Lootr.Map.prototype.addItem = function(x, y, item) {
 	// If we already have items at that position, simply append the item to the list
