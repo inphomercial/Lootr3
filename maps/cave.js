@@ -20,8 +20,8 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random entities
 	for(var i=0; i<225; i++) {
-		//var entity = Lootr.EntityRepository.createRandom();
-        var entity = Lootr.EntityRepository.create('dragon');
+		var entity = Lootr.EntityRepository.createRandom();
+        //var entity = Lootr.EntityRepository.create('dragon');
 
 		// Add a random entity
 		this.addEntityAtRandomPosition(entity);
@@ -29,9 +29,9 @@ Lootr.Map.Cave = function(player) {
 
 	// Add random items
 	for(var i=0; i<100; i++) {
-		//this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
-        this.addItemAtRandomPosition(Lootr.ItemRepository.create('robe'));
-        this.addItemAtRandomPosition(Lootr.ItemRepository.create('pumpkin'));
+		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
+        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('robe'));
+        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('pumpkin'));
 	}
 
 	// Add weapons and armor to the map
