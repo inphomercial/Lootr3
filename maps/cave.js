@@ -1,8 +1,8 @@
 
 Lootr.Map.Cave = function(player) {
 
-	this._width = 10;
-	this._height = 10;
+	this._width = 20;
+	this._height = 20;
 
 	// Build Map
 	var tiles = this._generateLevel();

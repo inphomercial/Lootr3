@@ -7,10 +7,11 @@ Lootr.Builder = function() {
 Lootr.Builder.prototype._generateLevel = function() {
     // Create the empty map
     var pool = [        
-        [2,2,2,2],
-        [2,1,1,2],
-        [2,1,1,2],
-        [2,2,2,2]       
+        [3,3,3,3,3,3],
+        [3,2,2,2,2,3],
+        [3,2,1,1,2,3],
+        [3,2,1,1,2,3],
+        [3,2,2,2,2,3]       
     ];
 
     var map = new Array(pool.length);
@@ -24,14 +25,8 @@ Lootr.Builder.prototype._generateLevel = function() {
                 map[y][x] = new Lootr.Tile(Lootr.Tile.treeTile);
             } else if(pool[y][x] === 2) {
                 map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
-            } else if(pool[y][x] === 0) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);
             } else if(pool[y][x] === 3) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToCaveTile);            
-            } else if(pool[y][x] === 4) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToDesertTile);     
-             } else if(pool[y][x] === 5) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToBossCave);            
+                map[y][x] = new Lootr.Tile(Lootr.Tile.wallTile);            
             } else {
                 map[y][x] = Lootr.Tile.nullTile;
             }
