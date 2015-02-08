@@ -83,9 +83,21 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		}
 	}	
 
+	// Check if we found the exit to the overworld
+	else if(tile.getDescription() === Lootr.Tile.exitToOverworld.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the overworld
+		this.switchMap(new Lootr.Map.Overworld(this));
+	}	
+
 	// Check if we found the cave
+	else if(tile.getDescription() === Lootr.Tile.holeToBossCave.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the BossCavern
+		this.switchMap(new Lootr.Map.BossCavern(this));
+	}	
+
+	// Check if we found the BossCave
 	else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the boss canern
+		// Switch the entity to the Cave
 		this.switchMap(new Lootr.Map.Cave(this));
 	}	
 

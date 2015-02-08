@@ -1,13 +1,47 @@
-/*Lootr.Builder = function(width, height) {
-    this._width = width;
-    this._height = height;
-    this._tiles = new Array();
-    
-    // Create a new cave at each level
-    this._tiles = this._generateLevel();
+Lootr.Builder = function() {
+  // this.template = template;
+
+//   this._generateLevel(template);
 };
 
-Lootr.Builder.prototype.getTiles = function () {
+Lootr.Builder.prototype._generateLevel = function() {
+    // Create the empty map
+    var pool = [        
+        [2,2,2,2],
+        [2,1,1,2],
+        [2,1,1,2],
+        [2,2,2,2]       
+    ];
+
+    var map = new Array(pool.length);
+    for (var y=0; y < pool.length; y++) {
+        map[y] = new Array(pool[0].length);
+    }
+
+    for(var y=0; y<pool.length; y++) {
+        for(var x=0; x<pool[0].length; x++) {
+            if(pool[y][x] === 1) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.treeTile);
+            } else if(pool[y][x] === 2) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
+            } else if(pool[y][x] === 0) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);
+            } else if(pool[y][x] === 3) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToCaveTile);            
+            } else if(pool[y][x] === 4) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToDesertTile);     
+             } else if(pool[y][x] === 5) {
+                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToBossCave);            
+            } else {
+                map[y][x] = Lootr.Tile.nullTile;
+            }
+        }
+    }
+
+    return map;
+};
+
+/*Lootr.Builder.prototype.getTiles = function () {
     return this._tiles;
 };
 
@@ -41,6 +75,4 @@ Lootr.Builder.prototype._generateLevel = function() {
             map[x][y] = Lootr.Tile.wallTile;
         }
     });
-    return map;
-};*/
-
+    return map;*/

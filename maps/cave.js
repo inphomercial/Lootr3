@@ -1,50 +1,33 @@
 
 Lootr.Map.Cave = function(player) {
 
-	this._width = 100;
-	this._height = 100;
+	this._width = 10;
+	this._height = 10;
 
 	// Build Map
 	var tiles = this._generateLevel();
 
 	// Call the Map constructor
 	Lootr.Map.call(this, tiles);
+	
+    // Add exit back to overworld  
+    var pos = this.getRandomFloorPosition();
+    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
 
-	// Add the player
-	this.addEntityAtRandomPosition(player);
+    // Try to add pool to level
+    var builder = new Lootr.Builder();
+    var pool = builder._generateLevel();
 
+    this.addSegment(pool);
 
-    // Add purposeful entities
-    var dragon = Lootr.EntityRepository.create('dragon');
-    this.addEntityAtRandomPosition(dragon);
+    // Add the player
+    this.addEntityAtRandomPosition(player);
 
-	// Add random entities
-	for(var i=0; i<225; i++) {
-		var entity = Lootr.EntityRepository.createRandom();
-        //var entity = Lootr.EntityRepository.create('dragon');
+    // Add entities
+    //this.addEntityByTypeAndAmount('bat', 200);
 
-		// Add a random entity
-		this.addEntityAtRandomPosition(entity);
-	}
-
-	// Add random items
-	for(var i=0; i<100; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
-        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('robe'));
-        //this.addItemAtRandomPosition(Lootr.ItemRepository.create('pumpkin'));
-	}
-
-	// Add weapons and armor to the map
-	/*var templates = ['dagger', 'club'];
-
-	for(var i=0; i<templates.length; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
-	}*/
-
-	// Add a hole
-	//var holePosition = this.getRandomFloorPosition();
-	//this._tiles[holePosition.x][holePosition.y] = Lootr.Tile.holeToCavernTile;
-	//this._tiles[player.getX() + 3][player.getY() + 3] = new Lootr.Tile(Lootr.Tile.holeToCavernTile);
+    // Add items
+    //this.addItemByTypeAndAmount('robe', 200);
 };
 
 Lootr.Map.Cave.extend(Lootr.Map);

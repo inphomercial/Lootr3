@@ -68,6 +68,15 @@ Lootr.Tile.sandTile = {
 	description: 'Sand'
 };
 
+Lootr.Tile.treeTile = {
+	character: '^',
+	foreground: 'green',
+	blocksLight: true,
+	walkable: false,
+	ground: false,
+	description: 'Trees'
+};
+
 Lootr.Tile.rockTile = {
 	character: '*',
 	foreground: 'white',
@@ -92,6 +101,23 @@ Lootr.Tile.waterTile = {
 	itemSpawnable: false,
 	blocksLight: false,
 	description: 'Murky water'
+};
+
+Lootr.Tile.exitToOverworld = {
+	character: 'o',
+	foreground: 'red',
+	walkable: true,
+	blocksLight: false,
+	description: 'An exit back outside'
+};
+
+// Overworld Tiles
+Lootr.Tile.holeToBossCave = {
+	character: 'O',
+	foreground: 'grey',
+	walkable: true,
+	blocksLight: false,
+	description: 'A dark opening'
 };
 
 Lootr.Tile.holeToCaveTile = {

@@ -5,7 +5,6 @@ Lootr.Map.BossCavern = function() {
 
 	// Create the giant zombie
 	var zombie = Lootr.EntityRepository.create('zombie');
-
     this.addEntityAtRandomPosition(zombie);
 };
 
