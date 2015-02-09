@@ -1,9 +1,6 @@
 
 Lootr.Map.Overworld = function(player) {
 
-	//this._width = 100;
-	//this._height = 100;
-
 	// Build Map
 	var tiles = this._generateLevel();
 
@@ -11,25 +8,46 @@ Lootr.Map.Overworld = function(player) {
 	Lootr.Map.call(this, tiles);
 
 	// Add the player
-	this.addEntityAtRandomPosition(player);
-	//this.addEntityAt(4, 4, player);
+	//this.addEntityAtRandomPosition(player);	
+	this.addEntityAt(10, 26, player);
 };
 
 Lootr.Map.Overworld.extend(Lootr.Map);
 
 Lootr.Map.Overworld.prototype._generateLevel = function() {
+
 	// Create the empty map
     var layout = [
-	    [1,1,1,1,1,1,1,1,1,1],
-	    [1,1,1,1,1,1,1,5,1,1],
-	    [1,1,1,1,1,1,1,0,1,1],
-	    [1,1,1,1,0,0,0,0,1,1],
-    	[1,1,1,1,1,1,1,0,1,1],
-    	[1,1,1,1,1,1,1,0,1,1],
-        [1,0,0,0,0,0,0,0,1,1],
-        [1,1,1,0,1,1,1,0,1,1],
-        [1,1,1,3,1,1,1,4,1,1],
-        [1,1,1,1,1,1,1,1,1,1]       
+	    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	    [0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	    [0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,3,0,0,0,4,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0],       
+        [0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
+	    [0,0,0,0,0,0,0,5,0,0,0,6,0,0,0,0,0,0,6,6,0,0,0,0],
+	    [0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,0,0],
+	    [0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,6,0,0,0,0,0,0,0],
+    	[0,0,0,0,0,0,0,0,0,0,0,0,0,6,6,0,6,0,0,0,0,0,0,0],
+    	[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0],
+        [0,0,0,3,0,0,0,4,0,0,0,0,0,0,0,0,8,1,1,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,7,0,1,7,7,6,1,1,0,1,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,7,0,1,7,7,6,1,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,1,0,0,7,0,7,7,7,6,1,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,1,7,0,7,7,6,0,0,0,0,0,0,0,0,0],
+        [7,7,7,7,7,7,7,7,7,1,7,0,7,6,0,0,0,0,0,0,0,0,0,0],
+        [1,1,1,7,1,1,7,7,7,7,7,0,7,6,0,0,0,0,0,0,0,0,0,0],
+        [7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [7,7,9,9,9,9,9,9,7,0,7,7,9,9,9,9,9,0,0,0,0,0,0,0],
+        [9,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,0,0,0,0,0],
+        [10,10,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0],
+        [6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6],
     ];
 
     var map = new Array(layout.length);
@@ -37,22 +55,32 @@ Lootr.Map.Overworld.prototype._generateLevel = function() {
 		map[y] = new Array(layout[0].length);
 	}
 
-    for(var y=0; y<layout.length; y++) {
-    	for(var x=0; x<layout[0].length; x++) {
+    for(var y=0; y<map.length; y++) {
+    	for(var x=0; x<map[y].length; x++) {
     		if(layout[y][x] === 1) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.treeTile);
+    			map[x][y] = new Lootr.Tile(Lootr.Tile.treeTile);
     		} else if(layout[y][x] === 2) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
+    			map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);
     		} else if(layout[y][x] === 0) {
-    			map[y][x] = new Lootr.Tile(Lootr.Tile.floorTile);
+    			map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
             } else if(layout[y][x] === 3) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToCaveTile);            
+                map[x][y] = new Lootr.Tile(Lootr.Tile.holeToCaveTile);            
             } else if(layout[y][x] === 4) {
-                map[y][x] = new Lootr.Tile(Lootr.Tile.holeToDesertTile);     
-             } else if(layout[y][x] === 5) {
-            	map[y][x] = new Lootr.Tile(Lootr.Tile.holeToBossCave);            
+                map[x][y] = new Lootr.Tile(Lootr.Tile.holeToDesertTile);     
+            } else if(layout[y][x] === 5) {
+            	map[x][y] = new Lootr.Tile(Lootr.Tile.holeToBossCave);                  
+            } else if(layout[y][x] === 6) {
+                map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);    
+            } else if(layout[y][x] === 7) {
+            	map[x][y] = new Lootr.Tile(Lootr.Tile.grassTile);    
+            } else if(layout[y][x] === 8) {
+            	map[x][y] = new Lootr.Tile(Lootr.Tile.bridgeTile);        
+           	} else if(layout[y][x] === 9) {
+            	map[x][y] = new Lootr.Tile(Lootr.Tile.sandTile);
+            } else if(layout[y][x] === 10) {
+            	map[x][y] = new Lootr.Tile(Lootr.Tile.shallowWaterTile);                
     		} else {
-    			map[y][x] = Lootr.Tile.nullTile;
+    			map[x][y] = Lootr.Tile.nullTile;
     		}
     	}
     }
