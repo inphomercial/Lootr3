@@ -16,6 +16,23 @@ Lootr.Tile.wallTile = {
 	description: 'A Cave wall'
 };
 
+Lootr.Tile.snowTile = {
+	character: '~',
+	foreground: 'white',	
+	walkable: true,
+	blocksLight: false,
+	ground: true,	
+	description: 'Snow'
+};
+
+Lootr.Tile.mountainTile = {
+	character: 'M',
+	foreground: 'brown',	
+	walkable: false,
+	blocksLight: true,	
+	description: 'A Big Mountain'
+};
+
 Lootr.Tile.grassTile = {
 	character: ',',	
 	foreground: 'lightgreen',
