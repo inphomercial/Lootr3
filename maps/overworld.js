@@ -7,8 +7,7 @@ Lootr.Map.Overworld = function(player) {
 	// Call the Map constructor
 	Lootr.Map.call(this, tiles);
 
-	// Add the player
-	//this.addEntityAtRandomPosition(player);	
+	// Add the player	
 	this.addEntityAt(10, 26, player);
 };
 
