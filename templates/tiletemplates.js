@@ -33,6 +33,15 @@ Lootr.Tile.shallowWaterTile = {
 	description: 'Shallow Water'
 };
 
+Lootr.Tile.roadTile = {
+	character: '.',	
+	foreground: 'grey',
+	//background: 'slategray',
+	walkable: true,
+	blocksLight: false,
+	description: 'Road path'
+};
+
 Lootr.Tile.bridgeTile = {
 	character: '=',	
 	foreground: 'brown',

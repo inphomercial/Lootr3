@@ -9,9 +9,18 @@ Lootr.Builder.Pool = {
     layout: [        
         [1,1,1,1,1,1],
         [1,2,2,2,2,1],
-        [1,2,3,3,2,1],
+        [1,2,{},3,2,1],
         [1,2,3,3,2,1],
         [1,2,2,2,2,1]       
+    ],
+    special: [
+    	{     		
+	    	pos: {x: 2, y: 2},
+    	    run: function(map) {
+	    	  map[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);	    	  	
+	    	  console.log("Still running the special");
+    	  	}
+    	}
     ]
 };
 
