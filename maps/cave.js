@@ -30,6 +30,9 @@ Lootr.Map.Cave = function(player) {
 
     // Add items
     this.addItemByTypeAndAmount('robe', 2);
+
+    // Add Orb
+    this.addItemByTypeAndAmount('Red Orb', 1);
 };
 
 Lootr.Map.Cave.extend(Lootr.Map);

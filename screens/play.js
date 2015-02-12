@@ -70,6 +70,33 @@ Lootr.Screen.playScreen = {
     renderStats: function(display) {
         var statsY = 1;
 
+        // Draw Obtained Orbs
+        var orbs = this._player.hasOrbs();
+        display.drawText(101, statsY, "Orbs");
+        if(orbs.red) {
+            display.drawText(102, statsY + 2, "%c{red}O");    
+        } else {
+            display.drawText(102, statsY + 2, "%c{grey}o");    
+        }
+    
+        if(orbs.yellow) {
+            display.drawText(100, statsY + 3, "%c{yellow}O");    
+        } else {
+            display.drawText(100, statsY + 3, "%c{grey}o");    
+        }
+        
+        if(orbs.green) {
+            display.drawText(104, statsY + 3, "%c{green}O");    
+        } else {
+            display.drawText(104, statsY + 3, "%c{grey}o");    
+        }
+
+        if(orbs.blue) {
+            display.drawText(102, statsY + 4, "%c{blue}O");    
+        } else {
+            display.drawText(102, statsY + 4, "%c{grey}o");
+        }
+        
         var name = '%c{#91AA9D}%b{black}';
         name += 'Name: %c{#CCB4B0}Inpho';
         display.drawText(82, statsY++, name);
@@ -387,6 +414,9 @@ Lootr.Screen.playScreen = {
                     var item = items[0];
                     if(this._player.pickupItems([0])) {
                         Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
+
+                        // We need to do the item.act if it has one
+                        item.act();
                     } else {
                         Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
                     }

@@ -4,6 +4,15 @@ Lootr.ItemRepository = {};
 // Create our central Item template repository
 Lootr.ItemRepository = new Lootr.Repository('items', Lootr.Item);
 
+// Orbs
+Lootr.ItemRepository.define('Red Orb', {
+	name: 'Red Orb',
+	character: '@',
+	foreground: 'red',
+}, {
+	disableRandomCreation: true
+});
+
 
 // Edibles
 Lootr.ItemRepository.define('apple', {

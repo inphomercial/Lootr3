@@ -6,6 +6,34 @@ Lootr.EntityComponents.Moveable = {
 	groupName: 'Moveable',
 }
 
+Lootr.EntityComponents.Orbs = {
+	name: 'Orbs',
+	groupName: 'Orbs',
+	init: function(template) {
+		this._redOrb = template['red'] || false;
+		this._blueOrb = false;
+		this._greenOrb = false;
+		this._yellowOrb = false;
+	},
+	hasOrbs: function() {
+		var orbs = {
+			red: this._redOrb,
+			blue: this._blueOrb,
+			green: this._greenOrb,
+			yellow: this._yellowOrb
+		};
+
+		return orbs;
+	},
+	listeners: {
+		onPickup: function(orb) {						
+			if(orb.name == "Red Orb") {
+				this._redOrb = true;
+			}
+		}
+	}
+};
+
 Lootr.EntityComponents.TaskActor = {
 	name: 'TaskActor',
 	groupName: 'Actor',

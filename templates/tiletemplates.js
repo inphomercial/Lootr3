@@ -47,7 +47,16 @@ Lootr.Tile.snowTile = {
 	walkable: true,
 	blocksLight: false,
 	ground: true,	
-	description: 'Snow'
+	description: 'Heavy snow'
+};
+
+Lootr.Tile.lightSnowTile = {
+	character: '.',
+	foreground: 'white',	
+	walkable: true,
+	blocksLight: false,
+	ground: true,
+	description: 'Light snow'
 };
 
 Lootr.Tile.mountainTile = {

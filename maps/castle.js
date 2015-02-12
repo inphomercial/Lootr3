@@ -16,6 +16,8 @@ Lootr.Map.Castle = function(player) {
 
     this.addItemByTypeAndAmount('robe', 4);
 
+    this.addItemByTypeAndAmount('Red Orb', 1);
+
 	// Add the player
 	//this.addEntityAt(10, 6, player);
     this.addEntityAtRandomPosition(player);    

@@ -5,6 +5,7 @@ Lootr.TemplatePlayer = {
 	foreground: 'yellow',
 	background: 'black',
 	sightRadius: 10,
+	red: true,
 	maxHp: 100,
 	inventorySlots: 20,
 	components: [Lootr.EntityComponents.PlayerActor, 
@@ -19,6 +20,7 @@ Lootr.TemplatePlayer = {
 				 Lootr.EntityComponents.Equipper,				 				 
 				 Lootr.EntityComponents.Flight,
 				 Lootr.EntityComponents.Invisiblity,
+				 Lootr.EntityComponents.Orbs,
 				 Lootr.EntityComponents.ExperienceGainer,
 				 Lootr.EntityComponents.PlayerStatGainer]
 }
