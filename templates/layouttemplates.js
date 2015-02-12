@@ -25,6 +25,7 @@ Lootr.Builder.Pool = {
 };
 
 Lootr.Builder.Stream = {
+    size: {x: 5, y: 5},
 	layout: [
 		[0,0,0,2,0],
         [0,0,2,2,0],
@@ -35,6 +36,7 @@ Lootr.Builder.Stream = {
 }
 
 Lootr.Builder.GemTreasure = {
+    size: {x: 5, y: 5},
 	layout: [
 		[4,4,4,4,4],
         [4,0,0,0,4],

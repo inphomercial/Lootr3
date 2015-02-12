@@ -27,7 +27,7 @@ Lootr.Map.Overworld.prototype._generateLevel = function() {
         [0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,3,0,0,0,4,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,13,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0],
 	    [0,0,0,0,0,0,0,5,0,0,0,6,0,0,0,0,0,0,6,6,0,0,0,0],
 	    [7,7,7,6,7,7,0,0,0,0,0,6,0,1,12,12,1,6,7,7,0,0,0,0],
 	    [7,7,6,6,7,1,0,0,0,0,0,0,6,0,7,12,6,7,7,0,0,0,0,0],
@@ -81,7 +81,9 @@ Lootr.Map.Overworld.prototype._generateLevel = function() {
             } else if(layout[y][x] === 11) {
                 map[x][y] = new Lootr.Tile(Lootr.Tile.snowTile);    
             } else if(layout[y][x] === 12) {
-                map[x][y] = new Lootr.Tile(Lootr.Tile.mountainTile);                
+                map[x][y] = new Lootr.Tile(Lootr.Tile.mountainTile);    
+            } else if(layout[y][x] === 13) {
+                map[x][y] = new Lootr.Tile(Lootr.Tile.holeToCastleTile);                
     		} else {
     			map[x][y] = Lootr.Tile.nullTile;
     		}

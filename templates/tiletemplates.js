@@ -16,6 +16,31 @@ Lootr.Tile.wallTile = {
 	description: 'A Cave wall'
 };
 
+Lootr.Tile.castleWallTile = {
+	character: '#',
+	foreground: 'yellow',
+	background: 'slategray',
+	description: 'A Castle Wall'
+};
+
+Lootr.Tile.castleDoorTile = {
+	character: '#',
+	foreground: 'brown',	
+	background: 'brown',
+	diggable: true,
+	description: 'A Castle door'
+};
+
+Lootr.Tile.castleFloorTile = {
+	character: '.',
+	foreground: 'gray',
+	background: 'gray',
+	walkable: true,
+	blocksLight: false,
+	ground: true,
+	description: 'A Castle Floor Tile'
+};
+
 Lootr.Tile.snowTile = {
 	character: '~',
 	foreground: 'white',	
@@ -142,4 +167,12 @@ Lootr.Tile.holeToDesertTile = {
 	walkable: true,
 	blocksLight: false,
 	description: 'A desert opening'
+};
+
+Lootr.Tile.holeToCastleTile = {
+	character: 'O',
+	foreground: 'purple',
+	walkable: true,
+	blocksLight: false,
+	description: 'A Castle opening'
 };

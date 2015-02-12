@@ -95,6 +95,12 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		this.switchMap(new Lootr.Map.BossCavern(this));
 	}	
 
+	// Check if we found the castle
+	else if(tile.getDescription() === Lootr.Tile.holeToCastleTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+		// Switch the entity to the Castle
+		this.switchMap(new Lootr.Map.Castle(this));
+	}	
+
 	// Check if we found the BossCave
 	else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the Cave

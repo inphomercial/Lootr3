@@ -9,13 +9,13 @@ Lootr.Builder = function(args) {
     this.map;
 };
 
-Lootr.Builder.prototype.generate = function() {    
-    this.generateLayout();
+Lootr.Builder.prototype.generate = function(size) {    
+    this.generateLayout(size);
     this.generateSpecial();
     return this.map;
 };
 
-Lootr.Builder.prototype.generateLayout = function() {
+Lootr.Builder.prototype.generateLayout = function(size) {
 
     this.map = new Array(this.layout.length);
     for (var y=0; y < this.layout.length; y++) {

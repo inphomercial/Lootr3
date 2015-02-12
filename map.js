@@ -77,12 +77,14 @@ Lootr.Map.prototype.getEntityAt = function(x, y) {
 
 // Checks to ensure that the segment wont go out of bounds
 // Adds it to the map using y then x of segment.
-Lootr.Map.prototype.addSegment = function(segment) {
+Lootr.Map.prototype.addSegment = function(segment, pos) {
 
 	do 
 	{
-		// Get a random floor position
-		var pos = this.getRandomFloorPosition();
+		if(pos == undefined) {
+			// Get a random floor position
+			var pos = this.getRandomFloorPosition();
+		}
 
 		// Need to add a check to ensure it's not going to go out of bounds!
 		var tile = this.getTile(pos.x + segment[0].length, pos.y + segment.length);
