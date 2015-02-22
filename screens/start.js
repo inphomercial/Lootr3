@@ -5,9 +5,7 @@ Lootr.Screen.startScreen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // Render our prompt to the screen
-        console.log(display);
-
-        display.drawText((display._options.width / 2) - 14, 10, "                        L O O T r 2014                     ");
+        display.drawText((display._options.width / 2) - 14, 10, "                        L O O T r 2014-2015                ");
         display.drawText((display._options.width / 2) - 14, 11, "                    Press [Enter] to start                 ");
     },
     handleInput: function(inputType, inputData) {

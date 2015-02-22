@@ -115,8 +115,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
 	// check if tile is not ground (a wall) and have PassThroughWalls
 	else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
-		// update the entitys position
-
 		// Make sure the entitys position is within bounds
 		if(x < 0 || x >= this.getMap()._width ||
 		   y < 0 || y >= this.getMap()._height) {
@@ -126,7 +124,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		// If we are inbounds, update pos.
 		this.setPosition(x, y);
 	}
-
 
 	// Check if we are standing on gold
 	else if(tile.isWalkable() && this.hasComponent(Lootr.EntityComponents.GoldHolder) && map.tileContainsItem(x, y, 'gold')) {
@@ -147,19 +144,24 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		map.removeItemFromTile(x, y, 'gold');
 	}
 
-	// Check for trap
-	else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap') && !this.hasComponent('Flight')) {
-		var trap = map.getItemsAt(x, y, 'spike trap');
+	// Check for trap	
+	else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap')) {
+		if(!this.hasComponent('Flight') || !this.isFlying()) {
+			var trap = map.getItemsAt(x, y, 'spike trap');
 
-		// update the entitys position
-		this.setPosition(x, y);
+			// update the entitys position
+			this.setPosition(x, y);
 
-		// Trap will spring, updating the tile character
-		// damaging entity
-		// sending messing		
-		trap[0].springTrap(this);
+			// Trap will spring, updating the tile character
+			// damaging entity
+			// sending messing		
+			trap[0].springTrap(this);
 
-		return true;
+			return true;
+		} else {
+			// update the entitys position
+			this.setPosition(x, y);
+		}
 	}
 
 	// Check for GROUND tile while having flight

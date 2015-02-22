@@ -9,13 +9,13 @@ Lootr.Builder = function(args) {
     this.map;
 };
 
-Lootr.Builder.prototype.generate = function(size) {    
-    this.generateLayout(size);
-    this.generateSpecial();
+Lootr.Builder.prototype.generate = function(global_map) {    
+    this.generateLayout();
+    this.generateSpecial(global_map);
     return this.map;
 };
 
-Lootr.Builder.prototype.generateLayout = function(size) {
+Lootr.Builder.prototype.generateLayout = function() {
 
     this.map = new Array(this.layout.length);
     for (var y=0; y < this.layout.length; y++) {
@@ -64,12 +64,12 @@ Lootr.BuilderTemplate = function(args) {
 // Make dynamic inherit all functionality from glyphs
 Lootr.BuilderTemplate.extend(Lootr.Builder);
 
-Lootr.BuilderTemplate.prototype.generateSpecial = function() {
+Lootr.BuilderTemplate.prototype.generateSpecial = function(global_map) {
 
     if(this.special != undefined) {
         for(var i=0; i<this.special.length; i++) {            
             //this.special[i].run(map_level);            
-            this.special[i].run(this.map);            
+            this.special[i].run(this.map, global_map);            
         }    
     }
     

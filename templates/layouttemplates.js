@@ -16,8 +16,9 @@ Lootr.Builder.Pool = {
     special: [
     	{     		
 	    	pos: {x: 2, y: 2},
-    	    run: function(map) {
-	    	  map[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);	    	  	
+    	    run: function(layout, map) {
+	    	  layout[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);	 
+              map.addItem(this.pos.x, this.pos.y, Lootr.ItemRepository.create('robe'))   	  	;              
 	    	  console.log("Still running the special");
     	  	}
     	}

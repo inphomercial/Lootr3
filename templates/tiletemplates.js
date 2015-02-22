@@ -146,7 +146,7 @@ Lootr.Tile.waterTile = {
 };
 
 Lootr.Tile.exitToOverworld = {
-	character: 'o',
+	character: '>',
 	foreground: 'red',
 	walkable: true,
 	blocksLight: false,
