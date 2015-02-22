@@ -1,8 +1,8 @@
 
 Lootr.Map.Desert = function(player) {
 
-	this._width = 100;
-	this._height = 100;
+	this._width = 30;
+	this._height = 30;
 
 	// Build Map
 	//var tiles = new Lootr.Builder(this._width, this._height).getTiles();
@@ -15,7 +15,7 @@ Lootr.Map.Desert = function(player) {
 	this.addEntityAtRandomPosition(player);
 
 	// Add random entities
-	for(var i=0; i<50; i++) {
+	for(var i=0; i<5; i++) {
 		var entity = Lootr.EntityRepository.createRandom();
 
 		// Add a random entity
@@ -34,10 +34,12 @@ Lootr.Map.Desert = function(player) {
 		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
 	}
 
-	// Add a hole
-	//var holePosition = this.getRandomFloorPosition();
-	//this._tiles[holePosition.x][holePosition.y] = Lootr.Tile.holeToCavernTile;
-	//this._tiles[player.getX() + 3][player.getY() + 3] = Lootr.Tile.holeToCavernTile;
+	// Add Orb
+    this.addItemByTypeAndAmount('Yellow Orb', 1);
+
+    // Add exit back to overworld  
+    var pos = this.getRandomFloorPosition();
+    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
 };
 
 Lootr.Map.Desert.extend(Lootr.Map);

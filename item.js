@@ -12,3 +12,9 @@ Lootr.Item = function(args) {
 
  // Items inhert all functionality of glyphs
 Lootr.Item.extend(Lootr.DynamicGlyph);
+
+Lootr.Item.prototype.pickup = function() {
+	for(var i=0; i<this._attachedComponents.length; i++) {
+		this._attachedComponents[i].pickup();
+	}
+}

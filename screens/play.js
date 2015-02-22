@@ -202,8 +202,12 @@ Lootr.Screen.playScreen = {
                         // Check for items first since we want to draw entities over them
                         var items = map.getItemsAt(x, y);
 
+                        // Sometimes getItemsAt can return 1 or more
+                        if(items.length === 1) {
+                            glyph = items[0];
+
                         // If we have items, render the last one
-                        if(items) {
+                        } else if (items.length > 1) {
                             glyph = items[items.length -1];
                         }
 
@@ -248,6 +252,12 @@ Lootr.Screen.playScreen = {
         }
     },
     handleInput: function(inputType, inputData) {
+
+        // First thing to check is if we have all the orbs
+        if(this._player.hasAllOrbs()) {
+            Lootr.switchScreen(Lootr.Screen.winScreen);
+        }
+
         // If the game si over, enter will bring the user to the loser screen
         if(this._gameEnded) {
             if(inputType === 'keydown' && inputData.keyCode === ROT.VK_RETURN) {
@@ -403,29 +413,42 @@ Lootr.Screen.playScreen = {
                 this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');
                 return;
 
+            /**
+             * Attempt to pick up items that you are standing on
+             */
             } else if (inputData.keyCode === ROT.VK_COMMA) {
+                
                 var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
+               
                 // If there are no items, show a message
-                if(!items) {
+                if(!items) {                    
                     Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
                     Lootr.refresh();
-                } else if (items.length === 1) {
-                    // If only one item, try to pick it up
-                    var item = items[0];
-                    if(this._player.pickupItems([0])) {
-                        Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
+                    return;
+                } 
 
-                        // We need to do the item.act if it has one
-                        item.act();
+                // If only one item
+                if(items.length === 1) {
+                    var item = items[0];
+                    if(this._player.pickupItem(item)) {
+                        Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
+                         
+                        item.raiseEvent("pickup");
                     } else {
                         Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
                     }
+    
+                // Multiple items in current tile
                 } else {
                     // Show the pickup screen if there are many items
                     Lootr.Screen.pickupScreen.setup(this._player, items);
                     this.setSubScreen(Lootr.Screen.pickupScreen);
                     return;
                 }
+
+            /** 
+             * Not a key that is currenly set for an action
+             */
             } else {
                 // not a valid key
                 Lootr.sendMessage(this._player, 'Not a valid key..');

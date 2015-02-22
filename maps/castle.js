@@ -12,14 +12,17 @@ Lootr.Map.Castle = function(player) {
                              .generate(),
                              {x: 3, y: 3});
 
+    // Add exit back to overworld  
+    var pos = this.getRandomFloorPosition();
+    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
+
     this.addEntityByTypeAndAmount('slime', 5);
 
     this.addItemByTypeAndAmount('robe', 4);
 
-    this.addItemByTypeAndAmount('Red Orb', 1);
+    this.addItemByTypeAndAmount('Blue Orb', 1);
 
 	// Add the player
-	//this.addEntityAt(10, 6, player);
     this.addEntityAtRandomPosition(player);    
 };
 

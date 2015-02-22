@@ -1,3 +1,15 @@
+
+/**
+ * All items should utilize the following for event based actions
+ * init: used to set data when the item is created (such as when a map is generated this fires for all items)
+ * listeners: {
+ *     details: function() used to allow for a description of the item
+ *	   pickup: function() called when the item is picked up
+ *     drop: function() called when the item is dropped
+ *
+ * To call these, use the item object and call ITEM.raiseEvent("listening event name")
+ */
+
 Lootr.ItemComponents = {};
 
 // Quaffable ItemComponent
@@ -68,6 +80,28 @@ Lootr.ItemComponents.Edible = {
 		}
 	}
 };
+
+Lootr.ItemComponents.Orb = {
+	name: 'Orb',
+	init: function(template) {
+		this._name = template['name'];
+	},	
+	listeners: {
+		details: function() {
+			return [{key: 'Orb', value: "A very magical feeling ball of glass."}];
+		},
+		pickup: function() {
+			console.log("picked up!");
+			var player = Lootr.Screen.playScreen._player;
+			player.raiseEvent('pickupOrb', this);
+		},
+		drop: function() {
+			console.log("droped item");
+			var player = Lootr.Screen.playScreen._player;
+			player.raiseEvent('dropOrb', this);
+		}
+	}
+}
 
 Lootr.ItemComponents.Gold = {
 	name: 'Gold',

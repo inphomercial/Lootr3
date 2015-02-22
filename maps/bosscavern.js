@@ -1,11 +1,20 @@
 
-Lootr.Map.BossCavern = function() {
+Lootr.Map.BossCavern = function(player) {
 	// Call the Map constructor
 	Lootr.Map.call(this, this._generateTiles(80, 24));
 
 	// Create the giant zombie
 	var zombie = Lootr.EntityRepository.create('zombie');
     this.addEntityAtRandomPosition(zombie);
+
+    // Add the player
+    this.addEntityAtRandomPosition(player);
+
+    // Add exit back to overworld  
+    var pos = this.getRandomFloorPosition();
+    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
+
+    this.addItemByTypeAndAmount('Green Orb', 1);
 };
 
 Lootr.Map.BossCavern.extend(Lootr.Map);
@@ -52,7 +61,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 
 	// Now we determine the radius of the cave to carve out
 	var radius = (Math.min(width, height) - 2) / 2;
-	this._fillCircle(tiles, width / 2, height / 2, radius, Lootr.Tile.floorTile);
+	this._fillCircle(tiles, width / 2, height / 2, radius, new Lootr.Tile(Lootr.Tile.floorTile));
 
 	// Now we randomly position lakes (3-6 lakes)
 	var lakes = Math.round(Math.random() * 3) + 3;
@@ -69,7 +78,7 @@ Lootr.Map.BossCavern.prototype._generateTiles = function(width, height) {
 		var radius = Math.floor(Math.random() * maxRadius) + 1;
 
 		// Position the lake
-		this._fillCircle(tiles, centerX, centerY, radius, Lootr.Tile.waterTile);
+		this._fillCircle(tiles, centerX, centerY, radius, new Lootr.Tile(Lootr.Tile.waterTile));
 	}
 
 	// Return the tiles in an array as we only have 1 depth level

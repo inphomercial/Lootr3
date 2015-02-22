@@ -10,25 +10,57 @@ Lootr.EntityComponents.Orbs = {
 	name: 'Orbs',
 	groupName: 'Orbs',
 	init: function(template) {
-		this._redOrb = template['red'] || false;
+		this._redOrb = false;
 		this._blueOrb = false;
 		this._greenOrb = false;
 		this._yellowOrb = false;
 	},
 	hasOrbs: function() {
-		var orbs = {
+		return orbs = {
 			red: this._redOrb,
 			blue: this._blueOrb,
 			green: this._greenOrb,
 			yellow: this._yellowOrb
-		};
-
-		return orbs;
+		};		
+	},
+	hasAllOrbs: function() {
+		if(this._redOrb && this._blueOrb && this._greenOrb && this._yellowOrb) {
+			return true;
+		}
 	},
 	listeners: {
-		onPickup: function(orb) {						
-			if(orb.name == "Red Orb") {
+		pickupOrb: function(orb) {						
+			if(orb.getName() == "Red Orb") {
 				this._redOrb = true;
+			}
+
+			if(orb.getName() == "Blue Orb") {
+				this._blueOrb = true;
+			}
+
+			if(orb.getName() == "Green Orb") {
+				this._greenOrb = true;
+			}
+
+			if(orb.getName() == "Yellow Orb") {
+				this._yellowOrb = true;
+			}
+		},
+		dropOrb: function(orb) {
+			if(orb.getName() == "Red Orb") {
+				this._redOrb = false;
+			}
+
+			if(orb.getName() == "Blue Orb") {
+				this._blueOrb = false;
+			}
+
+			if(orb.getName() == "Green Orb") {
+				this._greenOrb = false;
+			}
+
+			if(orb.getName() == "Yellow Orb") {
+				this._yellowOrb = false;
 			}
 		}
 	}
@@ -856,6 +888,16 @@ Lootr.EntityComponents.InventoryHolder = {
 
 		return false;
 	},
+	pickupItem: function(item) {
+		if (this.addItem(item)) {
+			// Update the map items
+			this._map.setItemsAt(this.getX(), this.getY(), item);
+			return true;
+		} else {
+			// Inventory is full
+			return false;
+		}
+	},
 	pickupItems: function(indices) {
 		// Allows the user to pickup items from the map, where indices
 		// is the indices for the array returned by map.getItemsAt
@@ -890,7 +932,11 @@ Lootr.EntityComponents.InventoryHolder = {
 				// Put item back on map
 				this._map.addItem(this.getX(), this.getY(), this._items[i]);
 
+				// Send player notification
 				Lootr.sendMessage(this, 'You drop %s', [this._items[i].describeA()]);
+
+				// Raise drop event for item
+				this._items[i].raiseEvent("drop");
 			}
 		}
 

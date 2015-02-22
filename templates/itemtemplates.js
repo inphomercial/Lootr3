@@ -9,10 +9,37 @@ Lootr.ItemRepository.define('Red Orb', {
 	name: 'Red Orb',
 	character: '@',
 	foreground: 'red',
+	components: [Lootr.ItemComponents.Orb]
 }, {
 	disableRandomCreation: true
 });
 
+Lootr.ItemRepository.define('Yellow Orb', {
+	name: 'Yellow Orb',
+	character: '@',
+	foreground: 'yellow',
+	components: [Lootr.ItemComponents.Orb]
+}, {
+	disableRandomCreation: true
+});
+
+Lootr.ItemRepository.define('Green Orb', {
+	name: 'Green Orb',
+	character: '@',
+	foreground: 'green',
+	components: [Lootr.ItemComponents.Orb]
+}, {
+	disableRandomCreation: true
+});
+
+Lootr.ItemRepository.define('Blue Orb', {
+	name: 'Blue Orb',
+	character: '@',
+	foreground: 'lightskyblue',
+	components: [Lootr.ItemComponents.Orb]
+}, {
+	disableRandomCreation: true
+});
 
 // Edibles
 Lootr.ItemRepository.define('apple', {
