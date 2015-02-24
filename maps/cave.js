@@ -12,7 +12,8 @@ Lootr.Map.Cave = function(player) {
 
     // Add exit back to overworld
     var pos = this.getRandomFloorPosition();
-    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
+    this.setTile(pos.x, pos.y, new Lootr.Tile(Lootr.Tile.exitToOverworld));
+//    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
 
     // Try to add pool to level
     this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
@@ -26,7 +27,7 @@ Lootr.Map.Cave = function(player) {
     this.addEntityByTypeAndAmount('slime', 5);
 
     // Add items
-    //this.addItemByTypeAndAmount('robe', 2);
+    this.addItemByTypeAndAmount('robe', 200);
 
     // Add Traps
     this.addItemByTypeAndAmount('spike trap', 20);

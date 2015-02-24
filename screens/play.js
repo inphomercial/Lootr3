@@ -70,9 +70,6 @@ Lootr.Screen.playScreen = {
     renderBorder: function(display) {
         var screenWidth = Lootr._mapScreenWidth;
         var screenHeight = Lootr._mapScreenHeight;
-        var offsets = this.getScreenOffsets();
-        var topLeftX = offsets.x;
-        var topLeftY = offsets.y;
 
         for(var x=0; x<=screenWidth; x++) {
             for(var y=0; y<=screenHeight; y++) {
@@ -284,6 +281,9 @@ Lootr.Screen.playScreen = {
         // If the game si over, enter will bring the user to the loser screen
         if(this._gameEnded) {
             if(inputType === 'keydown' && inputData.keyCode === ROT.VK_RETURN) {
+
+                // Setup the gain stat screen and show it
+                Lootr.Screen.loseScreen.setup(this._player);
                 Lootr.switchScreen(Lootr.Screen.loseScreen);
             }
             // Return to make sur ethe user cant still play

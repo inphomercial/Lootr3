@@ -79,7 +79,7 @@ Lootr.Map.prototype.getEntityAt = function(x, y) {
 // Adds it to the map using y then x of segment.
 Lootr.Map.prototype.addSegment = function(segment, pos) {
 
-	do 
+	do
 	{
 		if(pos == undefined) {
 			// Get a random floor position
@@ -88,7 +88,7 @@ Lootr.Map.prototype.addSegment = function(segment, pos) {
 
 		// Need to add a check to ensure it's not going to go out of bounds!
 		var tile = this.getTile(pos.x + segment[0].length, pos.y + segment.length);
-	} 
+	}
 	while(tile == Lootr.Tile.nullTile);
 
 	for(var y=0; y<segment.length; y++) {
@@ -347,18 +347,18 @@ Lootr.Map.prototype.setupFov = function() {
 };
 
 // Used as a replacement to my create("dragon", 2) struggles....
-Lootr.Map.prototype.addEntityByTypeAndAmount = function(entity_name, amount) {	
+Lootr.Map.prototype.addEntityByTypeAndAmount = function(entity_name, amount) {
 	for(var i=0; i<amount; i++) {
 		var entity = Lootr.EntityRepository.create(entity_name);
-    	this.addEntityAtRandomPosition(entity);	
-	}    
+    	this.addEntityAtRandomPosition(entity);
+	}
 };
 
 // Used as a replacement to my create("sword", 2) struggles....
 Lootr.Map.prototype.addItemByTypeAndAmount = function(item_name, amount) {
 	for(var i=0; i<amount; i++) {
 		var item = Lootr.ItemRepository.create(item_name);
-		this.addItemAtRandomPosition(item);		
+		this.addItemAtRandomPosition(item);
 	}
 };
 

@@ -8,6 +8,7 @@ Lootr.TemplatePlayer = {
 	red: true,
 	maxHp: 100,
 	inventorySlots: 20,
+	//maxFullness: 3,
 	components: [Lootr.EntityComponents.PlayerActor,
 				 Lootr.EntityComponents.Attacker,
 				 Lootr.EntityComponents.Destructible,
