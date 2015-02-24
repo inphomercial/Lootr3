@@ -27,20 +27,20 @@ Lootr.Screen.playScreen = {
             return;
         }
 
-        var screenWidth = Lootr.getScreenWidth();
-        var screenHeight = Lootr.getScreenHeight();
-
         // Render the tiles
         this.renderTiles(display);
 
         // Render player stats
         this.renderStats(display);
 
+        // Render border
+        this.renderBorder(display);
+
         // Draw messages
         var messages = this._player.getMessages();
-        var messageY = 21;
+        var messageY = 23;
         for(var i=0; i<messages.length; i++) {
-        	// Draw each message adding the number of lines        	
+        	// Draw each message adding the number of lines
             display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
             messageY++
         }
@@ -67,104 +67,127 @@ Lootr.Screen.playScreen = {
             y: topLeftY
         };
     },
+    renderBorder: function(display) {
+        var screenWidth = Lootr._mapScreenWidth;
+        var screenHeight = Lootr._mapScreenHeight;
+        var offsets = this.getScreenOffsets();
+        var topLeftX = offsets.x;
+        var topLeftY = offsets.y;
+
+        for(var x=0; x<=screenWidth; x++) {
+            for(var y=0; y<=screenHeight; y++) {
+                if(y == 0) {
+                    display.drawText(x, y, "%b{grey}%c{grey}*");
+                }
+                if(y == screenHeight) {
+                    display.drawText(x, y, "%b{grey}%c{grey}*");
+                }
+                if(x == 0) {
+                    display.drawText(x, y, "%b{grey}%c{grey}*");
+                }
+                if(x == screenWidth) {
+                    display.drawText(x, y, "%b{grey}%c{grey}*");
+                }
+            }
+        }
+    },
     renderStats: function(display) {
         var statsY = 1;
+        var startX = 12;
 
         // Draw Obtained Orbs
         var orbs = this._player.hasOrbs();
-        display.drawText(101, statsY, "Orbs");
+        display.drawText(101 + startX, statsY, "Orbs");
         if(orbs.red) {
-            display.drawText(102, statsY + 2, "%c{red}O");    
+            display.drawText(102 + startX, statsY + 2, "%c{red}O");
         } else {
-            display.drawText(102, statsY + 2, "%c{grey}o");    
+            display.drawText(102 + startX, statsY + 2, "%c{grey}o");
         }
-    
+
         if(orbs.yellow) {
-            display.drawText(100, statsY + 3, "%c{yellow}O");    
+            display.drawText(100 + startX, statsY + 3, "%c{yellow}O");
         } else {
-            display.drawText(100, statsY + 3, "%c{grey}o");    
+            display.drawText(100 + startX, statsY + 3, "%c{grey}o");
         }
-        
+
         if(orbs.green) {
-            display.drawText(104, statsY + 3, "%c{green}O");    
+            display.drawText(104 + startX, statsY + 3, "%c{green}O");
         } else {
-            display.drawText(104, statsY + 3, "%c{grey}o");    
+            display.drawText(104 + startX, statsY + 3, "%c{grey}o");
         }
 
         if(orbs.blue) {
-            display.drawText(102, statsY + 4, "%c{blue}O");    
+            display.drawText(102 + startX, statsY + 4, "%c{blue}O");
         } else {
-            display.drawText(102, statsY + 4, "%c{grey}o");
+            display.drawText(102 + startX, statsY + 4, "%c{grey}o");
         }
-        
+
         var name = '%c{#91AA9D}%b{black}';
         name += 'Name: %c{#CCB4B0}Inpho';
-        display.drawText(82, statsY++, name);
+        display.drawText(82 + startX, statsY++, name);
         statsY++;
 
         var hp = '%c{#91AA9D}%b{black}';
         hp += 'HP: %c{#FCFFF5}' + this._player.getHp() + '/' + this._player.getMaxHp();
         //hp += vsprintf('HP: %d/%d', [this._player.getHp(), this._player.getMaxHp()]);
-        display.drawText(82, statsY++, hp);
+        display.drawText(82 + startX, statsY++, hp);
 
         var level = '%c{#91AA9D}%b{black}';
         //level += vsprintf('LEVEL: %d', [this._player.getLevel()]);
         level += 'LVL: %c{#FCFFF5}' + this._player.getLevel();
-        display.drawText(82, statsY++, level);
+        display.drawText(82 + startX, statsY++, level);
 
         var xp = '%c{#91AA9D}%b{black}';
         xp += 'XP: %c{#FCFFF5}' + this._player.getExperience();
         //xp += vsprintf('XP: %d', [this._player.getExperience()]);
-        display.drawText(82, statsY++, xp);
+        display.drawText(82 + startX, statsY++, xp);
 
         var gold = '%c{#91AA9D}%b{black}';
         gold += 'GOLD: %c{#FCFFF5}' + this._player.getGold();
-        display.drawText(82, statsY++, gold);
+        display.drawText(82 + startX, statsY++, gold);
 
         var hungerState = '%c{#91AA9D}%b{black}';
         hungerState += 'HUNGER: %c{#FCFFF5}' + this._player.getHungerState();
-        display.drawText(82, statsY++, hungerState);
+        display.drawText(82 + startX, statsY++, hungerState);
         statsY++;
 
         var weap = '%c{#91AA9D}%b{black}';
         var w = this._player.getWeapon();
         if(w) {
              weap += 'Wielding: %c{#7E7F7A}' + w.getName();
-             display.drawText(82, statsY++, weap);
+             display.drawText(82 + startX, statsY++, weap);
          } else {
              weap += "Wielding: %c{#7E7F7A}none";
-             display.drawText(82, statsY++, weap);
+             display.drawText(82 + startX, statsY++, weap);
          }
 
         var wear = '%c{#91AA9D}%b{black}';
         var w = this._player.getArmor();
         if(w) {
              wear += 'Wearing: %c{#7E7F7A}' + w.getName();
-             display.drawText(82, statsY++, wear);
+             display.drawText(82 + startX, statsY++, wear);
          } else {
              wear += "Wearing: %c{#7E7F7A}none";
-             display.drawText(82, statsY++, wear);
+             display.drawText(82 + startX, statsY++, wear);
          }
 
         // Current Player status'
         statsY++;
         var status = "%c{yellow}%b{black}";
-         if(this._player.hasComponent('Flight') && this._player.isFlying()) {    
-            status += 'Flying ';            
+         if(this._player.hasComponent('Flight') && this._player.isFlying()) {
+            status += 'Flying ';
          }
-         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {            
-            status += 'Invisible ';            
-         }  
-         if(this._player.hasComponent('PassThroughWalls')) {            
-            status += 'Walls ';            
-         }  
+         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
+            status += 'Invisible ';
+         }
+         if(this._player.hasComponent('PassThroughWalls')) {
+            status += 'Walls ';
+         }
 
          // Draw the total status string
-         display.drawText(82, statsY++, status);
+         display.drawText(82 + startX, statsY++, status);
     },
     renderTiles: function(display) {
-        //var screenWidth = Lootr.getScreenWidth();
-        //var screenHeight = Lootr.getScreenHeight();
         var screenWidth = Lootr._mapScreenWidth;
         var screenHeight = Lootr._mapScreenHeight;
         var offsets = this.getScreenOffsets();
@@ -212,19 +235,19 @@ Lootr.Screen.playScreen = {
                         }
 
                         // If we have entities
-                        if(map.getEntityAt(x, y)) {                            
-                            
+                        if(map.getEntityAt(x, y)) {
+
                             // We dont want to print any entity that is invisible, unless it's the player
                             var en = map.getEntityAt(x, y);
                             if(en.hasComponent('PlayerActor')) {
                                 glyph = en;
                             } else if (en.hasComponent('Invisiblity')) {
                                 if(!en.isInvisible()) {
-                                    glyph = en;    
-                                }                                
+                                    glyph = en;
+                                }
                             } else {
                                 glyph = en;
-                            }                     
+                            }
                         }
 
                         // Update the foreground color based on our glphy changed
@@ -310,7 +333,7 @@ Lootr.Screen.playScreen = {
                 return;
 
             } else if (inputData.keyCode === ROT.VK_G) {
-                
+
                 if(this._player.hasComponent('Invisiblity')) {
                     if(this._player.isInvisible()) {
                         this._player.turnVisible();
@@ -318,14 +341,14 @@ Lootr.Screen.playScreen = {
                         this._player.turnInvisible();
                     }
                 }
-                
+
                 Lootr.refresh();
 
                 return;
 
             // Test out stuff
             } else if (inputData.keyCode === ROT.VK_F) {
-                
+
                 if(this._player.hasComponent('Flight')) {
                     if(this._player.isFlying()) {
                         this._player.land();
@@ -333,7 +356,7 @@ Lootr.Screen.playScreen = {
                         this._player.fly();
                     }
                 }
-                
+
                 Lootr.refresh();
 
                 return;
@@ -417,27 +440,27 @@ Lootr.Screen.playScreen = {
              * Attempt to pick up items that you are standing on
              */
             } else if (inputData.keyCode === ROT.VK_COMMA) {
-                
+
                 var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
-               
+
                 // If there are no items, show a message
-                if(!items) {                    
+                if(!items) {
                     Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
                     Lootr.refresh();
                     return;
-                } 
+                }
 
                 // If only one item
                 if(items.length === 1) {
                     var item = items[0];
                     if(this._player.pickupItem(item)) {
                         Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
-                         
+
                         item.raiseEvent("pickup");
                     } else {
                         Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
                     }
-    
+
                 // Multiple items in current tile
                 } else {
                     // Show the pickup screen if there are many items
@@ -446,7 +469,7 @@ Lootr.Screen.playScreen = {
                     return;
                 }
 
-            /** 
+            /**
              * Not a key that is currenly set for an action
              */
             } else {

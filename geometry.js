@@ -26,6 +26,6 @@ Lootr.Geometry = {
 			}
 		}
 
-		return points;	
+		return points;
 	}
 }
