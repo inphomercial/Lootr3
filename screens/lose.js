@@ -18,6 +18,9 @@ Lootr.Screen.loseScreen = {
         // Render our border
         for (var x=0; x<screenWidth; x++) {
             for(var y=0; y<screenHeight; y++) {
+
+                //display.drawText(x, y, "%b{black}%c{black}.");
+
                 if(y == 5 && (x > screenWidthQuad && x < screenWidthQuad * 3)) {
                    display.drawText(x, y, "%b{red}%c{red}x");
                 }
@@ -39,13 +42,17 @@ Lootr.Screen.loseScreen = {
         display.drawText((screenWidth / 2) - 4, 3, "Game Over");
 
         display.drawText(startPos, 7, this.player.getName());
+
+        display.drawText(startPos, 9, "Equipment");
         var items = this.player.getItems();
-        var yRow = 7;
+        var yRow = 10;
         if(items[0] != null) {
             for(var x=0; x<items.length; x++) {
                 display.drawText(startPos, yRow++, items[x].describe());
             }
         }
+
+        //Lootr.Screen.playScreen.renderStats(display);
     },
     handleInput: function(inputType, inputData) {
         // Initialize lootr

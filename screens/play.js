@@ -12,8 +12,6 @@ Lootr.Screen.playScreen = {
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
 
         // Create our map from the tiles
-        var map = [];
-        //var map = new Lootr.Map.Cave(this._player);
         var map = new Lootr.Map.Overworld(this._player);
 
         // Star the games engine
@@ -48,19 +46,16 @@ Lootr.Screen.playScreen = {
     },
     getScreenOffsets: function() {
         // Make sure the x-axis doesn't go to the left of the left bound
-       // var topLeftX = Math.max(0, this._player.getX() - (Lootr.getScreenWidth() / 2));
         var topLeftX = Math.max(0, this._player.getX() - (Lootr._mapScreenWidth / 2));
+
         // Make sure we still have enough space to fit an entire Lootr screen
         topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Lootr._mapScreenWidth);
-        // topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Lootr.getScreenWidth());
 
         // Make sure the y-axis doesn't above the top bound
         var topLeftY = Math.max(0, this._player.getY() - (Lootr._mapScreenHeight / 2));
-        // var topLeftY = Math.max(0, this._player.getY() - (Lootr.getScreenHeight() / 2));
 
         // Make sure we still have enough space to fit an entire Lootr screen
         topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - Lootr._mapScreenHeight);
-        // topLeftY = Math.min(topLeftY, this._player.getMap().getHeight() - Lootr.getScreenHeight());
 
         return {
             x: topLeftX,
@@ -320,7 +315,6 @@ Lootr.Screen.playScreen = {
                 case ROT.VK_SPACE:
                     var fire = Lootr.EntityRepository.create('fire');
                     this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
-                    Lootr.refresh();
                     break;
 
                 // Testing invis
@@ -333,7 +327,6 @@ Lootr.Screen.playScreen = {
                         }
                     }
 
-                    Lootr.refresh();
                     break;
 
                 // Testing manu flying
@@ -346,7 +339,6 @@ Lootr.Screen.playScreen = {
                         }
                     }
 
-                    Lootr.refresh();
                     break;
 
                 case ROT.VK_H:
@@ -376,10 +368,12 @@ Lootr.Screen.playScreen = {
                     var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
                     if(items) {
                         if(items.length === 1 && items[0].hasComponent('Edible')) {
-                            Lootr.sendMessage(this._player, 'You eat %s', [items[0].describeThe()]);
+                            var item = items[0];
+                            Lootr.sendMessage(this._player, 'You eat %s', [item.describeThe()]);
                             item.eat(this._player);
                             if(!item.hasRemainingConsumptions()) {
                                 this._player.removeItem(key);
+                                break;
                             }
                         }
                     }
@@ -391,7 +385,6 @@ Lootr.Screen.playScreen = {
                 case ROT.VK_PERIOD:
                     // Skip a turn
                     Lootr.sendMessage(this._player, 'You rest a turn.');
-
                     break;
 
                 case ROT.VK_Q:
@@ -426,12 +419,7 @@ Lootr.Screen.playScreen = {
                     // If only one item
                     if(items.length === 1) {
                         var item = items[0];
-                        if(this._player.pickupItem(item)) {
-                            Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
-                            item.raiseEvent("pickup");
-                        } else {
-                            Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
-                        }
+                        this._player.pickupItem(item);
 
                     // Multiple items in current tile
                     } else {
@@ -448,6 +436,8 @@ Lootr.Screen.playScreen = {
                     break;
             }
         }
+
+        Lootr.refresh();
 
         // Unlock the engine
         this._player.getMap().getEngine().unlock();

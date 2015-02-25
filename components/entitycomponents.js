@@ -894,9 +894,12 @@ Lootr.EntityComponents.InventoryHolder = {
 		if (this.addItem(item)) {
 			// Update the map items
 			this._map.setItemsAt(this.getX(), this.getY(), item);
+			Lootr.sendMessage(this, 'You pick up %s.', [item.describeA()]);
+            item.raiseEvent("pickup");
 			return true;
 		} else {
 			// Inventory is full
+            Lootr.sendMessage(this, 'Your inventory is full. Nothing was picked up.');
 			return false;
 		}
 	},

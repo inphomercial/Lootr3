@@ -59,6 +59,7 @@ Lootr.ItemComponents.Edible = {
 	eat: function(entity) {
 		if(entity.hasComponent('FoodConsumer')) {
 			if(this.hasRemainingConsumptions()) {
+				Lootr.sendMessage(this, 'You eat %s', [this.getName()]);
 				entity.modifyFullnessBy(this._foodValue);
 				this._remainingConsumptions--;
 			}

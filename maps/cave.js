@@ -28,6 +28,7 @@ Lootr.Map.Cave = function(player) {
 
     // Add items
     this.addItemByTypeAndAmount('robe', 200);
+    this.addItemByTypeAndAmount('apple', 200);
 
     // Add Traps
     this.addItemByTypeAndAmount('spike trap', 20);
