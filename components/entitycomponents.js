@@ -286,7 +286,7 @@ Lootr.EntityComponents.PlayerActor = {
 		// Detect if game is over or dead
 		if(!this.isAlive()) {
 			// Send last message to player
-			Lootr.sendMessage(this, "You've Died from Hunger..");
+			Lootr.sendMessage(this, "You've Died.");
 			Lootr.sendMessage(this, 'Press [Enter] to continue');
 
 			Lootr.Screen.playScreen.setGameEnded(true);
@@ -461,7 +461,8 @@ Lootr.EntityComponents.Equipper = {
 		} else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
 			this._head = item;
 		}		*/
-
+		// Send player notification
+		Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
 		this._armor = item;
 	},
 	takeOff: function() {

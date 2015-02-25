@@ -296,201 +296,170 @@ Lootr.Screen.playScreen = {
             return;
         }
 
-        /*if (inputType === 'mousemove') {
-            var pos = Lootr.getMousePos(Lootr.getDisplay().getContainer(), inputData);
-            console.log(this._player.getMap().getTile(pos.x, pos.y));
+        if(inputType === 'keydown') {
 
-            //var tile = this._player.getMap().getTile(pos.x, pos.y);
-            //tile.setBackground('pink');
-            var display = Lootr.getDisplay();
-            display.draw(pos.x, pos.y, " ", "#f00", '#009');
+            // Any key pressi
+            switch(inputData.keyCode) {
+                case ROT.VK_LEFT:
+                    this.doMove(-1, 0);
+                    break;
 
-            console.log(inputData);
+                case ROT.VK_RIGHT:
+                    this.doMove(1, 0);
+                    break;
 
-            console.log(this._player.getMap().getEntityAt(pos.x, pos.y));
-            console.log(this._player.getMap().getItemsAt(pos.x, pos.y));
-        };*/
+                case ROT.VK_UP:
+                    this.doMove(0, -1);
+                    break;
 
-        if (inputType === 'keydown') {
-            // If enter is pressed, go to the win screen
-            // If escape is pressed, go to lose screen
-            if (inputData.keyCode === ROT.VK_LEFT) {
-                this.move(-1, 0);
-            } else if (inputData.keyCode === ROT.VK_RIGHT) {
-                this.move(1, 0);
-            } else if (inputData.keyCode === ROT.VK_UP) {
-                this.move(0, -1);
-            } else if (inputData.keyCode === ROT.VK_DOWN) {
-                this.move(0, 1);
+                case ROT.VK_DOWN:
+                    this.doMove(0, 1);
+                    break;
 
-            // Test out stuff
-            } else if (inputData.keyCode === ROT.VK_SPACE) {
+                // Testing stuff out here
+                case ROT.VK_SPACE:
+                    var fire = Lootr.EntityRepository.create('fire');
+                    this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
+                    Lootr.refresh();
+                    break;
 
-                var fire = Lootr.EntityRepository.create('fire');
-                this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
-                Lootr.refresh();
-
-                return;
-
-            } else if (inputData.keyCode === ROT.VK_G) {
-
-                if(this._player.hasComponent('Invisiblity')) {
-                    if(this._player.isInvisible()) {
-                        this._player.turnVisible();
-                    } else {
-                        this._player.turnInvisible();
-                    }
-                }
-
-                Lootr.refresh();
-
-                return;
-
-            // Test out stuff
-            } else if (inputData.keyCode === ROT.VK_F) {
-
-                if(this._player.hasComponent('Flight')) {
-                    if(this._player.isFlying()) {
-                        this._player.land();
-                    } else {
-                        this._player.fly();
-                    }
-                }
-
-                Lootr.refresh();
-
-                return;
-
-            // Help Screen
-            } else if (inputData.keyCode === ROT.VK_H) {
-                // Show help screen
-                this.setSubScreen(Lootr.Screen.helpScreen);
-                return;
-
-            // Look Screen
-            } else if (inputData.keyCode === ROT.VK_L) {
-                // Setup the look screen.
-                var offsets = this.getScreenOffsets();
-                Lootr.Screen.lookScreen.setup(this._player,
-                    this._player.getX(), this._player.getY(),
-                    offsets.x, offsets.y);
-                this.setSubScreen(Lootr.Screen.lookScreen);
-                return;
-
-            // Inventory Stuff
-            } else if (inputData.keyCode === ROT.VK_I) {
-                // show inventory screen
-                this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player.getItems(), 'You are not carrying anything');
-                return;
-
-            } else if (inputData.keyCode === ROT.VK_D) {
-                // Show Drop screen
-                this.showItemSubScreen(Lootr.Screen.dropScreen, this._player.getItems(), 'You have nothing to drop.');
-                return;
-
-            } else if (inputData.keyCode === ROT.VK_E) {
-
-                // If on top of an item that is Edible try to eat it instaed of going to eat screen
-                var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
-                if(items) {
-                    if(items.length === 1 && items[0].hasComponent('Edible')) {
-                        Lootr.sendMessage(this._player, 'You eat %s', [items[0].describeThe()]);
-                        item.eat(this._player);
-                        if(!item.hasRemainingConsumptions()) {
-                            this._player.removeItem(key);
+                // Testing invis
+                case ROT.VK_G:
+                    if(this._player.hasComponent('Invisiblity')) {
+                        if(this._player.isInvisible()) {
+                            this._player.turnVisible();
+                        } else {
+                            this._player.turnInvisible();
                         }
                     }
-                }
 
-                // show eat screen
-                this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
-                return;
-
-             // Rest a turn
-             } else if (inputData.keyCode === ROT.VK_PERIOD) {
-                // Skip a turn
-                Lootr.sendMessage(this._player, 'You rest a turn.');
-
-                // Unlock the engine
-                this._player.getMap().getEngine().unlock();
-                return;
-
-             } else if (inputData.keyCode === ROT.VK_Q) {
-                // show quaff screen
-                this.showItemSubScreen(Lootr.Screen.quaffScreen, this._player.getItems(), 'You have nothing to quaff.');
-                return;
-
-            } else if (inputData.keyCode === ROT.VK_X) {
-                // show the examine screen
-                this.showItemSubScreen(Lootr.Screen.examineScreen, this._player.getItems(), 'You have nothing to examine.');
-                return;
-
-            // Show the put on screen (wear)
-            } else if (inputData.keyCode === ROT.VK_P) {
-                // Show the wear screen
-                this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');
-                return;
-
-            } else if (inputData.keyCode === ROT.VK_W) {
-                // Show the wield screen
-                this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');
-                return;
-
-            /**
-             * Attempt to pick up items that you are standing on
-             */
-            } else if (inputData.keyCode === ROT.VK_COMMA) {
-
-                var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
-
-                // If there are no items, show a message
-                if(!items) {
-                    Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
                     Lootr.refresh();
-                    return;
-                }
+                    break;
 
-                // If only one item
-                if(items.length === 1) {
-                    var item = items[0];
-                    if(this._player.pickupItem(item)) {
-                        Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
-
-                        item.raiseEvent("pickup");
-                    } else {
-                        Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
+                // Testing manu flying
+                case ROT.VK_F:
+                    if(this._player.hasComponent('Flight')) {
+                        if(this._player.isFlying()) {
+                            this._player.land();
+                        } else {
+                            this._player.fly();
+                        }
                     }
 
-                // Multiple items in current tile
-                } else {
-                    // Show the pickup screen if there are many items
-                    Lootr.Screen.pickupScreen.setup(this._player, items);
-                    this.setSubScreen(Lootr.Screen.pickupScreen);
+                    Lootr.refresh();
+                    break;
+
+                case ROT.VK_H:
+                    // Show help screen
+                    this.setSubScreen(Lootr.Screen.helpScreen);
+                    break;
+
+                case ROT.VK_L:
+                    // Setup the look screen.
+                    var offsets = this.getScreenOffsets();
+                    Lootr.Screen.lookScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y);
+                    this.setSubScreen(Lootr.Screen.lookScreen);
+                    break;
+
+                case ROT.VK_I:
+                    // show inventory screen
+                    this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player.getItems(), 'You are not carrying anything');
+                    break;
+
+                case ROT.VK_D:
+                    // Show Drop screen
+                    this.showItemSubScreen(Lootr.Screen.dropScreen, this._player.getItems(), 'You have nothing to drop.');
+                    break;
+
+                case ROT.VK_E:
+                    // If on top of an item that is Edible try to eat it instaed of going to eat screen
+                    var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
+                    if(items) {
+                        if(items.length === 1 && items[0].hasComponent('Edible')) {
+                            Lootr.sendMessage(this._player, 'You eat %s', [items[0].describeThe()]);
+                            item.eat(this._player);
+                            if(!item.hasRemainingConsumptions()) {
+                                this._player.removeItem(key);
+                            }
+                        }
+                    }
+
+                    // show eat screen
+                    this.showItemSubScreen(Lootr.Screen.eatScreen, this._player.getItems(), 'You have nothing to eat.');
+                    break;
+
+                case ROT.VK_PERIOD:
+                    // Skip a turn
+                    Lootr.sendMessage(this._player, 'You rest a turn.');
+
+                    break;
+
+                case ROT.VK_Q:
+                    // show quaff screen
+                    this.showItemSubScreen(Lootr.Screen.quaffScreen, this._player.getItems(), 'You have nothing to quaff.');
+                    break;
+
+                case ROT.VK_X:
+                    // show the examine screen
+                    this.showItemSubScreen(Lootr.Screen.examineScreen, this._player.getItems(), 'You have nothing to examine.');
+                    break;
+
+                case ROT.VK_P:
+                    // Show the wear screen
+                    this.showItemSubScreen(Lootr.Screen.wearScreen, this._player.getItems(), 'You have nothing to wear.');
                     return;
-                }
 
-            /**
-             * Not a key that is currenly set for an action
-             */
-            } else {
-                // not a valid key
-                Lootr.sendMessage(this._player, 'Not a valid key..');
-                Lootr.refresh();
-                return;
+                case ROT.VK_W:
+                    // Show the wield screen
+                    this.showItemSubScreen(Lootr.Screen.wieldScreen, this._player.getItems(), 'You have nothing to wield.');
+                    break;
+
+                case ROT.VK_COMMA:
+                    var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
+
+                    // If there are no items, show a message
+                    if(!items) {
+                        Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
+                        break;
+                    }
+
+                    // If only one item
+                    if(items.length === 1) {
+                        var item = items[0];
+                        if(this._player.pickupItem(item)) {
+                            Lootr.sendMessage(this._player, 'You pick up %s.', [item.describeA()]);
+                            item.raiseEvent("pickup");
+                        } else {
+                            Lootr.sendMessage(this._player, 'Your inventory is full. Nothing was picked up.');
+                        }
+
+                    // Multiple items in current tile
+                    } else {
+                        // Show the pickup screen if there are many items
+                        Lootr.Screen.pickupScreen.setup(this._player, items);
+                        this.setSubScreen(Lootr.Screen.pickupScreen);
+                        break;
+                    }
+
+                default:
+                    // not a valid key
+                    Lootr.sendMessage(this._player, 'Not a valid key..');
+                    Lootr.refresh();
+                    break;
             }
-
-            // Unlock the engine
-            this._player.getMap().getEngine().unlock();
         }
+
+        // Unlock the engine
+        this._player.getMap().getEngine().unlock();
     },
-    move: function(dX, dY) {
+    doMove: function(dX, dY) {
     	console.log("Trying to move");
 
     	var newX = this._player.getX() + dX;
     	var newY = this._player.getY() + dY;
 
     	// Try to move
-    	this._player.tryMove(newX, newY, this._player.getMap());
+    	this._player.tryMove(newX, newY);
     },
     setGameEnded: function(gameEnded) {
         this._gameEnded = gameEnded;

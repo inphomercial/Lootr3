@@ -19,7 +19,6 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
-
 Lootr.Entity.prototype.switchMap = function(newMap) {
 	// If it's the same map, do nothing
 	if(newMap === this.getMap()) {
