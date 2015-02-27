@@ -1,5 +1,5 @@
 Lootr.Builder = function(args) {
-    
+
     args = args || {};
 
     this.layout = args['layout'] || {};
@@ -9,7 +9,7 @@ Lootr.Builder = function(args) {
     this.map;
 };
 
-Lootr.Builder.prototype.generate = function(global_map) {    
+Lootr.Builder.prototype.generate = function(global_map) {
     this.generateLayout();
     this.generateSpecial(global_map);
     return this.map;
@@ -33,14 +33,14 @@ Lootr.Builder.prototype.generateLayout = function() {
                     this.map[y][x] = new Lootr.Tile(Lootr.Tile.wallTile);
                     break;
                 case 2:
-                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);            
+                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.waterTile);
                     break;
                 case 3:
-                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.treeTile);            
+                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.treeTile);
                     break;
                 case 4:
-                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.wallGemTile);            
-                    break;    
+                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.wallGemTile);
+                    break;
 
                 default:
                     this.map[y][x] = Lootr.Tile.nullTile;
@@ -67,11 +67,11 @@ Lootr.BuilderTemplate.extend(Lootr.Builder);
 Lootr.BuilderTemplate.prototype.generateSpecial = function(global_map) {
 
     if(this.special != undefined) {
-        for(var i=0; i<this.special.length; i++) {            
-            //this.special[i].run(map_level);            
-            this.special[i].run(this.map, global_map);            
-        }    
+        for(var i=0; i<this.special.length; i++) {
+            //this.special[i].run(map_level);
+            this.special[i].run(this.map, global_map);
+        }
     }
-    
+
     return this;
 };
