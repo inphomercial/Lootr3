@@ -1,8 +1,8 @@
 
 Lootr.Map.Cave = function(player) {
 
-	this._width = 20;
-	this._height = 20;
+	this._width = 40;
+	this._height = 40;
 
 	// Build Map
 	var tiles = this._generateLevel();
@@ -15,7 +15,7 @@ Lootr.Map.Cave = function(player) {
     this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
 
     // Try to add pool to level
-    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
+   // this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
 
     // Try to add pool to level
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());                                
