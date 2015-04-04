@@ -31,6 +31,9 @@ Lootr.Screen.playScreen = {
         // Render player stats
         this.renderStats(display);
 
+        // Render player orbs
+        this.renderOrbs(display);
+
         // Render border
         this.renderBorder(display);
 
@@ -83,13 +86,14 @@ Lootr.Screen.playScreen = {
             }
         }
     },
-    renderStats: function(display) {
+    renderOrbs: function(display) {
         var statsY = 1;
         var startX = 12;
 
         // Draw Obtained Orbs
         var orbs = this._player.hasOrbs();
         display.drawText(101 + startX, statsY, "Orbs");
+        
         if(orbs.red) {
             display.drawText(102 + startX, statsY + 2, "%c{red}O");
         } else {
@@ -113,6 +117,10 @@ Lootr.Screen.playScreen = {
         } else {
             display.drawText(102 + startX, statsY + 4, "%c{grey}o");
         }
+    },
+    renderStats: function(display) {
+        var statsY = 1;
+        var startX = 12;
 
         var name = '%c{#91AA9D}%b{black}';
         name += 'Name: %c{#CCB4B0}Inpho';
@@ -409,7 +417,7 @@ Lootr.Screen.playScreen = {
 
                 case ROT.VK_COMMA:
                     var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
-
+                    console.log(items);
                     // If there are no items, show a message
                     if(!items) {
                         Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
@@ -418,8 +426,8 @@ Lootr.Screen.playScreen = {
 
                     // If only one item
                     if(items.length === 1) {
-                        var item = items[0];
-                        this._player.pickupItem(item);
+                        this._player.pickupItem(items[0]);
+                        break;
 
                     // Multiple items in current tile
                     } else {
