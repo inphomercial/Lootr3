@@ -59,6 +59,7 @@ Lootr.ItemRepository.define('melon', {
 	components: [Lootr.ItemComponents.Edible]
 });
 
+// Traps
 Lootr.ItemRepository.define('spike trap', {
 	name: 'spike trap',
 	character: '.',
@@ -67,6 +68,7 @@ Lootr.ItemRepository.define('spike trap', {
 	components: [Lootr.ItemComponents.SpringTrap]
 });
 
+// Doodadas
 Lootr.ItemRepository.define('corpse', {
 	name: 'corpse',
 	character: '&',
@@ -77,6 +79,13 @@ Lootr.ItemRepository.define('corpse', {
 	disableRandomCreation: true
 });
 
+Lootr.ItemRepository.define('gold', {
+	name: 'gold',
+	character: '$',
+	foreground: 'gold',
+	components: [Lootr.ItemComponents.Gold]
+});
+
 // Quaffables
 Lootr.ItemRepository.define('potion', {
 	name: 'potion',
@@ -85,14 +94,6 @@ Lootr.ItemRepository.define('potion', {
 	quaff_value: 6,
 	quaffs: 2,
 	components: [Lootr.ItemComponents.Quaffable]
-});
-
-// Non-edible/quaffable
-Lootr.ItemRepository.define('gold', {
-	name: 'gold',
-	character: '$',
-	foreground: 'gold',
-	components: [Lootr.ItemComponents.Gold]
 });
 
 // Weapons
@@ -108,6 +109,7 @@ Lootr.ItemRepository.define('dagger', {
 	disableRandomCreation: false
 });
 
+// Armors
 Lootr.ItemRepository.define('robe', {
 	name: 'robe',
 	character: ']',

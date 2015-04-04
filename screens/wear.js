@@ -13,13 +13,13 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
         var keys = Object.keys(item);
         if(keys.length === 0) {
             this._player.takeOff();
-            Lootr.sendMessage(this._player, 'You are not wearing anything.');            
+            Lootr.sendMessage(this._player, 'You take off %s', [item.describeA()]);
         } else {
             // Make sure to unequip the item first in case it is the weapon
             var item = item[keys[0]];
             this._player.unequip(item);
             this._player.wear(item);
-            Lootr.sendMessage(this._player, 'You are wearing %s', [item.describeA()]);
+//            Lootr.sendMessage(this._player, 'You start wearing %s', [item.describeA()]);
         }
     }
 });

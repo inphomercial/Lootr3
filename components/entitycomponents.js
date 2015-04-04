@@ -21,7 +21,7 @@ Lootr.EntityComponents.Orbs = {
 			blue: this._blueOrb,
 			green: this._greenOrb,
 			yellow: this._yellowOrb
-		};		
+		};
 	},
 	hasAllOrbs: function() {
 		if(this._redOrb && this._blueOrb && this._greenOrb && this._yellowOrb) {
@@ -29,7 +29,7 @@ Lootr.EntityComponents.Orbs = {
 		}
 	},
 	listeners: {
-		pickupOrb: function(orb) {						
+		pickupOrb: function(orb) {
 			if(orb.getName() == "Red Orb") {
 				this._redOrb = true;
 			}
@@ -128,10 +128,10 @@ Lootr.EntityComponents.Flight = {
 			Lootr.sendMessage(this, 'You slow down.');
 			this._isFlying = false;
 			this.modifySpeedBy(-50);
-			this.setForeground(this.getOriginalForeground());	
+			this.setForeground(this.getOriginalForeground());
 		} else {
 			Lootr.sendMessage(this, 'You cannot land here.');
-		}		
+		}
 	},
 	fly: function() {
 
@@ -145,7 +145,7 @@ Lootr.EntityComponents.Flight = {
 		return this._isFlying;
 	},
 	listeners: {
-		onHit: function() {						
+		onHit: function() {
 			// If entity is hit while invisible, make him visible
 			if(this.isFlying()) {
 				this.land();
@@ -157,7 +157,7 @@ Lootr.EntityComponents.Flight = {
 Lootr.EntityComponents.Invisiblity = {
 	name: 'Invisiblity',
 	init: function(template) {
-		this._isInvisible = template['isInvisible'] || false;		
+		this._isInvisible = template['isInvisible'] || false;
 	},
 	turnInvisible: function() {
 		this._isInvisible = true;
@@ -173,11 +173,11 @@ Lootr.EntityComponents.Invisiblity = {
 		return this._isInvisible;
 	},
 	listeners: {
-		onHit: function() {						
+		onHit: function() {
 			// If entity is hit while invisible, make him visible
 			if(this.isInvisible()) {
 				this.turnVisible();
-			}			
+			}
 		}
 	}
 };
@@ -189,10 +189,10 @@ Lootr.EntityComponents.FireBreather = {
 		var offset = (Math.round(Math.random()) === 1) ? 1 : -1
 
 		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + offset)) {
-			var fire1 = Lootr.EntityRepository.create('fire');			
+			var fire1 = Lootr.EntityRepository.create('fire');
 			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire1);
 		}
-		
+
 		if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + ++offset )) {
 			var fire2 = Lootr.EntityRepository.create('fire');
 			this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire2);
@@ -242,7 +242,7 @@ Lootr.EntityComponents.Sight = {
 		if(entity.hasComponent('Invisiblity')) {
 			if(entity.isInvisible()) {
 				return false;
-			}	
+			}
 		}
 
 		var otherX = entity.getX();
@@ -285,10 +285,11 @@ Lootr.EntityComponents.PlayerActor = {
 
 		// Detect if game is over or dead
 		if(!this.isAlive()) {
-			Lootr.Screen.playScreen.setGameEnded(true);
-
 			// Send last message to player
+			Lootr.sendMessage(this, "You've Died.");
 			Lootr.sendMessage(this, 'Press [Enter] to continue');
+
+			Lootr.Screen.playScreen.setGameEnded(true);
 
 			this._acting = false;
 		}
@@ -364,7 +365,7 @@ Lootr.EntityComponents.GoldHolder = {
 			this.modifyGoldBy(amount);
 		},
 		onDeath: function() {
-			var g = Lootr.ItemRepository.create('gold');	
+			var g = Lootr.ItemRepository.create('gold');
 			g.modifyGoldBy(this._gold);
 			this.getMap().addItem(this.getX(), this.getY(), g);
 		}
@@ -401,22 +402,22 @@ Lootr.EntityComponents.FoodConsumer = {
 
 		// 5% of max fullness or less = starving
 		if(this._fullness <= perPercent * 5) {
-			return '%c{red}Starving';            
+			return '%c{red}Starving';
 		}
 		// 25%
 		else if(this._fullness <= perPercent * 25) {
-			return '%c{yellow}Hungry';            
+			return '%c{yellow}Hungry';
 		}
 		// 75
 		else if(this._fullness <= perPercent * 75) {
-			return 'Full';            
+			return 'Full';
 		}
 		// 95
-		else if(this._fullness <= perPercent * 95) {			
+		else if(this._fullness <= perPercent * 95) {
             return 'Oversatiated';
 		}
 		// Anything else = no hungry
-		else {			
+		else {
             return 'Not Hungry';
 		}
 	}
@@ -456,12 +457,13 @@ Lootr.EntityComponents.Equipper = {
 	},
 	wear: function(item) {
 		/*if(item._slot == Lootr.ITEM_SLOTS.BODY) {
-			this._armor = item;	
+			this._armor = item;
 		} else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
 			this._head = item;
 		}		*/
-
-		this._armor = item;	
+		// Send player notification
+		Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
+		this._armor = item;
 	},
 	takeOff: function() {
 		this._armor = null;
@@ -892,9 +894,12 @@ Lootr.EntityComponents.InventoryHolder = {
 		if (this.addItem(item)) {
 			// Update the map items
 			this._map.setItemsAt(this.getX(), this.getY(), item);
+			Lootr.sendMessage(this, 'You pick up %s.', [item.describeA()]);
+            item.raiseEvent("pickup");
 			return true;
 		} else {
 			// Inventory is full
+            Lootr.sendMessage(this, 'Your inventory is full. Nothing was picked up.');
 			return false;
 		}
 	},

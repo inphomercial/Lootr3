@@ -1,9 +1,9 @@
 var Lootr =  {
 	_display: null,
     _currentScreen: null,
-    _screenWidth: 120,
-    _screenHeight: 25,
-    _mapScreenWidth: 80,
+    _screenWidth: 130,
+    _screenHeight: 35,
+    _mapScreenWidth: 90,
     _mapScreenHeight: 20,
     Screen: {},
 
@@ -19,7 +19,7 @@ var Lootr =  {
     // 	finishCave: false,
     // 	finishCaveBoss: false
     // },
-    
+
 	init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,

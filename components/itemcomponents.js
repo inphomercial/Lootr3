@@ -59,6 +59,7 @@ Lootr.ItemComponents.Edible = {
 	eat: function(entity) {
 		if(entity.hasComponent('FoodConsumer')) {
 			if(this.hasRemainingConsumptions()) {
+				Lootr.sendMessage(this, 'You eat %s', [this.getName()]);
 				entity.modifyFullnessBy(this._foodValue);
 				this._remainingConsumptions--;
 			}
@@ -85,7 +86,7 @@ Lootr.ItemComponents.Orb = {
 	name: 'Orb',
 	init: function(template) {
 		this._name = template['name'];
-	},	
+	},
 	listeners: {
 		details: function() {
 			return [{key: 'Orb', value: "A very magical feeling ball of glass."}];
@@ -123,7 +124,7 @@ Lootr.ItemComponents.SpringTrap = {
 		this._trapDamage = template['trapDamage'] || 1;
 	},
 	springTrap: function(entity) {
-		
+
 		if(!this._hasSprung) {
 
 			// Set sprung so it cannot happen again
@@ -133,29 +134,29 @@ Lootr.ItemComponents.SpringTrap = {
 			Lootr.sendMessage(entity, 'You spring a trap!!');
 
 			// Apply Damage
-			if(entity.hasComponent('Destructible')) {			
-				entity.takeDamage(this, this._trapDamage * 2);			
+			if(entity.hasComponent('Destructible')) {
+				entity.takeDamage(this, this._trapDamage * 2);
 			}
 
-		// Stepping on it after already sprung	
+		// Stepping on it after already sprung
 		} else {
 			// Send message
 			Lootr.sendMessage(entity, 'You step on a trap!!');
 
 			// Apply Damage
-			if(entity.hasComponent('Destructible')) {			
-				entity.takeDamage(this, this._trapDamage);			
+			if(entity.hasComponent('Destructible')) {
+				entity.takeDamage(this, this._trapDamage);
 			}
 		}
 
-		// Update tile character			
-		this._char = '^';	
+		// Update tile character
+		this._char = '^';
 
 		// make blooodddy
 	    var fc = ROT.Color.fromString(this.getForeground());
 	    var sc = ROT.Color.fromString('red');
-	    var c = ROT.Color.multiply_(fc, sc);                                        
-	    
+	    var c = ROT.Color.multiply_(fc, sc);
+
 	    this.setForeground(c);
 
 	    // Make surrounding tiles blooodddyyyy
@@ -169,7 +170,7 @@ Lootr.ItemComponents.Equippable = {
 		this._attackValue = template['attackValue'] || 0;
 		this._defenseValue = template['defenseValue'] || 0;
 		this._wieldable = template['wieldable'] || false;
-		this._wearable = template['wearable'] || false;		
+		this._wearable = template['wearable'] || false;
 	},
 	getAttackValue: function() {
 		return this._attackValue;

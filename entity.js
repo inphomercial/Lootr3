@@ -19,7 +19,6 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
-
 Lootr.Entity.prototype.switchMap = function(newMap) {
 	// If it's the same map, do nothing
 	if(newMap === this.getMap()) {
@@ -48,7 +47,7 @@ Lootr.Entity.prototype.kill = function(message) {
 
 	this._alive = false;
 	if(message) {
-		Lootr.sendMessage(this, message);		
+		Lootr.sendMessage(this, message);
 	} else {
 		Lootr.sendMessage(this, "You have died!!");
 	}
@@ -81,37 +80,37 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 			Lootr.sendMessage(this, 'You bump into something.');
 			return false;
 		}
-	}	
+	}
 
 	// Check if we found the exit to the overworld
 	else if(tile.getDescription() === Lootr.Tile.exitToOverworld.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the overworld
 		this.switchMap(new Lootr.Map.Overworld(this));
-	}	
+	}
 
 	// Check if we found the cave
 	else if(tile.getDescription() === Lootr.Tile.holeToBossCave.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the BossCavern
 		this.switchMap(new Lootr.Map.BossCavern(this));
-	}	
+	}
 
 	// Check if we found the castle
 	else if(tile.getDescription() === Lootr.Tile.holeToCastleTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the Castle
 		this.switchMap(new Lootr.Map.Castle(this));
-	}	
+	}
 
 	// Check if we found the BossCave
 	else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the Cave
 		this.switchMap(new Lootr.Map.Cave(this));
-	}	
+	}
 
 	// Check if we found the cave
 	else if(tile.getDescription() === Lootr.Tile.holeToDesertTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 		// Switch the entity to the boss canern
 		this.switchMap(new Lootr.Map.Desert(this));
-	}		
+	}
 
 	// check if tile is not ground (a wall) and have PassThroughWalls
 	else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
@@ -131,10 +130,10 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		this.setPosition(x, y);
 
 		// Generate a random amount
-		// @todo Maybe make something like luck an attribute to multiply against		
+		// @todo Maybe make something like luck an attribute to multiply against
 		var gold = map.getItemsAt(x, y);
 
-		// Add gold		
+		// Add gold
 		this.modifyGoldBy(gold[0].getGold());
 
 		// Notify of the pickup
@@ -144,7 +143,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 		map.removeItemFromTile(x, y, 'gold');
 	}
 
-	// Check for trap	
+	// Check for trap
 	else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap')) {
 		if(!this.hasComponent('Flight') || !this.isFlying()) {
 			var trap = map.getItemsAt(x, y, 'spike trap');
@@ -154,7 +153,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
 			// Trap will spring, updating the tile character
 			// damaging entity
-			// sending messing		
+			// sending messing
 			trap[0].springTrap(this);
 
 			return true;
@@ -192,11 +191,11 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 	} else if (tile.isDiggable()) {
 		if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
 			map.dig(x, y);
-			return true;	
-		}		
+			return true;
+		}
 
 		return false;
-	}	
+	}
 
 	return false;
 };
