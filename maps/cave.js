@@ -21,8 +21,11 @@ Lootr.Map.Cave = function(player) {
     // Try to add pool to level
    // this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
 
-    // Try to add pool to level
+    // Try to add gem treasure to level
     this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
+
+    // Try to add stream to level
+    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
     this.addEntityByTypeAndAmount('bat', 1);

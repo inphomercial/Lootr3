@@ -12,17 +12,17 @@ Lootr.Builder.Pool = {
         [1,2,{},3,2,1],
         [1,2,3,3,2,1],
         [1,2,2,2,2,1]       
-    ],
-    special: [
-    	{     		
-	    	pos: {x: 2, y: 2},
-    	    run: function(layout, map) {
-	    	  layout[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);	 
-              map.addItem(this.pos.x, this.pos.y, Lootr.ItemRepository.create('robe'))   	  	;              
-	    	  console.log("Still running the special");
-    	  	}
-    	}
     ]
+    // special: [
+    // 	{     		
+	   //  	pos: {x: 2, y: 2},
+    // 	    run: function(layout, map) {
+	   //  	  layout[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);	 
+    //           map.addItem(this.pos.x, this.pos.y, Lootr.ItemRepository.create('robe'))   	  	;              
+	   //  	  console.log("Still running the special");
+    // 	  	}
+    // 	}
+    // ]
 };
 
 Lootr.Builder.Stream = {
