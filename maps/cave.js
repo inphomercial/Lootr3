@@ -19,7 +19,7 @@ Lootr.Map.Cave = function(player) {
 //    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
 
     // Try to add pool to level
-   // this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
+    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
 
     // Try to add gem treasure to level
     this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
@@ -30,7 +30,7 @@ Lootr.Map.Cave = function(player) {
     // Add entities
     this.addEntityByTypeAndAmount('bat', 1);
     this.addEntityByTypeAndAmount('spider', 1);
-    this.addEntityByTypeAndAmount('slime', 5);
+    this.addEntityByTypeAndAmount('slime', 500);
 
     // Add items
     this.addItemByTypeAndAmount('robe', 200);
