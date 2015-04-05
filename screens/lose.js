@@ -4,7 +4,7 @@ Lootr.Screen.loseScreen = {
     setup: function(player) {
         this.player = player;
     },
-    enter: function() {    console.log("Entered lose screen."); },
+    enter: function() { console.log("Entered lose screen."); },
     exit: function() { console.log("Exited lose screen."); },
     renderBorder: function(display) {
 
