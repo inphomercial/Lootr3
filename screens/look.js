@@ -1,11 +1,11 @@
 
 // Look screen
 Lootr.Screen.lookScreen = new Lootr.Screen.TargetBasedScreen({
-    captionFunction: function(x, y) {        
+    captionFunction: function(x, y) {
         var map = this._player.getMap();
         // If the tile is explored, we can give a better capton
         if (map.isExplored(x, y)) {
-            // If the tile isn't explored, we have to check if we can actually 
+            // If the tile isn't explored, we have to check if we can actually
             // see it before testing if there's an entity or item.
             if (this._visibleCells[x + ',' + y]) {
                 var items = map.getItemsAt(x, y);

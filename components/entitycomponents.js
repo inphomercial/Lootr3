@@ -122,7 +122,6 @@ Lootr.EntityComponents.Flight = {
 		this._isFlying = template['isFlying'] || false;
 	},
 	land: function() {
-
 		if(this.getMap().isTileItemSpawnable(this.getX(), this.getY())) {
 			Lootr.sendMessage(this, 'You land on the ground.');
 			Lootr.sendMessage(this, 'You slow down.');
@@ -134,7 +133,6 @@ Lootr.EntityComponents.Flight = {
 		}
 	},
 	fly: function() {
-
 		Lootr.sendMessage(this, 'You start to fly.');
 		Lootr.sendMessage(this, 'You speed up.');
 		this._isFlying = true;
@@ -854,7 +852,15 @@ Lootr.EntityComponents.InventoryHolder = {
 		this._items = new Array(inventorySlots);
 	},
 	getItems: function() {
-		return this._items;
+		var items = Array();
+
+		for(var i=0; i<this._items.length; i++) {
+			if(typeof this._items[i] !== 'undefined') {
+				items.push(this._items[i]);
+			}
+		}
+
+		return items;
 	},
 	getItem: function(i) {
 		return this._items[i];

@@ -8,7 +8,7 @@ Lootr.DynamicGlyph = function(args) {
 	// Instantiate any args from the passed object
 	this._name = args['name'] || '';
 
-	// Create an object which will keey track of components 
+	// Create an object which will keey track of components
 	// we have attached to this entity based on name property
 	this._attachedComponents = {};
 
@@ -66,11 +66,11 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 	/*if(typeof obj === 'object') {
 		if(this._attachedComponents[obj.name]) {
 			return this;
-		}		
+		}
 	} else {
 		if(this._attachedComponents[obj] || this._attachedComponentGroups[obj]) {
 			return this;
-		}		
+		}
 	}
 
 	return false;*/

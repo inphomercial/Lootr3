@@ -41,7 +41,7 @@ Lootr.Entity.prototype.isAlive = function() {
 
 Lootr.Entity.prototype.kill = function(message) {
 	// Only kill one
-	if(!this._alive) {
+	if(!this.isAlive()) {
 		return;
 	}
 

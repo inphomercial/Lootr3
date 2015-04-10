@@ -61,10 +61,8 @@ Lootr.Map.prototype.getTile = function(x, y) {
 	}
 };
 
+// Get the entity based on position key
 Lootr.Map.prototype.getEntityAt = function(x, y) {
-
-	// Get the entity based on position key
-	//return this._entities[x + ',' + y];
 
 	var entity = this._entities[x + ',' + y];
 
