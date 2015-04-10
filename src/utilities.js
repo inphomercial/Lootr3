@@ -14,6 +14,10 @@ Lootr.extend = function(src, dest) {
 	return result;
 };
 
+Lootr.isInputTypeKeyDown = function(inputType) {
+    return inputType == "keydown";
+};
+
 // Helper function
 Lootr.getNeighborPositions = function(x, y) {
     var tiles = [];

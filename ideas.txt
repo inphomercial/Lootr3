@@ -17,7 +17,6 @@ coffins
 come up with good solution to corpses having entity name appended to it for (map.tileContainsItem)
 make a hunt for corpse component, add to vampire
 make tasks have a taskNamePercent that it rolls on
-move library files into assets folder
 Races // Classes
 have a way to update a tile's description
 item stat rolling
@@ -48,6 +47,7 @@ item stacking on same tile is broken...
 
 
 DONE
+move library files into assets folder
 Gold component for items & mobs
 make gold a random amount
 test out making an overworld map similar to shovelknight/smb

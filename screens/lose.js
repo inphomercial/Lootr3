@@ -21,6 +21,7 @@ Lootr.Screen.loseScreen = {
         //Lootr.Screen.playScreen.renderStats(display);
     },
     handleInput: function(inputType, inputData) {
+        header("/");
         // Initialize lootr
         //        Lootr.init();
         // Add the container to our HTML page
