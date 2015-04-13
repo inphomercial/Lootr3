@@ -93,7 +93,7 @@ Lootr.Screen.playScreen = {
         // Draw Obtained Orbs
         var orbs = this._player.hasOrbs();
         display.drawText(101 + startX, statsY, "Orbs");
-        
+
         if(orbs.red) {
             display.drawText(102 + startX, statsY + 2, "%c{red}O");
         } else {
@@ -364,6 +364,11 @@ Lootr.Screen.playScreen = {
                 case ROT.VK_I:
                     // show inventory screen
                     this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player.getItems(), 'You are not carrying anything');
+                    break;
+
+                case ROT.VK_S:
+                    Lootr.Screen.statScreen.setup(this._player);
+                    Lootr.switchScreen(Lootr.Screen.statScreen);
                     break;
 
                 case ROT.VK_D:

@@ -393,6 +393,12 @@ Lootr.EntityComponents.FoodConsumer = {
 		// Remove the standard depletion points
 		this.modifyFullnessBy(-this._fullnessDepletionRate);
 	},
+	getHungerPercent: function() {
+		// We want maxfullness * fullness as a decimal to get percentage out of 100%
+		// this._maxFullness *
+
+		return percentageRemaining;
+	},
 	getHungerState: function() {
 		// Fullness points per percent of max fullness
 		var perPercent = this._maxFullness / 100;
