@@ -17,8 +17,8 @@ Lootr.UI.HungerDisplay = {
         this._display.drawText(this._startX, this._startY, "---------");
     },
     _getPercentRemaining: function() {
-        return 26;
-        // return this._player.getPercentRemaining();
+        window.player = this._player;
+        return this._player.getPercentRemaining();
     },
     _colorBar: function(x, y) {
         percent = this._getPercentRemaining();
