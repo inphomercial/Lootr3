@@ -6,7 +6,7 @@ Lootr.Screen.playScreen = {
     _subScreen: null,
     enter: function() {
 
-    	console.log("Entered play screen");
+        console.log("Entered play screen");
 
         // Create our player and set his position
         this._player = new Lootr.Entity(Lootr.TemplatePlayer);
@@ -41,7 +41,7 @@ Lootr.Screen.playScreen = {
         var messages = this._player.getMessages();
         var messageY = 23;
         for(var i=0; i<messages.length; i++) {
-        	// Draw each message adding the number of lines
+            // Draw each message adding the number of lines
             display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
             messageY++
         }
@@ -456,13 +456,13 @@ Lootr.Screen.playScreen = {
         this._player.getMap().getEngine().unlock();
     },
     doMove: function(dX, dY) {
-    	console.log("Trying to move");
+        console.log("Trying to move");
 
-    	var newX = this._player.getX() + dX;
-    	var newY = this._player.getY() + dY;
+        var newX = this._player.getX() + dX;
+        var newY = this._player.getY() + dY;
 
-    	// Try to move
-    	this._player.tryMove(newX, newY);
+        // Try to move
+        this._player.tryMove(newX, newY);
     },
     setGameEnded: function(gameEnded) {
         this._gameEnded = gameEnded;

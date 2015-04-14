@@ -15,6 +15,6 @@ Lootr.Screen.winScreen = {
         }
     },
     handleInput: function(inputType, inputData) {
-        // Nothing to do here      
+        // Nothing to do here
     }
 }

@@ -1,5 +1,5 @@
 var Lootr =  {
-	_display: null,
+    _display: null,
     _currentScreen: null,
     _screenWidth: 125,
     _screenHeight: 35,
@@ -8,19 +8,19 @@ var Lootr =  {
     Screen: {},
 
     ITEM_SLOTS: {
-    	HAND: 'hand',
-    	HEAD: 'head',
-    	BODY: 'body',
-    	FINGER: 'finger',
-    	FEET: 'feet'
+        HAND: 'hand',
+        HEAD: 'head',
+        BODY: 'body',
+        FINGER: 'finger',
+        FEET: 'feet'
     },
 
     // storyFlags: {
-    // 	finishCave: false,
-    // 	finishCaveBoss: false
+    //  finishCave: false,
+    //  finishCaveBoss: false
     // },
 
-	init: function() {
+    init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,
                                          height: this._screenHeight + 1, fontSize: 18});
@@ -45,67 +45,67 @@ var Lootr =  {
         //bindEventToScreen('keypress');
     },
     refresh: function() {
-    	// Clear the screen
-    	this._display.clear();
+        // Clear the screen
+        this._display.clear();
 
-    	// Render the screen
-    	this._currentScreen.render(this._display);
+        // Render the screen
+        this._currentScreen.render(this._display);
     },
-	getDisplay: function() {
-		return this._display;
-	},
-	getScreenWidth: function() {
+    getDisplay: function() {
+        return this._display;
+    },
+    getScreenWidth: function() {
     return this._screenWidth;
-	},
-	getScreenHeight: function() {
-	    return this._screenHeight;
-	},
-	switchScreen: function(screen) {
-	    // If we had a screen before, notify it that we exited
-	    if (this._currentScreen !== null) {
-	        this._currentScreen.exit();
-	    }
-	    // Clear the display
-	    this.getDisplay().clear();
+    },
+    getScreenHeight: function() {
+        return this._screenHeight;
+    },
+    switchScreen: function(screen) {
+        // If we had a screen before, notify it that we exited
+        if (this._currentScreen !== null) {
+            this._currentScreen.exit();
+        }
+        // Clear the display
+        this.getDisplay().clear();
 
-	    // Update our current screen, notify it we entered
-	    // and then render it
-	    this._currentScreen = screen;
-	    if (!this._currentScreen !== null) {
-	        this._currentScreen.enter();
-	        this.refresh();
-	    }
-	},
-	sendMessage: function(recipient, message, args) {
-		// make sure the recip can get messages
-		// before doing anything
-		if(recipient.hasComponent('MessageRecipient')) {
-			// If args were passed, then we format the message else
-			// just pass the message
-			if(args) {
-				message = vsprintf(message, args);
-			}
+        // Update our current screen, notify it we entered
+        // and then render it
+        this._currentScreen = screen;
+        if (!this._currentScreen !== null) {
+            this._currentScreen.enter();
+            this.refresh();
+        }
+    },
+    sendMessage: function(recipient, message, args) {
+        // make sure the recip can get messages
+        // before doing anything
+        if(recipient.hasComponent('MessageRecipient')) {
+            // If args were passed, then we format the message else
+            // just pass the message
+            if(args) {
+                message = vsprintf(message, args);
+            }
 
-			// Send message to target
-			recipient.receiveMessage(message);
-		}
-	},
-	sendMessageNearby: function(map, centerX, centerY, message, args) {
-		// If args passed, format
-		if(args) {
-			var message = vsprintf(message, args);
-		}
+            // Send message to target
+            recipient.receiveMessage(message);
+        }
+    },
+    sendMessageNearby: function(map, centerX, centerY, message, args) {
+        // If args passed, format
+        if(args) {
+            var message = vsprintf(message, args);
+        }
 
-		// Get the nearby entities
-		var entities = map.getEntitiesWithinRadius(centerX, centerY, 5);
+        // Get the nearby entities
+        var entities = map.getEntitiesWithinRadius(centerX, centerY, 5);
 
-		// Iterate through nearby entities, sending the message if they can recieve it
-		for(var i=0; i<entities.length; i++) {
-			if(entities[i].hasComponent('MessageRecipient')) {
-				entities[i].receiveMessage(message);
-			}
-		}
-	}
+        // Iterate through nearby entities, sending the message if they can recieve it
+        for(var i=0; i<entities.length; i++) {
+            if(entities[i].hasComponent('MessageRecipient')) {
+                entities[i].receiveMessage(message);
+            }
+        }
+    }
 }
 
 window.onload = function() {

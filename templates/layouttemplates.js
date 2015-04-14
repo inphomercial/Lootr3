@@ -14,21 +14,21 @@ Lootr.Builder.Pool = {
         [1,2,2,2,2,1]
     ]
     // special: [
-    // 	{
-	   //  	pos: {x: 2, y: 2},
-    // 	    run: function(layout, map) {
-	   //  	  layout[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);
-    //           map.addItem(this.pos.x, this.pos.y, Lootr.ItemRepository.create('robe'))   	  	;
-	   //  	  console.log("Still running the special");
-    // 	  	}
-    // 	}
+    //  {
+       //   pos: {x: 2, y: 2},
+    //      run: function(layout, map) {
+       //     layout[this.pos.y][this.pos.x] = new Lootr.Tile(Lootr.Tile.treeTile);
+    //           map.addItem(this.pos.x, this.pos.y, Lootr.ItemRepository.create('robe'))           ;
+       //     console.log("Still running the special");
+    //      }
+    //  }
     // ]
 };
 
 Lootr.Builder.Stream = {
     size: {x: 5, y: 5},
-	layout: [
-		[0,0,0,2,0],
+    layout: [
+        [0,0,0,2,0],
         [0,0,2,2,0],
         [0,2,2,2,0],
         [0,2,0,2,0],
@@ -38,8 +38,8 @@ Lootr.Builder.Stream = {
 
 Lootr.Builder.GemTreasure = {
     size: {x: 5, y: 5},
-	layout: [
-		[4,4,4,4,4],
+    layout: [
+        [4,4,4,4,4],
         [4,0,0,0,4],
         [4,0,3,0,4],
         [4,0,0,0,4],

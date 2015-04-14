@@ -1,252 +1,252 @@
 
 Lootr.Entity = function(args) {
-	args = args || {};
+    args = args || {};
 
-	// Call the DynamicGlyphs constructor
-	Lootr.DynamicGlyph.call(this, args);
+    // Call the DynamicGlyphs constructor
+    Lootr.DynamicGlyph.call(this, args);
 
-	this._alive = true;
+    this._alive = true;
 
-	// Set properties passed from args
-	this._name = args['name'] || '';
-	this._x = args['x'] || 0;
-	this._y = args['y'] || 0;
-	// Actin speed
-	this._speed = args['speed'] || 1000;
-	this._map = null;
+    // Set properties passed from args
+    this._name = args['name'] || '';
+    this._x = args['x'] || 0;
+    this._y = args['y'] || 0;
+    // Actin speed
+    this._speed = args['speed'] || 1000;
+    this._map = null;
 }
 
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
 Lootr.Entity.prototype.switchMap = function(newMap) {
-	// If it's the same map, do nothing
-	if(newMap === this.getMap()) {
-		return;
-	}
+    // If it's the same map, do nothing
+    if(newMap === this.getMap()) {
+        return;
+    }
 
-	this.getMap().removeEntity(this);
+    this.getMap().removeEntity(this);
 
-	// Clear the position
-	this._x = 0;
-	this._y = 0;
+    // Clear the position
+    this._x = 0;
+    this._y = 0;
 
-	// Add to the new map
-	newMap.addEntity(this);
+    // Add to the new map
+    newMap.addEntity(this);
 };
 
 Lootr.Entity.prototype.isAlive = function() {
-	return this._alive;
+    return this._alive;
 };
 
 Lootr.Entity.prototype.kill = function(message) {
-	// Only kill one
-	if(!this.isAlive()) {
-		return;
-	}
+    // Only kill one
+    if(!this.isAlive()) {
+        return;
+    }
 
-	this._alive = false;
-	if(message) {
-		Lootr.sendMessage(this, message);
-	} else {
-		Lootr.sendMessage(this, "You have died!!");
-	}
+    this._alive = false;
+    if(message) {
+        Lootr.sendMessage(this, message);
+    } else {
+        Lootr.sendMessage(this, "You have died!!");
+    }
 
-	// Check if the player died, and if so call their act method to prompt the user
-	if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		this.act();
-	} else {
-		this.getMap().removeEntity(this);
-	}
+    // Check if the player died, and if so call their act method to prompt the user
+    if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        this.act();
+    } else {
+        this.getMap().removeEntity(this);
+    }
 }
 
 Lootr.Entity.prototype.tryMove = function(x, y) {
-	var map = this.getMap();
-	var tile = map.getTile(x, y);
-	var target = map.getEntityAt(x, y);
+    var map = this.getMap();
+    var tile = map.getTile(x, y);
+    var target = map.getEntityAt(x, y);
 
-	// If an entity was present at the tile
-	if(target) {
-		// this can attack
-		if(this.hasComponent('Attacker') &&
-		  // One of the entities is the player
-		  (this.hasComponent(Lootr.EntityComponents.PlayerActor) || target.hasComponent(Lootr.EntityComponents.PlayerActor)) &&
-		  // Whatever is being hit has destructible
-		  target.hasComponent(Lootr.EntityComponents.Destructible)) {
-			this.attack(target);
-			return true;
-		} else {
-			// we cannot attack and cannot move
-			Lootr.sendMessage(this, 'You bump into something.');
-			return false;
-		}
-	}
+    // If an entity was present at the tile
+    if(target) {
+        // this can attack
+        if(this.hasComponent('Attacker') &&
+          // One of the entities is the player
+          (this.hasComponent(Lootr.EntityComponents.PlayerActor) || target.hasComponent(Lootr.EntityComponents.PlayerActor)) &&
+          // Whatever is being hit has destructible
+          target.hasComponent(Lootr.EntityComponents.Destructible)) {
+            this.attack(target);
+            return true;
+        } else {
+            // we cannot attack and cannot move
+            Lootr.sendMessage(this, 'You bump into something.');
+            return false;
+        }
+    }
 
-	// Check if we found the exit to the overworld
-	else if(tile.getDescription() === Lootr.Tile.exitToOverworld.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the overworld
-		this.switchMap(new Lootr.Map.Overworld(this));
-	}
+    // Check if we found the exit to the overworld
+    else if(tile.getDescription() === Lootr.Tile.exitToOverworld.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        // Switch the entity to the overworld
+        this.switchMap(new Lootr.Map.Overworld(this));
+    }
 
-	// Check if we found the cave
-	else if(tile.getDescription() === Lootr.Tile.holeToBossCave.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the BossCavern
-		this.switchMap(new Lootr.Map.BossCavern(this));
-	}
+    // Check if we found the cave
+    else if(tile.getDescription() === Lootr.Tile.holeToBossCave.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        // Switch the entity to the BossCavern
+        this.switchMap(new Lootr.Map.BossCavern(this));
+    }
 
-	// Check if we found the castle
-	else if(tile.getDescription() === Lootr.Tile.holeToCastleTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the Castle
-		this.switchMap(new Lootr.Map.Castle(this));
-	}
+    // Check if we found the castle
+    else if(tile.getDescription() === Lootr.Tile.holeToCastleTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        // Switch the entity to the Castle
+        this.switchMap(new Lootr.Map.Castle(this));
+    }
 
-	// Check if we found the BossCave
-	else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the Cave
-		this.switchMap(new Lootr.Map.Cave(this));
-	}
+    // Check if we found the BossCave
+    else if(tile.getDescription() === Lootr.Tile.holeToCaveTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        // Switch the entity to the Cave
+        this.switchMap(new Lootr.Map.Cave(this));
+    }
 
-	// Check if we found the cave
-	else if(tile.getDescription() === Lootr.Tile.holeToDesertTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-		// Switch the entity to the boss canern
-		this.switchMap(new Lootr.Map.Desert(this));
-	}
+    // Check if we found the cave
+    else if(tile.getDescription() === Lootr.Tile.holeToDesertTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+        // Switch the entity to the boss canern
+        this.switchMap(new Lootr.Map.Desert(this));
+    }
 
-	// check if tile is not ground (a wall) and have PassThroughWalls
-	else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
-		// Make sure the entitys position is within bounds
-		if(x < 0 || x >= this.getMap()._width ||
-		   y < 0 || y >= this.getMap()._height) {
-			return false;
-		}
+    // check if tile is not ground (a wall) and have PassThroughWalls
+    else if (!tile.isGround() && this.hasComponent('PassThroughWalls')) {
+        // Make sure the entitys position is within bounds
+        if(x < 0 || x >= this.getMap()._width ||
+           y < 0 || y >= this.getMap()._height) {
+            return false;
+        }
 
-		// If we are inbounds, update pos.
-		this.setPosition(x, y);
-	}
+        // If we are inbounds, update pos.
+        this.setPosition(x, y);
+    }
 
-	// Check if we are standing on gold
-	else if(tile.isWalkable() && this.hasComponent(Lootr.EntityComponents.GoldHolder) && map.tileContainsItem(x, y, 'gold')) {
-		// update the entitys position
-		this.setPosition(x, y);
+    // Check if we are standing on gold
+    else if(tile.isWalkable() && this.hasComponent(Lootr.EntityComponents.GoldHolder) && map.tileContainsItem(x, y, 'gold')) {
+        // update the entitys position
+        this.setPosition(x, y);
 
-		// Generate a random amount
-		// @todo Maybe make something like luck an attribute to multiply against
-		var gold = map.getItemsAt(x, y);
+        // Generate a random amount
+        // @todo Maybe make something like luck an attribute to multiply against
+        var gold = map.getItemsAt(x, y);
 
-		// Add gold
-		this.modifyGoldBy(gold[0].getGold());
+        // Add gold
+        this.modifyGoldBy(gold[0].getGold());
 
-		// Notify of the pickup
-		Lootr.sendMessage(this, 'You pickup ' + gold[0].getGold() + ' gold');
+        // Notify of the pickup
+        Lootr.sendMessage(this, 'You pickup ' + gold[0].getGold() + ' gold');
 
-		// Remove it from game
-		map.removeItemFromTile(x, y, 'gold');
-	}
+        // Remove it from game
+        map.removeItemFromTile(x, y, 'gold');
+    }
 
-	// Check for trap
-	else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap')) {
-		if(!this.hasComponent('Flight') || !this.isFlying()) {
-			var trap = map.getItemsAt(x, y, 'spike trap');
+    // Check for trap
+    else if(tile.isWalkable() && map.tileContainsItem(x, y, 'spike trap')) {
+        if(!this.hasComponent('Flight') || !this.isFlying()) {
+            var trap = map.getItemsAt(x, y, 'spike trap');
 
-			// update the entitys position
-			this.setPosition(x, y);
+            // update the entitys position
+            this.setPosition(x, y);
 
-			// Trap will spring, updating the tile character
-			// damaging entity
-			// sending messing
-			trap[0].springTrap(this);
+            // Trap will spring, updating the tile character
+            // damaging entity
+            // sending messing
+            trap[0].springTrap(this);
 
-			return true;
-		} else {
-			// update the entitys position
-			this.setPosition(x, y);
-		}
-	}
+            return true;
+        } else {
+            // update the entitys position
+            this.setPosition(x, y);
+        }
+    }
 
-	// Check for GROUND tile while having flight
-	else if(tile.isGround() && this.hasComponent('Flight') && this.isFlying()) {
-		// update the entitys position
-		this.setPosition(x, y);
+    // Check for GROUND tile while having flight
+    else if(tile.isGround() && this.hasComponent('Flight') && this.isFlying()) {
+        // update the entitys position
+        this.setPosition(x, y);
 
-		return true;
-	}
+        return true;
+    }
 
-	// check if we can walk on the tile if so, walk onto it
-	else if(tile.isWalkable()) {
-		// update the entitys position
-		this.setPosition(x, y);
+    // check if we can walk on the tile if so, walk onto it
+    else if(tile.isWalkable()) {
+        // update the entitys position
+        this.setPosition(x, y);
 
-		// Notify entity if they are standing on items
-		var items = this.getMap().getItemsAt(x, y);
-		if(items) {
-			if(items.length === 1) {
-				Lootr.sendMessage(this, 'You see %s', [items[0].describeA()]);
-			} else {
-				Lootr.sendMessage(this, 'There are several object here..');
-			}
-		}
-		return true;
+        // Notify entity if they are standing on items
+        var items = this.getMap().getItemsAt(x, y);
+        if(items) {
+            if(items.length === 1) {
+                Lootr.sendMessage(this, 'You see %s', [items[0].describeA()]);
+            } else {
+                Lootr.sendMessage(this, 'There are several object here..');
+            }
+        }
+        return true;
 
-	// check if tile is diggable and if so dig it
-	} else if (tile.isDiggable()) {
-		if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
-			map.dig(x, y);
-			return true;
-		}
+    // check if tile is diggable and if so dig it
+    } else if (tile.isDiggable()) {
+        if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+            map.dig(x, y);
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	return false;
+    return false;
 };
 
 Lootr.Entity.prototype.setPosition = function(x, y) {
-	var oldX = this._x;
-	var oldY = this._y;
+    var oldX = this._x;
+    var oldY = this._y;
 
-	// Update pos
-	this._x = x;
-	this._y = y;
+    // Update pos
+    this._x = x;
+    this._y = y;
 
-	// If entity is on the map, notify map the entity has moved
-	if(this._map) {
-		this._map.updateEntityPosition(this, oldX, oldY);
-	}
+    // If entity is on the map, notify map the entity has moved
+    if(this._map) {
+        this._map.updateEntityPosition(this, oldX, oldY);
+    }
 };
 
 Lootr.Entity.prototype.setSpeed = function(speed) {
-	this._speed = speed;
+    this._speed = speed;
 };
 
 Lootr.Entity.prototype.modifySpeedBy = function(amount) {
-	this._speed += amount;
+    this._speed += amount;
 };
 
 Lootr.Entity.prototype.getSpeed = function() {
-	return this._speed;
+    return this._speed;
 };
 
 Lootr.Entity.prototype.setMap = function(map) {
-	this._map = map;
+    this._map = map;
 };
 
 Lootr.Entity.prototype.getMap = function() {
-	return this._map;
+    return this._map;
 };
 
 Lootr.Entity.prototype.setX = function(x) {
-	this._x = x;
+    this._x = x;
 };
 
 Lootr.Entity.prototype.setY = function(y) {
-	this._y	= y;
+    this._y = y;
 };
 
 Lootr.Entity.prototype.getX = function() {
-	return this._x;
+    return this._x;
 };
 
 Lootr.Entity.prototype.getY = function() {
-	return this._y;
+    return this._y;
 };
 

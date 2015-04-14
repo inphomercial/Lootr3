@@ -14,14 +14,14 @@ Lootr.Repository.prototype.define = function(name, template, options) {
     // Apply any options
     var disableRandomCreation = options !== undefined && options['disableRandomCreation'];
     if(!disableRandomCreation) {
-    	this._randomTemplates[name] = template;
+        this._randomTemplates[name] = template;
     }
 };
 
 
 // Create an object based on a template.
 Lootr.Repository.prototype.create = function(name, extraProperties) {
-	if (!this._templates[name]) {
+    if (!this._templates[name]) {
         throw new Error("No template named '" + name + "' in repository '" +
             this._name + "'");
     }
@@ -31,9 +31,9 @@ Lootr.Repository.prototype.create = function(name, extraProperties) {
 
     // Apply any extra properties if any
     if(extraProperties) {
-    	for(var key in extraProperties) {
-    		template[key] = extraProperties[key];
-    	}
+        for(var key in extraProperties) {
+            template[key] = extraProperties[key];
+        }
     }
 
     // Create the object, passing the template as an argument

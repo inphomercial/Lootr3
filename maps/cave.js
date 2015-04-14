@@ -1,17 +1,17 @@
 
 Lootr.Map.Cave = function(player) {
 
-	this._width = 40;
-	this._height = 40;
+    this._width = 40;
+    this._height = 40;
 
-	this._width = 200;
-	this._height = 200;
+    this._width = 200;
+    this._height = 200;
 
-	// Build Map
-	var tiles = this._generateLevel();
+    // Build Map
+    var tiles = this._generateLevel();
 
-	// Call the Map constructor
-	Lootr.Map.call(this, tiles);
+    // Call the Map constructor
+    Lootr.Map.call(this, tiles);
 
     // Add exit back to overworld
     var pos = this.getRandomFloorPosition();
@@ -52,7 +52,7 @@ Lootr.Map.Cave = function(player) {
 Lootr.Map.Cave.extend(Lootr.Map);
 
 Lootr.Map.Cave.prototype._generateLevel = function() {
-	// Create the empty map
+    // Create the empty map
     var map = new Array(this._width);
     for (var w = 0; w < this._width; w++) {
         map[w] = new Array(this._height);

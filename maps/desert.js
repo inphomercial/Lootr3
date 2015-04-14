@@ -1,45 +1,45 @@
 
 Lootr.Map.Desert = function(player) {
 
-	this._width = 30;
-	this._height = 30;
+    this._width = 30;
+    this._height = 30;
 
-	// Build Map
-	//var tiles = new Lootr.Builder(this._width, this._height).getTiles();
-	var tiles = this._generateLevel();
+    // Build Map
+    //var tiles = new Lootr.Builder(this._width, this._height).getTiles();
+    var tiles = this._generateLevel();
 
-	// Call the Map constructor
-	Lootr.Map.call(this, tiles);
+    // Call the Map constructor
+    Lootr.Map.call(this, tiles);
 
-	// Add the player
-	this.addEntityAtRandomPosition(player);
+    // Add the player
+    this.addEntityAtRandomPosition(player);
 
-	// Add random entities
-	for(var i=0; i<5; i++) {
-		var entity = Lootr.EntityRepository.createRandom();
+    // Add random entities
+    for(var i=0; i<5; i++) {
+        var entity = Lootr.EntityRepository.createRandom();
 
-		// Add a random entity
-		this.addEntityAtRandomPosition(entity);
-	}
+        // Add a random entity
+        this.addEntityAtRandomPosition(entity);
+    }
 
-	// Add random items
-	for(var i=0; i<50; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
-	}
+    // Add random items
+    for(var i=0; i<50; i++) {
+        this.addItemAtRandomPosition(Lootr.ItemRepository.createRandom());
+    }
 
-	// Add weapons and armor to the map
-	var templates = ['dagger', 'club'];
-	
-	for(var i=0; i<templates.length; i++) {
-		this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
-	}
+    // Add weapons and armor to the map
+    var templates = ['dagger', 'club'];
 
-	// Add Orb
+    for(var i=0; i<templates.length; i++) {
+        this.addItemAtRandomPosition(Lootr.ItemRepository.create(templates[i]));
+    }
+
+    // Add Orb
     this.addItemByTypeAndAmount('Yellow Orb', 1);
 
-    // Add exit back to overworld  
+    // Add exit back to overworld
     var pos = this.getRandomFloorPosition();
-    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);    
+    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
 };
 
 Lootr.Map.Desert.extend(Lootr.Map);

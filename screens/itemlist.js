@@ -84,7 +84,7 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
 
 Lootr.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
     if(inputType == 'keydown') {
-        // If the user hit escape, hit enter and cannot select an item 
+        // If the user hit escape, hit enter and cannot select an item
         // or hit enter without any items selecteed, cancel out
         if(inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN &&
            (!this._canSelectItem || Object.keys(this._selectedIndices).length === 0)) {
