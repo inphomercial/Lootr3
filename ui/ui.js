@@ -8,11 +8,126 @@ Lootr.UI.NameDisplay = {
         this._startX = startX;
         this._startY = startY;
 
-        this._buildNameDisplay();
+        this._draw();
     },
-    _buildNameDisplay: function() {
+    _draw: function() {
         var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}Inpho';
         this._display.drawText(this._startX, this._startY++, name);
+    }
+};
+
+Lootr.UI.WearingDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;
+
+        this._draw();
+    },
+    _draw: function() {
+        var wearingString = '%c{#91AA9D}%b{black}';
+        var wearing = this._player.getArmor();
+        console.log(wearing);
+        if(wearing) {
+            wearingString += 'Wearing: %c{#7E7F7A}' + wearing.getName();
+            this._display.drawText(this._startX, this._startY++, wearingString);
+        } else {
+            wearingString += "Wearing: %c{#7E7F7A}none";
+            this._display.drawText(this._startX, this._startY++, wearingString);
+        }
+    }
+};
+
+Lootr.UI.WieldingDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;
+
+        this._draw();
+    },
+    _draw: function() {
+        var weaponString = '%c{#91AA9D}%b{black}';
+        var weapon = this._player.getWeapon();
+        if(weapon) {
+           weaponString += 'Wielding: %c{#7E7F7A}' + weapon.getName();
+           this._display.drawText(this._startX, this._startY++, weaponString);
+        } else {
+           weaponString += "Wielding: %c{#7E7F7A}none";
+           this._display.drawText(this._startX, this._startY++, weaponString);
+        }
+    }
+};
+
+Lootr.UI.LevelDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;
+
+        this._draw();
+    },
+    _draw: function() {
+        var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + this._player.getLevel();
+        this._display.drawText(this._startX, this._startY++, level);
+    }
+}
+
+Lootr.UI.StatusDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;    
+
+        this._draw();    
+    },
+    _draw: function() {        
+        var status = "%c{#91AA9D}%b{black}STATUS: %c{#FCFFF5}%c{yellow}%b{black}";
+        if(this._player.hasComponent('Flight') && this._player.isFlying()) {
+           status += 'Flying ';
+        }
+        if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
+           status += 'Invisible ';
+        }
+        if(this._player.hasComponent('PassThroughWalls')) {
+           status += 'Walls ';
+        }
+
+        this._display.drawText(this._startX, this._startY++, status);
+    }
+};
+
+Lootr.UI.ExperienceDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;    
+
+        this._draw();    
+    },
+    _draw: function() {
+        var xp = '%c{#91AA9D}%b{black}XP: %c{#FCFFF5}' + this._player.getExperience();        
+        this._display.drawText(this._startX, this._startY++, xp);
+    }
+};
+        
+Lootr.UI.HealthDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;
+
+        this._draw();
+    },
+    _draw: function() {
+        var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + this._player.getHp() + '/' + this._player.getMaxHp();
+        this._display.drawText(this._startX, this._startY++, hp);
     }
 };
 
@@ -23,9 +138,9 @@ Lootr.UI.GoldDisplay = {
         this._startX = startX;
         this._startY = startY;
 
-        this._buildGoldDisplay();
+        this._draw();
     },
-    _buildGoldDisplay: function() {
+    _draw: function() {
         var gold = '%c{#91AA9D}%b{black} GOLD: %c{gold}' + this._player.getGold();
         this._display.drawText(this._startX, this._startY, gold);
     }
@@ -40,10 +155,10 @@ Lootr.UI.HungerDisplay = {
 
         this._offSet = 8;
 
-        this._buildColorBar();
+        this._draw();
     },
-    _buildColorBar: function() {
-        percent = this._getPercentRemaining();
+    _draw: function() {
+        percent = this._player.getHungerPercent();
 
         this._startY++;
 
@@ -71,9 +186,6 @@ Lootr.UI.HungerDisplay = {
         }
 
         this._startY++;
-    },
-    _getPercentRemaining: function() {
-        return this._player.getHungerPercent();
     }
 };
 

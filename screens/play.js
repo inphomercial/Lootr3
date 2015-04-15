@@ -121,65 +121,28 @@ Lootr.Screen.playScreen = {
     renderStats: function(display) {
         var startY = 1;
         var startX = 12;
-        
+
         Lootr.UI.NameDisplay.init(this._player, startX + 82, startY++, display);
         startY++;
 
-        var hp = '%c{#91AA9D}%b{black}';
-        hp += 'HP: %c{#FCFFF5}' + this._player.getHp() + '/' + this._player.getMaxHp();
-        //hp += vsprintf('HP: %d/%d', [this._player.getHp(), this._player.getMaxHp()]);
-        display.drawText(82 + startX, startY++, hp);
+        Lootr.UI.HealthDisplay.init(this._player, startX + 82, startY++, display);
 
-        var level = '%c{#91AA9D}%b{black}';
-        //level += vsprintf('LEVEL: %d', [this._player.getLevel()]);
-        level += 'LVL: %c{#FCFFF5}' + this._player.getLevel();
-        display.drawText(82 + startX, startY++, level);
+        Lootr.UI.LevelDisplay.init(this._player, startX + 82, startY++, display);
 
-        var xp = '%c{#91AA9D}%b{black}';
-        xp += 'XP: %c{#FCFFF5}' + this._player.getExperience();
-        //xp += vsprintf('XP: %d', [this._player.getExperience()]);
-        display.drawText(82 + startX, startY++, xp);
+        Lootr.UI.ExperienceDisplay.init(this._player, startX + 82, startY++, display);
 
         Lootr.UI.GoldDisplay.init(this._player, startX + 82, startY++, display);
 
         Lootr.UI.HungerDisplay.init(this._player, startX + 82, startY, display);
         startY=startY+3;
 
-        var weap = '%c{#91AA9D}%b{black}';
-        var w = this._player.getWeapon();
-        if(w) {
-             weap += 'Wielding: %c{#7E7F7A}' + w.getName();
-             display.drawText(82 + startX, startY++, weap);
-         } else {
-             weap += "Wielding: %c{#7E7F7A}none";
-             display.drawText(82 + startX, startY++, weap);
-         }
-
-        var wear = '%c{#91AA9D}%b{black}';
-        var w = this._player.getArmor();
-        if(w) {
-             wear += 'Wearing: %c{#7E7F7A}' + w.getName();
-             display.drawText(82 + startX, startY++, wear);
-         } else {
-             wear += "Wearing: %c{#7E7F7A}none";
-             display.drawText(82 + startX, startY++, wear);
-         }
-
-        // Current Player status'
+        Lootr.UI.WieldingDisplay.init(this._player, startX + 82, startY, display);        
         startY++;
-        var status = "%c{yellow}%b{black}";
-         if(this._player.hasComponent('Flight') && this._player.isFlying()) {
-            status += 'Flying ';
-         }
-         if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
-            status += 'Invisible ';
-         }
-         if(this._player.hasComponent('PassThroughWalls')) {
-            status += 'Walls ';
-         }
 
-         // Draw the total status string
-         display.drawText(82 + startX, startY++, status);
+        Lootr.UI.WearingDisplay.init(this._player, startX + 82, startY, display);
+        startY++;
+
+        Lootr.UI.StatusDisplay.init(this._player, startX + 82, startY++, display);
     },
     renderTiles: function(display) {
         var screenWidth = Lootr._mapScreenWidth;
@@ -323,6 +286,12 @@ Lootr.Screen.playScreen = {
                 case ROT.VK_U:                    
                     this._player.modifyFullnessBy(5);
                     console.log(this._player._fullness);
+                    break;
+
+                // Testing raising max fullness
+                case ROT.VK_Y:                    
+                    this._player._maxFullness = this._player._maxFullness + 5;
+                    console.log(this._player._maxFullness);
                     break;
 
                 // Testing invis

@@ -18,6 +18,10 @@ Lootr.isInputTypeKeyDown = function(inputType) {
     return inputType == "keydown";
 };
 
+Lootr.isInputDataKeyCode = function(inputData, keyCode) {
+    return inputData.keyCode === keyCode;
+};
+
 // Helper function
 Lootr.getNeighborPositions = function(x, y) {
     var tiles = [];
