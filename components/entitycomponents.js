@@ -383,10 +383,13 @@ Lootr.EntityComponents.FoodConsumer = {
     },
     modifyFullnessBy: function(points) {
         this._fullness = this._fullness + points;
+
+        if(this._fullness > this._maxFullness) {
+            this._fullness = this._maxFullness;
+        }
+
         if(this._fullness <= 0) {
             this.kill('You have died of starvation');
-        } else if(this.fullness > this._maxFullness) {
-            this.kill('You choke and die');
         }
     },
     addTurnHunger: function() {
@@ -394,10 +397,9 @@ Lootr.EntityComponents.FoodConsumer = {
         this.modifyFullnessBy(-this._fullnessDepletionRate);
     },
     getHungerPercent: function() {
-        // We want maxfullness * fullness as a decimal to get percentage out of 100%
-        // this._maxFullness *
+        var percent = this._fullness * 100 / this._maxFullness;
 
-        return this._maxFullness * this._fullness.toFixed(2);
+        return percent.toFixed();
     },
     getHungerState: function() {
         // Fullness points per percent of max fullness
