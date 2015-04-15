@@ -16,15 +16,18 @@ Lootr.Screen.statScreen = {
         Lootr.UI.HealthDisplay.init(this._player, 5, 7, this._display);
         Lootr.UI.LevelDisplay.init(this._player, 5, 8, this._display);
         Lootr.UI.ExperienceDisplay.init(this._player, 5, 9, this._display);
+        Lootr.UI.GoldDisplay.init(this._player, 5, 10, this._display);
 
-        Lootr.UI.StatusDisplay.init(this._player, 5, 11, display);
+        Lootr.UI.StatusDisplay.init(this._player, 5, 12, display);
 
-        Lootr.UI.WieldingDisplay.init(this._player, 5, 13, display);
-        Lootr.UI.WearingDisplay.init(this._player, 5, 14, display);
+        Lootr.UI.WieldingDisplay.init(this._player, 5, 14, display);
+        Lootr.UI.WearingDisplay.init(this._player, 5, 15, display);
+
+        Lootr.UI.AttackValueDisplay.init(this._player, 5, 17, display);
     },
     handleInput: function(inputType, inputData) {
         if(Lootr.isInputTypeKeyDown(inputType) && Lootr.isInputDataKeyCode(inputData, ROT.VK_ESCAPE)) {            
-            Lootr.switchScreen(Lootr.Screen.playScreen);            
+            Lootr.Screen.playScreen.setSubScreen(null);
         }
     }
 };

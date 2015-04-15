@@ -131,6 +131,21 @@ Lootr.UI.HealthDisplay = {
     }
 };
 
+Lootr.UI.AttackValueDisplay = {
+    init: function(player, startX, startY, display) {
+        this._display = display;
+        this._player = player;
+        this._startX = startX;
+        this._startY = startY;
+
+        this._draw();
+    },
+    _draw: function() {
+        var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + this._player.getAttackValue();
+        this._display.drawText(this._startX, this._startY, attack);
+    }
+};
+
 Lootr.UI.GoldDisplay = {
     init: function(player, startX, startY, display) {
         this._display = display;

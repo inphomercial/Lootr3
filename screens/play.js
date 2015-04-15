@@ -141,8 +141,12 @@ Lootr.Screen.playScreen = {
 
         Lootr.UI.WearingDisplay.init(this._player, startX + 82, startY, display);
         startY++;
+        startY++;
 
         Lootr.UI.StatusDisplay.init(this._player, startX + 82, startY++, display);
+        startY++;
+
+        Lootr.UI.AttackValueDisplay.init(this._player, startX + 82, startY++, display);
     },
     renderTiles: function(display) {
         var screenWidth = Lootr._mapScreenWidth;
@@ -337,7 +341,7 @@ Lootr.Screen.playScreen = {
 
                 case ROT.VK_S:
                     Lootr.Screen.statScreen.setup(this._player);
-                    Lootr.switchScreen(Lootr.Screen.statScreen);
+                    this.setSubScreen(Lootr.Screen.statScreen);
                     break;
 
                 case ROT.VK_D:
