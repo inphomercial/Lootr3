@@ -244,7 +244,7 @@ Lootr.Screen.playScreen = {
 
         // If the game si over, enter will bring the user to the loser screen
         if(this._gameEnded) {
-            if(inputType === 'keydown' && inputData.keyCode === ROT.VK_RETURN) {
+            if(Lootr.isInputTypeKeyDown(inputType) && inputData.keyCode === ROT.VK_RETURN) {
 
                 // Setup the gain stat screen and show it
                 Lootr.Screen.loseScreen.setup(this._player);
@@ -260,7 +260,7 @@ Lootr.Screen.playScreen = {
             return;
         }
 
-        if(inputType === 'keydown') {
+        if(Lootr.isInputTypeKeyDown(inputType)) {
 
             // Any key pressi
             switch(inputData.keyCode) {
