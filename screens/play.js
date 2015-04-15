@@ -136,7 +136,7 @@ Lootr.Screen.playScreen = {
         Lootr.UI.HungerDisplay.init(this._player, startX + 82, startY, display);
         startY=startY+3;
 
-        Lootr.UI.WieldingDisplay.init(this._player, startX + 82, startY, display);        
+        Lootr.UI.WieldingDisplay.init(this._player, startX + 82, startY, display);
         startY++;
 
         Lootr.UI.WearingDisplay.init(this._player, startX + 82, startY, display);
@@ -262,7 +262,7 @@ Lootr.Screen.playScreen = {
 
         if(Lootr.isInputTypeKeyDown(inputType)) {
 
-            // Any key pressi
+            // Any key press
             switch(inputData.keyCode) {
                 case ROT.VK_LEFT:
                     this.doMove(-1, 0);
@@ -287,13 +287,13 @@ Lootr.Screen.playScreen = {
                     break;
 
                 // Testing eating food
-                case ROT.VK_U:                    
+                case ROT.VK_U:
                     this._player.modifyFullnessBy(5);
                     console.log(this._player._fullness);
                     break;
 
                 // Testing raising max fullness
-                case ROT.VK_Y:                    
+                case ROT.VK_Y:
                     this._player._maxFullness = this._player._maxFullness + 5;
                     console.log(this._player._maxFullness);
                     break;
@@ -422,6 +422,9 @@ Lootr.Screen.playScreen = {
                     break;
             }
         }
+
+        // Have items act if they have the act method
+        // this._player.getMap().getItemsToAct();
 
         Lootr.refresh();
 

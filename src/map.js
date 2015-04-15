@@ -113,6 +113,15 @@ Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
     return tile;
 };
 
+Lootr.Map.prototype.getItemsToAct = function() {
+    for(var key in this._items) {
+        if(typeof this._items[key][0].act === 'function') {
+            console.log(this._items[key][0].getName() + " has a function!");
+            this._items[key][0].act();
+        }
+    }
+};
+
 Lootr.Map.prototype.getItemsAt = function(x, y) {
     var items = this._items[x + ',' + y];
 
@@ -281,8 +290,6 @@ Lootr.Map.prototype.setupExploredArray = function() {
         }
     }
 };
-
-
 
 Lootr.Map.prototype.setupFov = function() {
     // keep this in 'map' varaiable so that we dont lose it

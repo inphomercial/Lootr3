@@ -82,6 +82,27 @@ Lootr.ItemComponents.Edible = {
     }
 };
 
+// Lootr.ItemComponents.Decay = {
+//     name: 'Decay',
+//     init: function(template) {
+//         this._decay_turns = template['decay_turns'] || 10;
+//     },
+//     act: function() {
+//         console.log("corpse is decaying.." + this._decay_turns + " turns left");
+
+//         this._decay_turns--;
+
+//         // if(this._decay_turns <= 0) {
+//         //     var player = Lootr.Screen.playScreen._player;
+//         //     Lootr.sendMessage(player, 'A corpse decays', []);
+//             // Remove Corpse by reaching into the map from the player
+//             // ...fail, items dont have x & y....
+//             // var player = Lootr.Screen.playScreen._player;
+//             // player.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
+//         // }
+//     }
+// };
+
 Lootr.ItemComponents.Orb = {
     name: 'Orb',
     init: function(template) {

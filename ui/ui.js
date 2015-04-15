@@ -28,7 +28,7 @@ Lootr.UI.WearingDisplay = {
     _draw: function() {
         var wearingString = '%c{#91AA9D}%b{black}';
         var wearing = this._player.getArmor();
-        console.log(wearing);
+
         if(wearing) {
             wearingString += 'Wearing: %c{#7E7F7A}' + wearing.getName();
             this._display.drawText(this._startX, this._startY++, wearingString);
@@ -51,6 +51,7 @@ Lootr.UI.WieldingDisplay = {
     _draw: function() {
         var weaponString = '%c{#91AA9D}%b{black}';
         var weapon = this._player.getWeapon();
+
         if(weapon) {
            weaponString += 'Wielding: %c{#7E7F7A}' + weapon.getName();
            this._display.drawText(this._startX, this._startY++, weaponString);

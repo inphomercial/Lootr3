@@ -75,6 +75,7 @@ Lootr.ItemRepository.define('corpse', {
     foodValue: 75,
     consumptions: 1,
     components: [Lootr.ItemComponents.Edible]
+                 // Lootr.ItemComponents.Decay]
 }, {
     disableRandomCreation: true
 });

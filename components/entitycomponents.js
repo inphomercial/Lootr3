@@ -411,7 +411,7 @@ Lootr.EntityComponents.FoodConsumer = {
         return percent.toFixed();
     },
     listeners: {
-        onGainLevel: function() {            
+        onGainLevel: function() {
             this.modifyMaxFullnessBy(5);
             this._fullness = this._maxFullness;
         },
