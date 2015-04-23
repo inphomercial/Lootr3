@@ -29,22 +29,23 @@ Lootr.Screen.playScreen = {
         this.renderTiles(display);
 
         // Render player stats
-        this.renderStats(display);
+        Lootr.UI.RenderStatsGroup(this._player, 12, 1, display);
 
         // Render player orbs
-        this.renderOrbs(display);
+        Lootr.UI.RenderOrbsGroup(this._player, 12, 1, display);
 
         // Render border
-        this.renderBorder(display);
+        Lootr.UI.RenderGameBorder(display);
 
         // Draw messages
-        var messages = this._player.getMessages();
-        var messageY = 23;
-        for(var i=0; i<messages.length; i++) {
-            // Draw each message adding the number of lines
-            display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
-            messageY++
-        }
+        Lootr.UI.RenderGameMessages(this._player, 5, 23, display);
+        // var messages = this._player.getMessages();
+        // var messageY = 23;
+        // for(var i=0; i<messages.length; i++) {
+        //     // Draw each message adding the number of lines
+        //     display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
+        //     messageY++
+        // }
 
     },
     getScreenOffsets: function() {
@@ -64,89 +65,6 @@ Lootr.Screen.playScreen = {
             x: topLeftX,
             y: topLeftY
         };
-    },
-    renderBorder: function(display) {
-        var screenWidth = Lootr._mapScreenWidth;
-        var screenHeight = Lootr._mapScreenHeight;
-
-        for(var x=0; x<=screenWidth; x++) {
-            for(var y=0; y<=screenHeight; y++) {
-                if(y == 0) {
-                    display.drawText(x, y, "%b{grey}%c{grey}*");
-                }
-                if(y == screenHeight) {
-                    display.drawText(x, y, "%b{grey}%c{grey}*");
-                }
-                if(x == 0) {
-                    display.drawText(x, y, "%b{grey}%c{grey}*");
-                }
-                if(x == screenWidth) {
-                    display.drawText(x, y, "%b{grey}%c{grey}*");
-                }
-            }
-        }
-    },
-    renderOrbs: function(display) {
-        var startY = 1;
-        var startX = 12;
-
-        // Draw Obtained Orbs
-        var orbs = this._player.hasOrbs();
-        display.drawText(101 + startX, startY, "Orbs");
-
-        if(orbs.red) {
-            display.drawText(102 + startX, startY + 2, "%c{red}O");
-        } else {
-            display.drawText(102 + startX, startY + 2, "%c{grey}o");
-        }
-
-        if(orbs.yellow) {
-            display.drawText(100 + startX, startY + 3, "%c{yellow}O");
-        } else {
-            display.drawText(100 + startX, startY + 3, "%c{grey}o");
-        }
-
-        if(orbs.green) {
-            display.drawText(104 + startX, startY + 3, "%c{green}O");
-        } else {
-            display.drawText(104 + startX, startY + 3, "%c{grey}o");
-        }
-
-        if(orbs.blue) {
-            display.drawText(102 + startX, startY + 4, "%c{blue}O");
-        } else {
-            display.drawText(102 + startX, startY + 4, "%c{grey}o");
-        }
-    },
-    renderStats: function(display) {
-        var startY = 1;
-        var startX = 12;
-
-        Lootr.UI.NameDisplay.init(this._player, startX + 82, startY++, display);
-        startY++;
-
-        Lootr.UI.HealthDisplay.init(this._player, startX + 82, startY++, display);
-
-        Lootr.UI.LevelDisplay.init(this._player, startX + 82, startY++, display);
-
-        Lootr.UI.ExperienceDisplay.init(this._player, startX + 82, startY++, display);
-
-        Lootr.UI.GoldDisplay.init(this._player, startX + 82, startY++, display);
-
-        Lootr.UI.HungerDisplay.init(this._player, startX + 82, startY, display);
-        startY=startY+3;
-
-        Lootr.UI.WieldingDisplay.init(this._player, startX + 82, startY, display);
-        startY++;
-
-        Lootr.UI.WearingDisplay.init(this._player, startX + 82, startY, display);
-        startY++;
-        startY++;
-
-        Lootr.UI.StatusDisplay.init(this._player, startX + 82, startY++, display);
-        startY++;
-
-        Lootr.UI.AttackValueDisplay.init(this._player, startX + 82, startY++, display);
     },
     renderTiles: function(display) {
         var screenWidth = Lootr._mapScreenWidth;

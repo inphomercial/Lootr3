@@ -1,207 +1,208 @@
 
 Lootr.UI = {};
 
-Lootr.UI.NameDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
+/*
+ * Renders out the main games border window
+ */
+Lootr.UI.RenderGameBorder = function(display) {
+    var screenWidth = Lootr._mapScreenWidth;
+    var screenHeight = Lootr._mapScreenHeight;
 
-        this._draw();
-    },
-    _draw: function() {
-        var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}Inpho';
-        this._display.drawText(this._startX, this._startY++, name);
-    }
-};
-
-Lootr.UI.WearingDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
-
-        this._draw();
-    },
-    _draw: function() {
-        var wearingString = '%c{#91AA9D}%b{black}';
-        var wearing = this._player.getArmor();
-
-        if(wearing) {
-            wearingString += 'Wearing: %c{#7E7F7A}' + wearing.getName();
-            this._display.drawText(this._startX, this._startY++, wearingString);
-        } else {
-            wearingString += "Wearing: %c{#7E7F7A}none";
-            this._display.drawText(this._startX, this._startY++, wearingString);
+    for(var x=0; x<=screenWidth; x++) {
+        for(var y=0; y<=screenHeight; y++) {
+            if(y == 0) {
+                display.drawText(x, y, "%b{grey}%c{grey}*");
+            }
+            if(y == screenHeight) {
+                display.drawText(x, y, "%b{grey}%c{grey}*");
+            }
+            if(x == 0) {
+                display.drawText(x, y, "%b{grey}%c{grey}*");
+            }
+            if(x == screenWidth) {
+                display.drawText(x, y, "%b{grey}%c{grey}*");
+            }
         }
     }
 };
 
-Lootr.UI.WieldingDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
-
-        this._draw();
-    },
-    _draw: function() {
-        var weaponString = '%c{#91AA9D}%b{black}';
-        var weapon = this._player.getWeapon();
-
-        if(weapon) {
-           weaponString += 'Wielding: %c{#7E7F7A}' + weapon.getName();
-           this._display.drawText(this._startX, this._startY++, weaponString);
-        } else {
-           weaponString += "Wielding: %c{#7E7F7A}none";
-           this._display.drawText(this._startX, this._startY++, weaponString);
-        }
+/*
+ * Renders the Game Messages window
+ */
+Lootr.UI.RenderGameMessages = function(player, startX, startY, display) {
+   // Draw messages
+    var messages = this._player.getMessages();
+    for(var i=0; i<messages.length; i++) {
+        // Draw each message adding the number of lines
+        display.drawText(startX, startY, '%c{white}%b{black}' + messages[i]);
+        startY++;
     }
 };
 
-Lootr.UI.LevelDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
+/*
+ * Renders out the Orbs GUI
+ */
+Lootr.UI.RenderOrbsGroup = function(player, startX, startY, display) {
+    var orbs = player.hasOrbs();
 
-        this._draw();
-    },
-    _draw: function() {
-        var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + this._player.getLevel();
-        this._display.drawText(this._startX, this._startY++, level);
+    display.drawText(101 + startX, startY, "Orbs");
+
+    if(orbs.red) {
+        display.drawText(102 + startX, startY + 2, "%c{red}O");
+    } else {
+        display.drawText(102 + startX, startY + 2, "%c{grey}o");
     }
-}
 
-Lootr.UI.StatusDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;    
+    if(orbs.yellow) {
+        display.drawText(100 + startX, startY + 3, "%c{yellow}O");
+    } else {
+        display.drawText(100 + startX, startY + 3, "%c{grey}o");
+    }
 
-        this._draw();    
-    },
-    _draw: function() {        
-        var status = "%c{#91AA9D}%b{black}STATUS: %c{#FCFFF5}%c{yellow}%b{black}";
-        if(this._player.hasComponent('Flight') && this._player.isFlying()) {
-           status += 'Flying ';
-        }
-        if(this._player.hasComponent('Invisiblity') && this._player.isInvisible()) {
-           status += 'Invisible ';
-        }
-        if(this._player.hasComponent('PassThroughWalls')) {
-           status += 'Walls ';
-        }
+    if(orbs.green) {
+        display.drawText(104 + startX, startY + 3, "%c{green}O");
+    } else {
+        display.drawText(104 + startX, startY + 3, "%c{grey}o");
+    }
 
-        this._display.drawText(this._startX, this._startY++, status);
+    if(orbs.blue) {
+        display.drawText(102 + startX, startY + 4, "%c{blue}O");
+    } else {
+        display.drawText(102 + startX, startY + 4, "%c{grey}o");
+    }
+ };
+
+/*
+ * Renders out the entire stats GUI
+ */
+Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
+    Lootr.UI.NameDisplay(player, startX + 82, startY++, display);
+    startY++;
+
+    Lootr.UI.HealthDisplay(player, startX + 82, startY++, display);
+
+    Lootr.UI.LevelDisplay(player, startX + 82, startY++, display);
+
+    Lootr.UI.ExperienceDisplay(player, startX + 82, startY++, display);
+
+    Lootr.UI.GoldDisplay(player, startX + 82, startY++, display);
+
+    Lootr.UI.HungerDisplay(player, startX + 82, startY, display);
+    startY=startY+3;
+
+    Lootr.UI.WieldingDisplay(player, startX + 82, startY, display);
+    startY++;
+
+    Lootr.UI.WearingDisplay(player, startX + 82, startY, display);
+    startY++;
+    startY++;
+
+    Lootr.UI.StatusDisplay(player, startX + 82, startY++, display);
+    startY++;
+
+    Lootr.UI.AttackValueDisplay(player, startX + 82, startY++, display);
+};
+
+Lootr.UI.NameDisplay = function(player, startX, startY, display) {
+    var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}Inpho';
+    display.drawText(startX, startY++, name);
+};
+
+Lootr.UI.WearingDisplay = function(player, startX, startY, display) {
+    var wearingString = '%c{#91AA9D}%b{black}';
+    var wearing = player.getArmor();
+
+    if(wearing) {
+        wearingString += 'Wearing: %c{#7E7F7A}' + wearing.getName();
+        display.drawText(startX, startY++, wearingString);
+    } else {
+        wearingString += "Wearing: %c{#7E7F7A}none";
+        display.drawText(startX, startY++, wearingString);
     }
 };
 
-Lootr.UI.ExperienceDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;    
+Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
+    var weaponString = '%c{#91AA9D}%b{black}';
+    var weapon = player.getWeapon();
 
-        this._draw();    
-    },
-    _draw: function() {
-        var xp = '%c{#91AA9D}%b{black}XP: %c{#FCFFF5}' + this._player.getExperience();        
-        this._display.drawText(this._startX, this._startY++, xp);
-    }
-};
-        
-Lootr.UI.HealthDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
-
-        this._draw();
-    },
-    _draw: function() {
-        var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + this._player.getHp() + '/' + this._player.getMaxHp();
-        this._display.drawText(this._startX, this._startY++, hp);
+    if(weapon) {
+       weaponString += 'Wielding: %c{#7E7F7A}' + weapon.getName();
+       display.drawText(startX, startY++, weaponString);
+    } else {
+       weaponString += "Wielding: %c{#7E7F7A}none";
+       display.drawText(startX, startY++, weaponString);
     }
 };
 
-Lootr.UI.AttackValueDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
-
-        this._draw();
-    },
-    _draw: function() {
-        var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + this._player.getAttackValue();
-        this._display.drawText(this._startX, this._startY, attack);
-    }
+Lootr.UI.LevelDisplay = function(player, startX, startY, display) {
+    var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player.getLevel();
+    display.drawText(startX, startY++, level);
 };
 
-Lootr.UI.GoldDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
-
-        this._draw();
-    },
-    _draw: function() {
-        var gold = '%c{#91AA9D}%b{black} GOLD: %c{gold}' + this._player.getGold();
-        this._display.drawText(this._startX, this._startY, gold);
+Lootr.UI.StatusDisplay = function(player, startX, startY, display) {
+    var status = "%c{#91AA9D}%b{black}STATUS: %c{#FCFFF5}%c{yellow}%b{black}";
+    if(player.hasComponent('Flight') && player.isFlying()) {
+       status += 'Flying ';
     }
+    if(player.hasComponent('Invisiblity') && player.isInvisible()) {
+       status += 'Invisible ';
+    }
+    if(player.hasComponent('PassThroughWalls')) {
+       status += 'Walls ';
+    }
+
+    display.drawText(startX, startY++, status);
 };
 
-Lootr.UI.HungerDisplay = {
-    init: function(player, startX, startY, display) {
-        this._display = display;
-        this._player = player;
-        this._startX = startX;
-        this._startY = startY;
+Lootr.UI.ExperienceDisplay = function(player, startX, startY, display) {
+    var xp = '%c{#91AA9D}%b{black}XP: %c{#FCFFF5}' + player.getExperience();
+    display.drawText(startX, startY++, xp);
+};
 
-        this._offSet = 8;
+Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
+    var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + player.getHp() + '/' + player.getMaxHp();
+    display.drawText(startX, startY++, hp);
+};
 
-        this._draw();
-    },
-    _draw: function() {
-        percent = this._player.getHungerPercent();
+Lootr.UI.AttackValueDisplay = function(player, startX, startY, display) {
+    var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + player.getAttackValue();
+    display.drawText(startX, startY, attack);
+};
 
-        this._startY++;
+Lootr.UI.GoldDisplay = function(player, startX, startY, display) {
+    var gold = '%c{#91AA9D}%b{black} GOLD: %c{gold}' + player.getGold();
+    display.drawText(startX, startY, gold);
+};
 
-        this._display.drawText(this._startX, this._startY, '%c{#91AA9D}%b{black}HUNGER: %c{#FCFFF5}');
+Lootr.UI.HungerDisplay = function(player, startX, startY, display) {
 
-        var startX = this._startX + this._offSet;
+    startY++;
 
-        if (percent <= 5) {              
-            this._display.drawText(startX, this._startY, "%c{grey}%b{grey}oooooo");   
-            this._display.drawText(startX, this._startY, "%c{red}%b{red}o");  
-        } else if (percent > 5 && percent <= 25) {
-            this._display.drawText(startX, this._startY, "%c{grey}%b{grey}oooooo");   
-            this._display.drawText(startX, this._startY, "%c{red}%b{red}oo");    
-        } else if (percent > 25 && percent <= 50) {
-            this._display.drawText(startX, this._startY, "%c{grey}%b{grey}oooooo");   
-            this._display.drawText(startX, this._startY, "%c{pink}%b{pink}ooo");    
-        } else if (percent > 50 && percent <= 75) {
-            this._display.drawText(startX, this._startY, "%c{grey}%b{grey}oooooo");   
-            this._display.drawText(startX, this._startY, "%c{yellow}%b{yellow}oooo");    
-        } else if (percent > 75 && percent < 100) {
-            this._display.drawText(startX, this._startY, "%c{grey}%b{grey}oooooo");   
-            this._display.drawText(startX, this._startY, "%c{green}%b{green}ooooo");    
-        } else if (percent == 100) {
-            this._display.drawText(startX, this._startY, "%c{lightgreen}%b{lightgreen}oooooo");    
-        }
+    display.drawText(startX, startY, '%c{#91AA9D}%b{black}HUNGER: %c{#FCFFF5}');
 
-        this._startY++;
+    var offSet = 8;
+    var percent = player.getHungerPercent();
+    var startX = startX + offSet;
+
+    if (percent <= 5) {
+        display.drawText(startX, startY, "%c{grey}%b{grey}oooooo");
+        display.drawText(startX, startY, "%c{red}%b{red}o");
+    } else if (percent > 5 && percent <= 25) {
+        display.drawText(startX, startY, "%c{grey}%b{grey}oooooo");
+        display.drawText(startX, startY, "%c{red}%b{red}oo");
+    } else if (percent > 25 && percent <= 50) {
+        display.drawText(startX, startY, "%c{grey}%b{grey}oooooo");
+        display.drawText(startX, startY, "%c{pink}%b{pink}ooo");
+    } else if (percent > 50 && percent <= 75) {
+        display.drawText(startX, startY, "%c{grey}%b{grey}oooooo");
+        display.drawText(startX, startY, "%c{yellow}%b{yellow}oooo");
+    } else if (percent > 75 && percent < 100) {
+        display.drawText(startX, startY, "%c{grey}%b{grey}oooooo");
+        display.drawText(startX, startY, "%c{green}%b{green}ooooo");
+    } else if (percent == 100) {
+        display.drawText(startX, startY, "%c{lightgreen}%b{lightgreen}oooooo");
     }
+
+    startY++;
 };
 
