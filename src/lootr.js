@@ -15,11 +15,6 @@ var Lootr =  {
         FEET: 'feet'
     },
 
-    // storyFlags: {
-    //  finishCave: false,
-    //  finishCaveBoss: false
-    // },
-
     init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,
@@ -38,6 +33,7 @@ var Lootr =  {
                 }
             });
         }
+        
         // Bind keyboard input events
         bindEventToScreen('keydown');
         //bindEventToScreen('mousemove');

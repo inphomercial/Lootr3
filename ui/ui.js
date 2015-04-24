@@ -30,10 +30,8 @@ Lootr.UI.RenderGameBorder = function(display) {
  * Renders the Game Messages window
  */
 Lootr.UI.RenderGameMessages = function(player, startX, startY, display) {
-   // Draw messages
-    var messages = this._player.getMessages();
-    for(var i=0; i<messages.length; i++) {
-        // Draw each message adding the number of lines
+    var messages = player.getMessages();
+    for (var i = 0; i < messages.length; i++) {
         display.drawText(startX, startY, '%c{white}%b{black}' + messages[i]);
         startY++;
     }

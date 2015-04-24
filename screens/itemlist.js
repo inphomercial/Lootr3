@@ -40,22 +40,30 @@ Lootr.Screen.ItemListScreen.prototype.setup = function(player, items) {
 
     // Clean the set of selected indices
     this._selectedIndices = {};
+
     return count;
 }
 
 Lootr.Screen.ItemListScreen.prototype.render = function(display) {
     var letters = 'abcdefghijklmnopqrstuvwxyz';
 
+    // Render our Game Border
+    Lootr.UI.RenderGameBorder(display);
+
+    // Starting X & Y
+    var startX = 5;
+    var startY = 3;
+
     // Render the caption to the top row
-    display.drawText(0, 0, this._caption);
+    display.drawText(startX, startY, this._caption);
 
     // Render the no item row if enabled
     if(this._hasNoItemOption) {
-        display.drawText(0, 1, '0 - no item');
+        display.drawText(startX, startY + 2, '0 - no item');
     }
 
-    var row = 0;
-    for(var i=0; i<this._items.length; i++) {
+    var row = 2;
+    for (var i = 0; i < this._items.length; i++) {
         // If we have an item, we want to render it.
         if(this._items[i]) {
             // Get the letter matching the item's index
@@ -76,7 +84,7 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
             }
 
             // Render at the correct row and add 2
-            display.drawText(0, 2 + row, letter + ' ' + selectionState + ' ' + this._items[i].describe() + suffix);
+            display.drawText(startX, startY + row, letter + ' ' + selectionState + ' ' + this._items[i].describe() + suffix);
             row++;
         }
     }

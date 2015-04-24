@@ -21,9 +21,7 @@ Lootr.Entity.extend(Lootr.DynamicGlyph);
 
 Lootr.Entity.prototype.switchMap = function(newMap) {
     // If it's the same map, do nothing
-    if(newMap === this.getMap()) {
-        return;
-    }
+    if(newMap === this.getMap()) return;
 
     this.getMap().removeEntity(this);
 

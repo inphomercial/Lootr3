@@ -689,7 +689,7 @@ Lootr.EntityComponents.LeaveTrail = {
 
 Lootr.EntityComponents.PassThroughWalls = {
     name: 'PassThroughWalls'
-}
+};
 
 Lootr.EntityComponents.FireSpread = {
     name: 'FireSpread',
@@ -842,7 +842,6 @@ Lootr.EntityComponents.FungusActor = {
 Lootr.EntityComponents.InventoryHolder = {
     name: 'InventoryHolder',
     init: function(template) {
-        // Default to 10 slots
         var inventorySlots = template['inventorySlots'] || 10;
 
         // Setup an empty inventory
@@ -874,7 +873,6 @@ Lootr.EntityComponents.InventoryHolder = {
         return false;
     },
     removeItem: function(i) {
-
         // If we can equip items, then make sure we unequip the item we are removing
         if(this._items[i] && this.hasComponent(Lootr.EntityComponents.Equipper)) {
             this.unequip(this._items[i]);
@@ -950,7 +948,7 @@ Lootr.EntityComponents.InventoryHolder = {
 
         this.removeItem(i);
     }
-}
+};
 
 Lootr.EntityComponents.MessageRecipient = {
     name: 'MessageRecipient',
