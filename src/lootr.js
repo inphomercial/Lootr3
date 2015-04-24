@@ -33,7 +33,7 @@ var Lootr =  {
                 }
             });
         }
-        
+
         // Bind keyboard input events
         bindEventToScreen('keydown');
         //bindEventToScreen('mousemove');

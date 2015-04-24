@@ -14,7 +14,7 @@ Lootr.TemplatePlayer = {
                  Lootr.EntityComponents.Destructible,
                  Lootr.EntityComponents.MessageRecipient,
                  Lootr.EntityComponents.Sight,
-                 //Lootr.EntityComponents.PassThroughWalls,
+                 Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.InventoryHolder,
                  Lootr.EntityComponents.GoldHolder,
                  Lootr.EntityComponents.FoodConsumer,
