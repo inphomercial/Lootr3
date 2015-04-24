@@ -12,13 +12,13 @@ Lootr.Builder = function(args) {
 Lootr.Builder.prototype.generate = function(global_map) {
     this._generateLayout();
     this._generateSpecial(global_map);
-    
+
     return this.map;
 };
 
 Lootr.Builder.prototype._populateEmptyMapArray = function() {
     this.map = new Array(this.layout.length);
-    
+
     for (var y=0; y < this.layout.length; y++) {
         this.map[y] = new Array(this.layout[0].length);
     }

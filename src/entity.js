@@ -147,17 +147,17 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
     if(this.isOnWallWithPassThroughWalls(tile)) {
         if(this.isWithinMapBounds(x, y, map)) this.setPosition(x, y);
+
+        return true;
     }
 
     if(this.isOnGroundTileWhileFlying(tile)) {
-        // update the entitys position
         this.setPosition(x, y);
 
         return true;
     }
 
     if(this.isOnGoldTile(x, y, tile, map)) {
-        // update the entitys position
         this.setPosition(x, y);
 
         // Generate a random amount
@@ -194,7 +194,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
 
     if(this.isOnWalkableTileAndHasItems(x, y, tile, map)) {
-        // update the entitys position
         this.setPosition(x, y);
 
         // Notify entity if they are standing on items
