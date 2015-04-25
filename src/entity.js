@@ -7,12 +7,13 @@ Lootr.Entity = function(args) {
 
     this._alive = true;
 
+    this._template = args;
+
     // Set properties passed from args
     this._name = args['name'] || '';
     this._x = args['x'] || 0;
     this._y = args['y'] || 0;
-    // Actin speed
-    this._speed = args['speed'] || 1000;
+
     this._map = null;
 }
 
@@ -37,6 +38,10 @@ Lootr.Entity.prototype.isAlive = function() {
     return this._alive;
 };
 
+Lootr.Entity.prototype.getSpeed = function() {
+    return this.getMovementSpeed();
+};
+
 Lootr.Entity.prototype.kill = function(message) {
     // Only kill one
     if(!this.isAlive()) {
@@ -56,7 +61,7 @@ Lootr.Entity.prototype.kill = function(message) {
     } else {
         this.getMap().removeEntity(this);
     }
-}
+};
 
 Lootr.Entity.prototype.isOnDesertEnterance = function(tile) {
     return (tile.getDescription() === Lootr.Tile.holeToDesertTile.description && this.hasComponent(Lootr.EntityComponents.PlayerActor));
@@ -122,10 +127,10 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
     var target = map.getEntityAt(x, y);
 
     // If entity is at tile
-    if(target) {
-        if(this.isAttackerWithPlayerAndTargetIsDestructable(target)) {
-                this.attack(target);
-                return true;
+    if (target) {
+        if (this.isAttackerWithPlayerAndTargetIsDestructable(target)) {
+            this.attack(target);
+            return true;
         }
 
         // we cannot attack and cannot move
@@ -135,29 +140,29 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
     }
 
     // Moving onto tiles that trigger map changes
-    if(this.isOnCastleEnterance(tile)) this.switchMap(new Lootr.Map.Castle(this));
+    if (this.isOnCastleEnterance(tile)) this.switchMap(new Lootr.Map.Castle(this));
 
-    if(this.isOnDesertEnterance(tile)) this.switchMap(new Lootr.Map.Desert(this));
+    if (this.isOnDesertEnterance(tile)) this.switchMap(new Lootr.Map.Desert(this));
 
-    if(this.isOnOverworldExit(tile)) this.switchMap(new Lootr.Map.Overworld(this));
+    if (this.isOnOverworldExit(tile)) this.switchMap(new Lootr.Map.Overworld(this));
 
-    if(this.isOnCaveEnterance(tile)) this.switchMap(new Lootr.Map.Cave(this));
+    if (this.isOnCaveEnterance(tile)) this.switchMap(new Lootr.Map.Cave(this));
 
-    if(this.isOnCaveBossEnterance(tile)) this.switchMap(new Lootr.Map.BossCavern(tile));
+    if (this.isOnCaveBossEnterance(tile)) this.switchMap(new Lootr.Map.BossCavern(tile));
 
-    if(this.isOnWallWithPassThroughWalls(tile)) {
+    if (this.isOnWallWithPassThroughWalls(tile)) {
         if(this.isWithinMapBounds(x, y, map)) this.setPosition(x, y);
 
         return true;
     }
 
-    if(this.isOnGroundTileWhileFlying(tile)) {
+    if (this.isOnGroundTileWhileFlying(tile)) {
         this.setPosition(x, y);
 
         return true;
     }
 
-    if(this.isOnGoldTile(x, y, tile, map)) {
+    if (this.isOnGoldTile(x, y, tile, map)) {
         this.setPosition(x, y);
 
         // Generate a random amount
@@ -176,7 +181,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
         return true;
     }
 
-    if(this.isOnTrapTile(x, y, tile, map)) {
+    if (this.isOnTrapTile(x, y, tile, map)) {
         var trap = map.getItemsAt(x, y, 'spike trap');
 
         if(this.isNotFlying()) {
@@ -193,7 +198,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
     }
 
 
-    if(this.isOnWalkableTileAndHasItems(x, y, tile, map)) {
+    if (this.isOnWalkableTileAndHasItems(x, y, tile, map)) {
         this.setPosition(x, y);
 
         // Notify entity if they are standing on items
@@ -208,10 +213,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
         return true;
     }
 
-    if(tile.isWalkable()) {
-        this.setPosition(x, y);
-    }
-
     // check if tile is diggable and if so dig it
     if (tile.isDiggable()) {
         if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
@@ -220,6 +221,10 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
         }
 
         return false;
+    }
+
+    if (tile.isWalkable()) {
+        this.setPosition(x, y);
     }
 
     return false;
@@ -237,18 +242,6 @@ Lootr.Entity.prototype.setPosition = function(x, y) {
     if(this._map) {
         this._map.updateEntityPosition(this, oldX, oldY);
     }
-};
-
-Lootr.Entity.prototype.setSpeed = function(speed) {
-    this._speed = speed;
-};
-
-Lootr.Entity.prototype.modifySpeedBy = function(amount) {
-    this._speed += amount;
-};
-
-Lootr.Entity.prototype.getSpeed = function() {
-    return this._speed;
 };
 
 Lootr.Entity.prototype.setMap = function(map) {

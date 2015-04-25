@@ -69,8 +69,20 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
     }
 };
 
-Lootr.DynamicGlyph.prototype.addComponent = function(component) {
-};
+// @todo fix this... currently not working
+// Lootr.DynamicGlyph.prototype.addComponent = function(component) {
+//     console.info("components", this._attachedComponents);
+//     console.info("componentGroups", this._attachedComponentGroups);
+
+//     if (typeof component === 'object') {
+//         if (!this._attachedComponents[component.name]) {
+//             this._attachedComponents[component.name] = true;     
+//             component.init.call(this, this._template);              
+//         } else {
+//             console.log("Component already exists on player");
+//         }
+//     }
+// };
 
 Lootr.DynamicGlyph.prototype.removeComponent = function(component) {
 };

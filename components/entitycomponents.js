@@ -1,10 +1,105 @@
 
 Lootr.EntityComponents = {};
 
+// This runs doing each turn - due to the entity now having the act method
+// Scheduler calls each objects' act method
+Lootr.EntityComponents.PlayerActor = {
+    name: 'PlayerActor',
+    groupName: 'Actor',    
+    act: function() {      
+        this._acting = true;
+
+        this.isBleeding();        
+        this.addTurnHunger();
+
+        // Detect if game is over or dead
+        if(!this.isAlive()) {
+            // Send last message to player
+            Lootr.sendMessage(this, "You've Died.");
+            Lootr.sendMessage(this, 'Press [Enter] to continue');
+
+            Lootr.Screen.playScreen.setGameEnded(true);
+
+            this._acting = false;
+        }
+
+        // Re-redner the screen
+        Lootr.refresh();
+
+        // Lock the engine and wait async for the player to press a key
+        this.getMap().getEngine().lock();
+
+        // Clear the message queue
+        this.clearMessages();
+    }
+};
+
+// This runs doing each turn - due to the entity now having the act method
+// Scheduler calls each objects' act method
+Lootr.EntityComponents.TaskActor = {
+    name: 'TaskActor',
+    groupName: 'Actor',
+    init: function(template) {
+        // Load tasks
+        this._tasks = template['tasks'] || ['wander'];
+    },
+    act: function() {
+        // Iterate through all tasks
+        for(var i=0; i<this._tasks.length; i++) {
+            if(this.canDoTask(this._tasks[i])) {
+                // if task doesnt end turn, run it and go to the next, else finish turn
+                var ends = this._tasks[i] + 'EndsTurn';
+                if(!this[ends]) {
+                    this[this._tasks[i]]();
+                    continue;
+                } else {
+                    this[this._tasks[i]]();
+                    return;
+                }
+            }
+        }
+    },
+    canDoTask: function(task) {
+        switch(task) {
+            case 'hunt':
+                return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());
+            case 'wander':
+                return this.hasComponent('Wander');
+            case 'leaveTrail':
+                return this.hasComponent('LeaveTrail');
+            case 'corpseEater':
+                return this.hasComponent('CorpseEater') && this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');
+            case 'spawnEntity':
+                return this.hasComponent('SpawnEntity') && Math.round(Math.random() * 100) <= 10;
+            case 'growArm':
+                return this.hasComponent('GrowArm') && this.getHp() <= 20 && !this._hasGrownArm;
+            case 'fireSpread':
+                return this.hasComponent('FireSpread');
+            case 'breathFire':
+                return this.hasComponent('FireBreather') &&
+                       Math.round(Math.random() * 100) <= 10 &&
+                       this.hasComponent('Sight') &&
+                       this.canSee(this.getMap().getPlayer());
+            default:
+                throw new Error('Tried to perform undefined task ' + task);
+        }
+    }
+}
+
 Lootr.EntityComponents.Moveable = {
     name: 'Moveable',
     groupName: 'Moveable',
-}
+};
+
+Lootr.EntityComponents.Bleedable = {
+    name: 'Bleedable',
+    isBleeding: function() {
+        if(this.getHp() < 20 && Math.round(Math.random())) {
+            this.getMap().bloodyTile(this.getX(), this.getY());
+            console.log("You bleed a little");    
+        }
+    }
+};
 
 Lootr.EntityComponents.Orbs = {
     name: 'Orbs',
@@ -66,55 +161,18 @@ Lootr.EntityComponents.Orbs = {
     }
 };
 
-Lootr.EntityComponents.TaskActor = {
-    name: 'TaskActor',
-    groupName: 'Actor',
+Lootr.EntityComponents.MovementSpeed = {
+    name: 'MovementSpeed',
     init: function(template) {
-        // Load tasks
-        this._tasks = template['tasks'] || ['wander'];
+        this._movementSpeed = template['movementSpeed'] || 1000;
     },
-    act: function() {
-        // Iterate through all tasks
-        for(var i=0; i<this._tasks.length; i++) {
-            if(this.canDoTask(this._tasks[i])) {
-                // if task doesnt end turn, run it and go to the next, else finish turn
-                var ends = this._tasks[i] + 'EndsTurn';
-                if(!this[ends]) {
-                    this[this._tasks[i]]();
-                    continue;
-                } else {
-                    this[this._tasks[i]]();
-                    return;
-                }
-            }
-        }
+    getMovementSpeed: function() {
+        return this._movementSpeed;
     },
-    canDoTask: function(task) {
-        switch(task) {
-            case 'hunt':
-                return this.hasComponent('Sight') && this.canSee(this.getMap().getPlayer());
-            case 'wander':
-                return this.hasComponent('Wander');
-            case 'leaveTrail':
-                return this.hasComponent('LeaveTrail');
-            case 'corpseEater':
-                return this.hasComponent('CorpseEater') && this.getMap().tileContainsItem(this.getX(), this.getY(), 'corpse');
-            case 'spawnEntity':
-                return this.hasComponent('SpawnEntity') && Math.round(Math.random() * 100) <= 10;
-            case 'growArm':
-                return this.hasComponent('GrowArm') && this.getHp() <= 20 && !this._hasGrownArm;
-            case 'fireSpread':
-                return this.hasComponent('FireSpread');
-            case 'breathFire':
-                return this.hasComponent('FireBreather') &&
-                       Math.round(Math.random() * 100) <= 10 &&
-                       this.hasComponent('Sight') &&
-                       this.canSee(this.getMap().getPlayer());
-            default:
-                throw new Error('Tried to perform undefined task ' + task);
-        }
+    modifyMovementSpeed: function(amount) {
+        this._movementSpeed += amount;
     }
-}
+};
 
 Lootr.EntityComponents.Flight = {
     name: 'Flight',
@@ -126,7 +184,7 @@ Lootr.EntityComponents.Flight = {
             Lootr.sendMessage(this, 'You land on the ground.');
             Lootr.sendMessage(this, 'You slow down.');
             this._isFlying = false;
-            this.modifySpeedBy(-50);
+            this.modifyMovementSpeed(-50);
             this.setForeground(this.getOriginalForeground());
         } else {
             Lootr.sendMessage(this, 'You cannot land here.');
@@ -136,7 +194,7 @@ Lootr.EntityComponents.Flight = {
         Lootr.sendMessage(this, 'You start to fly.');
         Lootr.sendMessage(this, 'You speed up.');
         this._isFlying = true;
-        this.modifySpeedBy(50);
+        this.modifyMovementSpeed(50);
         this.setForeground('lightblue');
     },
     isFlying: function() {
@@ -266,40 +324,6 @@ Lootr.EntityComponents.Sight = {
             });
 
         return found;
-    }
-};
-
-Lootr.EntityComponents.PlayerActor = {
-    name: 'PlayerActor',
-    groupName: 'Actor',
-    act: function() {
-        // Ensure we are not already acting
-        /*if(this._acting) {
-            return;
-        }*/
-
-        this._acting = true;
-        this.addTurnHunger();
-
-        // Detect if game is over or dead
-        if(!this.isAlive()) {
-            // Send last message to player
-            Lootr.sendMessage(this, "You've Died.");
-            Lootr.sendMessage(this, 'Press [Enter] to continue');
-
-            Lootr.Screen.playScreen.setGameEnded(true);
-
-            this._acting = false;
-        }
-
-        // Re-redner the screen
-        Lootr.refresh();
-
-        // Lock the engine and wait async for the player to press a key
-        this.getMap().getEngine().lock();
-
-        // Clear the message queue
-        this.clearMessages();
     }
 };
 

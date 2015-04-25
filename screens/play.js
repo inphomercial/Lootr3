@@ -4,6 +4,7 @@ Lootr.Screen.playScreen = {
     _player: null,
     _gameEnded: false,
     _subScreen: null,
+    
     enter: function() {
 
         console.log("Entered play screen");
@@ -17,7 +18,9 @@ Lootr.Screen.playScreen = {
         // Star the games engine
         map.getEngine().start();
     },
+    
     exit: function() { console.log("Exited play screen."); },
+    
     render: function(display) {
         // Render subscreen if there is one
         if(this._subScreen) {
@@ -48,6 +51,7 @@ Lootr.Screen.playScreen = {
         // }
 
     },
+
     getScreenOffsets: function() {
         // Make sure the x-axis doesn't go to the left of the left bound
         var topLeftX = Math.max(0, this._player.getX() - (Lootr._mapScreenWidth / 2));
@@ -66,6 +70,7 @@ Lootr.Screen.playScreen = {
             y: topLeftY
         };
     },
+
     renderTiles: function(display) {
         var screenWidth = Lootr._mapScreenWidth;
         var screenHeight = Lootr._mapScreenHeight;
@@ -153,6 +158,7 @@ Lootr.Screen.playScreen = {
             }
         }
     },
+
     handleInput: function(inputType, inputData) {
 
         // First thing to check is if we have all the orbs
@@ -200,8 +206,9 @@ Lootr.Screen.playScreen = {
 
                 // Testing stuff out here
                 case ROT.VK_SPACE:
-                    var fire = Lootr.EntityRepository.create('fire');
-                    this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
+                    this._player.addComponent(Lootr.EntityComponents.Flight);
+                    // var fire = Lootr.EntityRepository.create('fire');
+                    // this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
                     break;
 
                 // Testing eating food
@@ -349,6 +356,7 @@ Lootr.Screen.playScreen = {
         // Unlock the engine
         this._player.getMap().getEngine().unlock();
     },
+
     doMove: function(dX, dY) {
         console.log("Trying to move");
 
@@ -358,15 +366,18 @@ Lootr.Screen.playScreen = {
         // Try to move
         this._player.tryMove(newX, newY);
     },
+
     setGameEnded: function(gameEnded) {
         this._gameEnded = gameEnded;
     },
+
     setSubScreen: function(subScreen) {
         this._subScreen = subScreen;
 
         // Refresh screen on chaning the subscreen
         Lootr.refresh();
     },
+
     showItemSubScreen: function(subScreen, items, emptyMessage) {
         if(items && subScreen.setup(this._player, items) > 0) {
             this.setSubScreen(subScreen);

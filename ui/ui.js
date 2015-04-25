@@ -99,6 +99,10 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     startY++;
 
     Lootr.UI.AttackValueDisplay(player, startX + 82, startY++, display);
+    Lootr.UI.DefenseValueDisplay(player, startX + 82, startY, display);
+
+    Lootr.UI.MovementSpeedDisplay(player, startX + 92, startY--, display);
+    Lootr.UI.SightDisplay(player, startX + 92, startY, display);
 };
 
 Lootr.UI.NameDisplay = function(player, startX, startY, display) {
@@ -132,6 +136,17 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
     }
 };
 
+
+Lootr.UI.MovementSpeedDisplay = function(player, startX, startY, display) {
+    var movementSpeed = '%c{#91AA9D}%b{black}SPD: %c{#FCFFF5}' + player.getMovementSpeed();
+    display.drawText(startX, startY++, movementSpeed);
+};
+
+Lootr.UI.SightDisplay = function(player, startX, startY, display) {
+    var sight = '%c{#91AA9D}%b{black}SGT: %c{#FCFFF5}' + player.getSightRadius();
+    display.drawText(startX, startY++, sight);
+};
+
 Lootr.UI.LevelDisplay = function(player, startX, startY, display) {
     var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player.getLevel();
     display.drawText(startX, startY++, level);
@@ -160,6 +175,11 @@ Lootr.UI.ExperienceDisplay = function(player, startX, startY, display) {
 Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
     var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + player.getHp() + '/' + player.getMaxHp();
     display.drawText(startX, startY++, hp);
+};
+
+Lootr.UI.DefenseValueDisplay = function(player, startX, startY, display) {
+    var def = '%c{#91AA9D}%b{black} DEF: %c{gold}' + player.getDefenseValue();
+    display.drawText(startX, startY, def);
 };
 
 Lootr.UI.AttackValueDisplay = function(player, startX, startY, display) {
@@ -203,4 +223,3 @@ Lootr.UI.HungerDisplay = function(player, startX, startY, display) {
 
     startY++;
 };
-
