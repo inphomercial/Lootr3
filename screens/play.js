@@ -6,7 +6,6 @@ Lootr.Screen.playScreen = {
     _subScreen: null,
     
     enter: function() {
-
         console.log("Entered play screen");
 
         // Create our player and set his position
@@ -160,7 +159,6 @@ Lootr.Screen.playScreen = {
     },
 
     handleInput: function(inputType, inputData) {
-
         // First thing to check is if we have all the orbs
         if(this._player.hasAllOrbs()) {
             Lootr.switchScreen(Lootr.Screen.winScreen);

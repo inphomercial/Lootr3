@@ -26,7 +26,6 @@ Lootr.Glyph.prototype.getBackground = function() {
 };
 
 Lootr.Glyph.prototype.setForeground = function(color) {
-
     if(color.constructor == String) {
         this._foreground = color;
     } else if (color instanceof Array) {
@@ -34,10 +33,9 @@ Lootr.Glyph.prototype.setForeground = function(color) {
     } else {
         throw new Error('Dont know color type ' + color);
     }
-}
+};
 
 Lootr.Glyph.prototype.setBackground = function(color) {
-
     if(color.constructor == String) {
         this._background = color;
     } else if (color instanceof Array) {
@@ -45,4 +43,4 @@ Lootr.Glyph.prototype.setBackground = function(color) {
     } else {
         throw new Error('Dont know color type ' + color);
     }
-}
+};
