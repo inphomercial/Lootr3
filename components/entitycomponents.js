@@ -469,9 +469,11 @@ Lootr.EntityComponents.Equipper = {
         this._head = null;
     },
     wield: function(item) {
+        Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
         this._weapon = item;
     },
     unwield: function() {
+        Lootr.sendMessage(this, 'You stop wielding %s', [this._weapon.describeA()]);
         this._weapon = null;
     },
     wear: function(item) {
@@ -480,11 +482,12 @@ Lootr.EntityComponents.Equipper = {
         } else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
             this._head = item;
         }       */
-        // Send player notification
+        
         Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
         this._armor = item;
     },
     takeOff: function() {
+        Lootr.sendMessage(this, 'You stop wearing %s', [this._armor.describeA()]);
         this._armor = null;
     },
     getWeapon: function() {

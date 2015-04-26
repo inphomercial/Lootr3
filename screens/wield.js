@@ -1,25 +1,21 @@
 
 // Wield Screen
 Lootr.Screen.wieldScreen = new Lootr.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to wield',
+    caption: 'Choose the item you wish to wield or unwield',
     canSelect: true,
     canSelectMultipleItems: false,
     hasNoItemOption: true,
     isAcceptable: function(item) {
         return item && item.hasComponent('Equippable') && item.isWieldable();
     },
-    ok: function(selectedItems) {
-        // Check if we selected 'no item'
-        var keys = Object.keys(selectedItems);
-        if(keys.length === 0) {
-            this._player.unwield();
-            Lootr.sendMessage(this._player, 'You are empty handed.');
-        } else {
-            // Make sure to unequip the item first in case it is the armor
-            var item = selectedItems[keys[0]];
-            this._player.unequip(item);
-            this._player.wield(item);
-            Lootr.sendMessage(this._player, 'You are wielding %s', [item.describeA()]);
+    ok: function(items) {
+        var keys = Object.keys(items);
+        if (keys.length === 1) {
+            if (items[0] === this._player.getWeapon()) {
+                this._player.unwield();
+            } else {
+                this._player.wield(items[0]);
+            }
         }
 
         return true;

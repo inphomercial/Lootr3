@@ -21,7 +21,7 @@ Lootr.Map.Cave = function(player) {
     // Try to add pool to level
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
 
-    // Try to add gem treasure to level
+    // Try to add gem treasure to level;
     this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
 
     // Try to add stream to level
@@ -32,13 +32,14 @@ Lootr.Map.Cave = function(player) {
     this.addEntityByTypeAndAmount('spider', 25);
     this.addEntityByTypeAndAmount('spider nest', 250);
     this.addEntityByTypeAndAmount('slime', 25);
-    this.addEntityByTypeAndAmount('fungus', 10);
+    this.addEntityByTypeAndAmount('fungus', 30);
     this.addEntityByTypeAndAmount('dragon', 10);
 
     // Add items
     this.addItemByTypeAndAmount('robe', 50);
     this.addItemByTypeAndAmount('apple', 20);
     this.addItemByTypeAndAmount('dagger', 50);
+    this.addItemByTypeAndAmount('gold', 50);
 
     // Add Traps
     this.addItemByTypeAndAmount('spike trap', 70);

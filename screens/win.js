@@ -1,7 +1,7 @@
 
 // Define our winning screen
 Lootr.Screen.winScreen = {
-    enter: function() {    console.log("Entered win screen."); },
+    enter: function() { console.log("Entered win screen."); },
     exit: function() { console.log("Exited win screen."); },
     render: function(display) {
         // Render our prompt to the screen

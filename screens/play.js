@@ -165,24 +165,24 @@ Lootr.Screen.playScreen = {
         }
 
         // If the game si over, enter will bring the user to the loser screen
-        if(this._gameEnded) {
+        if (this._gameEnded) {
             if(Lootr.isInputTypeKeyDown(inputType) && inputData.keyCode === ROT.VK_RETURN) {
-
                 // Setup the gain stat screen and show it
                 Lootr.Screen.loseScreen.setup(this._player);
                 Lootr.switchScreen(Lootr.Screen.loseScreen);
             }
-            // Return to make sur ethe user cant still play
+
+            // Return to make sure the user cant still play
             return;
         }
 
         // Handle subscreen input if there is one
-        if(this._subScreen) {
+        if (this._subScreen) {
             this._subScreen.handleInput(inputType, inputData);
             return;
         }
 
-        if(Lootr.isInputTypeKeyDown(inputType)) {
+        if (Lootr.isInputTypeKeyDown(inputType)) {
 
             // Any key press
             switch(inputData.keyCode) {
