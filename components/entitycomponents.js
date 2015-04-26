@@ -20,6 +20,8 @@ Lootr.EntityComponents.PlayerActor = {
 
             Lootr.Screen.playScreen.setGameEnded(true);
 
+            Lootr.Storage.addRecord(this);
+
             this._acting = false;
         }
 

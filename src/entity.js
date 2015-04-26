@@ -20,6 +20,21 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
+Lootr.Entity.prototype.convertToJsonObject = function() {
+    var obj = {}
+
+    obj.hp = this.getHp();
+    obj.maxhp = this.getMaxHp();
+    obj.weapon = this.getWeapon().getName();
+    obj.armor = this.getArmor().getName();
+
+    // for (var i = 0; i < this._attachedComponents; i++) {
+    //     obj[this._attachedComponents] = this._attachedComponents;
+    // }
+
+    return obj;
+}
+
 Lootr.Entity.prototype.switchMap = function(newMap) {
     // If it's the same map, do nothing
     if(newMap === this.getMap()) return;
