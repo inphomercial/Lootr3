@@ -4,15 +4,24 @@ Lootr.TemplatePlayer = {
     character: '@',
     foreground: 'yellow',
     background: 'black',
-    sightRadius: 10,
-    red: true,
-    maxHp: 100,
-    inventorySlots: 20,
-    maxFullness: 500,
-    movementSpeed: 1000,
+
+    sightRadius: 10,     // Sight
+
+    maxHp: 100,          // Destructible
+    defense: null,       // Destructible
+    hp: null,            // Destructible
+
+    maxMana: 10,         // ManaPool
+
+    attack: null,        // Attacker
+
+    inventorySlots: 20,  // InventoryHolder
+    maxFullness: 500,    // FoodConsumer
+    movementSpeed: 1000, // MovementSpeed
     components: [Lootr.EntityComponents.PlayerActor,
                  Lootr.EntityComponents.Attacker,
                  Lootr.EntityComponents.Destructible,
+                 Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.MovementSpeed,
                  Lootr.EntityComponents.MessageRecipient,
                  Lootr.EntityComponents.Sight,

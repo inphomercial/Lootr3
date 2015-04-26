@@ -21,4 +21,16 @@ Lootr -> init
 Lootr -> currentScreen
 
 
+All entities MUST have the following:
+
++ATK
++DEF
++SPD
++HP
++MAXHP
+
+ 
+act method
+
+
 

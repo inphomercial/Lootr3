@@ -25,6 +25,8 @@ Lootr.EntityComponents.PlayerActor = {
             this._acting = false;
         }
 
+        this.raiseEvent('onMove');
+
         // Re-redner the screen
         Lootr.refresh();
 
@@ -216,11 +218,24 @@ Lootr.EntityComponents.Invisiblity = {
     name: 'Invisiblity',
     init: function(template) {
         this._isInvisible = template['isInvisible'] || false;
+        this._manaConsumptionAmount = 2;
+    },
+    checkIfCanConsume: function() {
+        return this.hasComponent('ManaPool') && this.getMana() >= this._manaConsumptionAmount;            
+    },
+    continueInvisible: function() {
+        this.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
     },
     turnInvisible: function() {
-        this._isInvisible = true;
-        Lootr.sendMessage(this, 'You fade away.');
-        this.setForeground('gray');
+        if (this.checkIfCanConsume()) {            
+            this._isInvisible = true;
+            Lootr.sendMessage(this, 'You fade away.');
+            this.setForeground('gray');     
+
+            return true;
+        }    
+           
+        Lootr.sendMessage(this, 'You dont have the mana required.');                
     },
     turnVisible: function() {
         this._isInvisible = false;
@@ -234,6 +249,13 @@ Lootr.EntityComponents.Invisiblity = {
         onHit: function() {
             // If entity is hit while invisible, make him visible
             if(this.isInvisible()) {
+                this.turnVisible();
+            }
+        },
+        onMove: function() {
+            if(this.isInvisible() && this.checkIfCanConsume()) {
+                this.continueInvisible();
+            } else if (this.isInvisible() && !this.checkIfCanConsume()) {
                 this.turnVisible();
             }
         }
@@ -510,6 +532,11 @@ Lootr.EntityComponents.Equipper = {
     }
 };
 
+/**
+ * @params maxHp
+ * @params hp
+ * @params defense
+ */
 Lootr.EntityComponents.Destructible = {
     name: 'Destructible',
     init: function(template) {
@@ -1012,6 +1039,41 @@ Lootr.EntityComponents.RandomStatGainer = {
     }
 };
 
+Lootr.EntityComponents.ManaPool = {
+    name: 'ManaPool',
+    init: function(template) {
+        this._maxMana = template['maxMana'] || 0;
+        this._mana = template['mana'] || this._maxMana;
+        this._manaReplenishRate = template['manaReplenishRate'] || 1;
+        this._manaIncreaseAmount = template['manaIncreaseAmount'] || 2;
+    },
+    getMana: function() {
+        return this._mana;
+    },
+    getMaxMana: function() {
+        return this._maxMana;
+    },
+    setMana: function(amount) {
+        this._mana = amount;
+    },
+    modifyManaBy: function(amount) {
+        this._mana += amount;
+    },
+    modifyMaxManaBy: function(amount) {
+        this._maxMana += amount;
+    },
+    listeners: {
+        onGainLevel: function() {
+            this.modifyMaxManaBy(this._manaIncreaseAmount);
+            this.setMana(this.getMaxMana());
+        },
+        onConsumeMana: function(amount) {
+            console.info("Consuming mana : ", amount);
+            this.modifyManaBy(-Math.abs(amount));
+        }
+    }
+};
+
 Lootr.EntityComponents.PlayerStatGainer = {
     name: 'PlayerStatGainer',
     groupName: 'StatGainer',
@@ -1125,7 +1187,6 @@ Lootr.EntityComponents.Attacker = {
         this._attack = template['attack'] || 1;
     },
     attack: function(target) {
-
         // If the target is destructible, calc damage based on attack and def
         if(target.hasComponent('Destructible')) {
             var attack = this.getAttackValue();

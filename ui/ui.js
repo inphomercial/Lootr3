@@ -79,6 +79,8 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
 
     Lootr.UI.HealthDisplay(player, startX + 82, startY++, display);
 
+    Lootr.UI.ManaDisplay(player, startX + 82, startY++, display);
+
     Lootr.UI.LevelDisplay(player, startX + 82, startY++, display);
 
     Lootr.UI.ExperienceDisplay(player, startX + 82, startY++, display);
@@ -186,6 +188,11 @@ Lootr.UI.ExperienceDisplay = function(player, startX, startY, display) {
 Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
     var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + player.getHp() + '/' + player.getMaxHp();
     display.drawText(startX, startY++, hp);
+};
+
+Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
+    var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();
+    display.drawText(startX, startY++, mp);
 };
 
 Lootr.UI.DefenseValueDisplay = function(player, startX, startY, display) {
