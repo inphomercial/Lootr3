@@ -48,6 +48,25 @@ Lootr.EntityRepository.define('spider nest', {
     disableRandomCreation: false
 });
 
+Lootr.EntityRepository.define('skeleton', {
+    name: 'skeleton',
+    character: 's',
+    foreground: 'white',
+    background: 'black',
+    maxHp: 15,
+    movementSpeed: 600,
+    tasks: ['hunt', 'wander'],
+    components: [Lootr.EntityComponents.Destructible,
+                 Lootr.EntityComponents.TaskActor,
+                 Lootr.EntityComponents.Attacker,
+                 Lootr.EntityComponents.MovementSpeed,
+                 Lootr.EntityComponents.HuntPlayer,
+                 Lootr.EntityComponents.Wander,                 
+                 Lootr.EntityComponents.Sight,
+                 Lootr.EntityComponents.ExperienceGainer,
+                 Lootr.EntityComponents.RandomStatGainer]
+});
+
 Lootr.EntityRepository.define('spider', {
     name: 'spider',
     character: '*',

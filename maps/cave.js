@@ -33,6 +33,7 @@ Lootr.Map.Cave = function(player) {
     this.addEntityByTypeAndAmount('spider nest', 250);
     this.addEntityByTypeAndAmount('slime', 25);
     this.addEntityByTypeAndAmount('fungus', 30);
+    this.addEntityByTypeAndAmount('skeleton', 30);
     this.addEntityByTypeAndAmount('dragon', 10);
 
     // Add items

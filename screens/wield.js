@@ -11,10 +11,10 @@ Lootr.Screen.wieldScreen = new Lootr.Screen.ItemListScreen({
     ok: function(items) {
         var keys = Object.keys(items);
         if (keys.length === 1) {
-            if (items[0] === this._player.getWeapon()) {
+            if (items[keys] === this._player.getWeapon()) {
                 this._player.unwield();
             } else {
-                this._player.wield(items[0]);
+                this._player.wield(items[keys]);
             }
         }
 

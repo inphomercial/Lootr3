@@ -8,13 +8,13 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
     isAcceptable: function(item) {
         return item && item.hasComponent('Equippable') && item.isWearable();
     },
-    ok: function(items) {    
+    ok: function(items) {
         var keys = Object.keys(items);
         if(keys.length === 1) {
-            if (items[0] === this._player.getArmor()) {
+            if (items[keys] === this._player.getArmor()) {
                 this._player.takeOff();
             } else {
-                this._player.wear(items[0]);
+                this._player.wear(items[keys]);
             }
         }
 
