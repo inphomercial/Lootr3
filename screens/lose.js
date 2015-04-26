@@ -18,10 +18,12 @@ Lootr.Screen.loseScreen = {
         display.drawText(this._getStartPos(), 9, "[ Equipment ]");
         this._renderItems();
 
+        Lootr.UI.HighScoreDisplay(this._getStartPos(), 20, this.display);
+
         //Lootr.Screen.playScreen.renderStats(display);
     },
     handleInput: function(inputType, inputData) {
-        header("/");
+        //header("/");
         // Initialize lootr
         //        Lootr.init();
         // Add the container to our HTML page

@@ -25,8 +25,9 @@ Lootr.Entity.prototype.convertToJsonObject = function() {
 
     obj.hp = this.getHp();
     obj.maxhp = this.getMaxHp();
-    obj.weapon = this.getWeapon().getName();
-    obj.armor = this.getArmor().getName();
+    obj.weapon = (this.getWeapon() !== null) ? this.getWeapon().getName() : null;
+    obj.armor = (this.getArmor() !== null) ? this.getArmor().getName() : null;
+    obj.level = this.getLevel();
 
     // for (var i = 0; i < this._attachedComponents; i++) {
     //     obj[this._attachedComponents] = this._attachedComponents;

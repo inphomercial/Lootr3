@@ -1,22 +1,26 @@
 
 Lootr.Storage = {
-    addRecord: function(player) {
-        var records = this.getRecords();
-        if (records !== null) {
-            records[localStorage.length] = player.convertToJsonObject();    
-            localStorage.setItem('LootrLog', JSON.stringify(records));            
-
-            return;
-        } 
-
-        var newRecord = {};
-        newRecord[0] = player.convertToJsonObject();
-        localStorage.setItem('LootrLog', JSON.stringify(newRecord));
+    addRecord: function(player) {        
+        if(!this.isCurrentRecordHigher(player)) {
+            alert("You beat your previous high score!");
+            localStorage.setItem('LootrLog', JSON.stringify(player.convertToJsonObject()));
+        }        
     },
-    getRecords: function() {
-        return localStorage.getItem('LootrLog');
+    getRecord: function() {
+        return JSON.parse(localStorage.getItem('LootrLog'));
     },
-    clearAllRecords: function() {
+    clearAllRecord: function() {
         localStorage.clear();
+    },
+    isCurrentRecordHigher: function(player) {
+        var records = this.getRecord();
+
+        if(records !== null) {
+            var json_object_player = player.convertToJsonObject();
+
+            return records.level > json_object_player.level;
+        }
+
+        return false;
     }
 };

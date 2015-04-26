@@ -105,6 +105,17 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     Lootr.UI.SightDisplay(player, startX + 92, startY, display);
 };
 
+Lootr.UI.HighScoreDisplay = function(startX, startY, display) {
+    var score_text = '%c{#91AA9D}%b{black} Current High Score ';
+    var record = Lootr.Storage.getRecord();
+
+    display.drawText(startX, startY++, score_text);
+    display.drawText(startX, startY++, "Level: " + record.level);
+    display.drawText(startX, startY++, "Hp: " + record.hp + "/" + record.maxhp);
+    display.drawText(startX, startY++, "Weapon: " + record.weapon);
+    display.drawText(startX, startY++, "Armor: " + record.armor);
+};
+
 Lootr.UI.NameDisplay = function(player, startX, startY, display) {
     var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}Inpho';
     display.drawText(startX, startY++, name);

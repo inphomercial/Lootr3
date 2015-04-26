@@ -368,7 +368,6 @@ Lootr.Map.prototype.addItemByTypeAndAmount = function(item_name, amount) {
 };
 
 Lootr.Map.prototype.addEntityAt = function(x, y, entity) {
-
     /*if(this.isTileEmptyFloor(x, y)) {*/
     if(this.isTileWithoutEntity(x, y)) {
         entity.setX(x);
