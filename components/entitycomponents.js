@@ -1059,12 +1059,19 @@ Lootr.EntityComponents.ManaPool = {
     modifyManaBy: function(amount) {
         this._mana += amount;
     },
-    modifyMaxManaBy: function(amount) {
+    increaseMaxMana: function(amount) {
+        if(!amount) {
+            this._maxMana += this._manaIncreaseAmount;
+            Lootr.sendMessage(this, 'You look craftier');
+            return;
+        }
+
         this._maxMana += amount;
+        Lootr.sendMessage(this, 'You look craftier');
     },
     listeners: {
         onGainLevel: function() {
-            this.modifyMaxManaBy(this._manaIncreaseAmount);
+            this.increaseMaxMana(this._manaIncreaseAmount);
             this.setMana(this.getMaxMana());
         },
         onConsumeMana: function(amount) {
@@ -1105,6 +1112,9 @@ Lootr.EntityComponents.ExperienceGainer = {
         }
         if(this.hasComponent('Sight')) {
             this._statOptions.push(['Increase sight radius', this.increaseSightRadius]);
+        }
+        if(this.hasComponent('ManaPool')) {
+            this._statOptions.push(['Increase mana pool', this.increaseMaxMana]);
         }
     },
     getLevel: function() {
