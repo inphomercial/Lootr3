@@ -9,7 +9,9 @@ Lootr.Screen.playScreen = {
         console.log("Entered play screen");
 
         // Create our player and set his position
-        this._player = new Lootr.Entity(Lootr.TemplateOrcPlayer);
+        var player = new PlayerBuilder(Lootr.Templates.BasePlayer, Lootr.Templates.OrcPlayer);
+        player.combineTemplates();        
+        this._player = new Lootr.Entity(player.getFinalTemplate());
 
         // Create our map from the tiles
         var map = new Lootr.Map.Overworld(this._player);
