@@ -4,14 +4,16 @@ Lootr.Screen.playScreen = {
     _player: null,
     _gameEnded: false,
     _subScreen: null,
+
+    setup: function(race) {
+        // Create our player and set his position
+        var player = new PlayerBuilder(Lootr.Templates.Base, Lootr.Templates[race]);
+        player.combineTemplates();        
+        this._player = new Lootr.Entity(player.getFinalTemplate());
+    },
     
     enter: function() {
         console.log("Entered play screen");
-
-        // Create our player and set his position
-        var player = new PlayerBuilder(Lootr.Templates.BasePlayer, Lootr.Templates.OrcPlayer);
-        player.combineTemplates();        
-        this._player = new Lootr.Entity(player.getFinalTemplate());
 
         // Create our map from the tiles
         var map = new Lootr.Map.Overworld(this._player);

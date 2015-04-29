@@ -9,8 +9,8 @@ Lootr.EntityComponents.PlayerActor = {
     act: function() {      
         this._acting = true;
 
-        this.isBleeding();        
-        this.addTurnHunger();
+        if (this.hasComponent('Bleedable'))  this.isBleeding();
+        if (this.hasComponent('FoodConsumer')) this.addTurnHunger();
 
         // Detect if game is over or dead
         if(!this.isAlive()) {

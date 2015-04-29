@@ -10,7 +10,7 @@ Lootr.Screen.startScreen = {
 
         // Render our prompt to the screen
         display.drawText((display._options.width / 2) - 14, 10, "                        %c{yellow}L O O T r %c{white}   2014-2015             ");
-        display.drawText((display._options.width / 2) - 14, 12, "                    Press [Enter] to start                 ");
+        display.drawText((display._options.width / 2) - 14, 12, "                    Press [Enter] to continue                 ");
 
         if(this.index == 0) {
             display.drawText((display._options.width / 2) - 14, 14, "                  [x]  Start New Game                 ");
@@ -42,7 +42,7 @@ Lootr.Screen.startScreen = {
                 }
             }
             if (inputData.keyCode === ROT.VK_RETURN) {
-                Lootr.switchScreen(Lootr.Screen.playScreen);
+                Lootr.switchScreen(Lootr.Screen.classSelectScreen);
             }
         }
     }

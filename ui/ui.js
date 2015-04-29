@@ -81,6 +81,8 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
 
     Lootr.UI.ManaDisplay(player, startX + 82, startY++, display);
 
+    Lootr.UI.ClassDisplay(player, startX + 82, startY++, display);
+
     Lootr.UI.LevelDisplay(player, startX + 82, startY++, display);
 
     Lootr.UI.ExperienceDisplay(player, startX + 82, startY++, display);
@@ -149,7 +151,6 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
     }
 };
 
-
 Lootr.UI.MovementSpeedDisplay = function(player, startX, startY, display) {
     var movementSpeed = '%c{#91AA9D}%b{black}SPD: %c{#FCFFF5}' + player.getMovementSpeed();
     display.drawText(startX, startY++, movementSpeed);
@@ -191,7 +192,12 @@ Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
-    var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();
+    if (player.hasComponent("ManaPool")) {
+        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();    
+    } else {
+        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + 0 + '/' + 0;    
+    }
+    
     display.drawText(startX, startY++, mp);
 };
 
@@ -210,11 +216,18 @@ Lootr.UI.GoldDisplay = function(player, startX, startY, display) {
     display.drawText(startX, startY, gold);
 };
 
+Lootr.UI.ClassDisplay = function(player, startX, startY, display) {
+    var char_class = '%c{#91AA9D}%b{black} CLASS: %c{white}' + player.getClass();
+    display.drawText(startX, startY, char_class);
+};
+
 Lootr.UI.HungerDisplay = function(player, startX, startY, display) {
 
     startY++;
 
     display.drawText(startX, startY, '%c{#91AA9D}%b{black}HUNGER: %c{#FCFFF5}');
+
+    if (!player.hasComponent('FoodConsumer')) return;
 
     var offSet = 8;
     var percent = player.getHungerPercent();

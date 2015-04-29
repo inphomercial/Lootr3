@@ -1,7 +1,7 @@
 
 Lootr.Templates = {};
 
-Lootr.Templates.BasePlayer = {
+Lootr.Templates.Base = {
     name: 'You',
     character: '@',
     foreground: 'yellow',
@@ -14,6 +14,7 @@ Lootr.Templates.BasePlayer = {
     attack: 1,              // Attacker
     inventorySlots: 10,     // InventoryHolder
     movementSpeed: 1000,    // MovementSpeed
+    maxFullness: 500,       // FoodConsumer
     components: [Lootr.EntityComponents.PlayerActor,
                  Lootr.EntityComponents.Sight,
                  Lootr.EntityComponents.Destructible,
@@ -28,34 +29,26 @@ Lootr.Templates.BasePlayer = {
                  Lootr.EntityComponents.PlayerStatGainer]
 };
 
-Lootr.Templates.WizardPlayer = {
-    name: 'You',
-    character: '@',
-    foreground: 'blue',
-    background: 'black',
+Lootr.Templates.Wizard = {
+    foreground: 'blue',    
     class: 'Wizard',
     manaReplenishRate: 4,  // ManaPool
     maxMana: 100,          // ManaPool
-    manaIncreaseAmount: 5, // ManaPool
-    maxFullness: 500,      // FoodConsumer
+    manaIncreaseAmount: 5, // ManaPool    
     components: [Lootr.EntityComponents.ManaPool,                 
-                 Lootr.EntityComponents.PassThroughWalls,                 
-                 Lootr.EntityComponents.FoodConsumer,                 
+                 Lootr.EntityComponents.PassThroughWalls,                                         
                  Lootr.EntityComponents.Flight,
                  Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.Invisiblity]
 };
 
-Lootr.Templates.OrcPlayer = {
-    name: 'ORC',
-    foreground: 'green',
-    background: 'black',
-    class: 'Orc',
+Lootr.Templates.Warrior = {
+    foreground: 'red',    
+    class: 'Warrior',
     maxHp: 200,          // Destructible
     attack: 3,           // Attacker
     inventorySlots: 40,  // InventoryHolder
     maxFullness: 800,    // FoodConsumer
     movementSpeed: 800,  // MovementSpeed
-    components: [Lootr.EntityComponents.FoodConsumer,                            
-                 Lootr.EntityComponents.Bleedable]
+    components: [Lootr.EntityComponents.Bleedable]
 };

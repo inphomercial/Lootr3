@@ -10,9 +10,10 @@ Lootr.Entity = function(args) {
     this._template = args;
 
     // Set properties passed from args
-    this._name = args['name'] || '';
+    //this._name = args['name'] || '';
     this._x = args['x'] || 0;
     this._y = args['y'] || 0;
+    this._class = args['class'];
 
     this._map = null;
 }
@@ -258,6 +259,10 @@ Lootr.Entity.prototype.setPosition = function(x, y) {
     if(this._map) {
         this._map.updateEntityPosition(this, oldX, oldY);
     }
+};
+
+Lootr.Entity.prototype.getClass = function() {
+    return this._class;
 };
 
 Lootr.Entity.prototype.setMap = function(map) {
