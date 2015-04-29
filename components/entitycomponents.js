@@ -179,7 +179,7 @@ Lootr.EntityComponents.MovementSpeed = {
 };
 
 Lootr.EntityComponents.Flight = {
-    name: 'Flight',
+    name: 'Flight',    
     init: function(template) {
         this._isFlying = template['isFlying'] || false;
     },

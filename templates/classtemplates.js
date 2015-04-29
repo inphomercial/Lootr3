@@ -36,8 +36,7 @@ Lootr.Templates.Wizard = {
     maxMana: 100,          // ManaPool
     manaIncreaseAmount: 5, // ManaPool    
     components: [Lootr.EntityComponents.ManaPool,                 
-                 Lootr.EntityComponents.PassThroughWalls,                                         
-                 Lootr.EntityComponents.Flight,
+                 Lootr.EntityComponents.PassThroughWalls,                 
                  Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.Invisiblity]
 };

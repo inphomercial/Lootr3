@@ -6,10 +6,9 @@ Lootr.Screen.playScreen = {
     _subScreen: null,
 
     setup: function(race) {
-        // Create our player and set his position
-        var player = new PlayerBuilder(Lootr.Templates.Base, Lootr.Templates[race]);
-        player.combineTemplates();        
-        this._player = new Lootr.Entity(player.getFinalTemplate());
+        // Create our player with race
+        var player = new PlayerBuilder(Lootr.Templates.Base, Lootr.Templates[race]);        
+        this._player = new Lootr.Entity(player);
     },
     
     enter: function() {
@@ -45,14 +44,6 @@ Lootr.Screen.playScreen = {
 
         // Draw messages
         Lootr.UI.RenderGameMessages(this._player, 5, 23, display);
-        // var messages = this._player.getMessages();
-        // var messageY = 23;
-        // for(var i=0; i<messages.length; i++) {
-        //     // Draw each message adding the number of lines
-        //     display.drawText(5, messageY, '%c{white}%b{black}' + messages[i]);
-        //     messageY++
-        // }
-
     },
 
     getScreenOffsets: function() {
@@ -277,6 +268,12 @@ Lootr.Screen.playScreen = {
                     break;
 
                 case ROT.VK_E:
+
+                    if (!this._player.hasComponent('FoodConsumer')) {
+                        Lootr.sendMessage(this._player, 'You cant even think about eating.');
+                        break;
+                    }
+
                     // If on top of an item that is Edible try to eat it instaed of going to eat screen
                     var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
                     if(items) {
