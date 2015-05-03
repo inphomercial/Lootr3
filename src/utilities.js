@@ -18,7 +18,7 @@ Lootr.isInputTypeKeyDown = function(inputType) {
     return inputType == "keydown";
 };
 
-Lootr.isInputDataKeyCode = function(inputData, keyCode) {
+Lootr.isInputKey = function(inputData, keyCode) {
     return inputData.keyCode === keyCode;
 };
 

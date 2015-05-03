@@ -161,7 +161,7 @@ Lootr.Screen.playScreen = {
 
         // If the game si over, enter will bring the user to the loser screen
         if (this._gameEnded) {
-            if(Lootr.isInputTypeKeyDown(inputType) && inputData.keyCode === ROT.VK_RETURN) {
+            if(Lootr.isInputTypeKeyDown(inputType) && Lootr.isInputKey(inputData, ROT.VK_RETURN)) {
                 // Setup the gain stat screen and show it
                 Lootr.Screen.loseScreen.setup(this._player);
                 Lootr.switchScreen(Lootr.Screen.loseScreen);
@@ -199,21 +199,37 @@ Lootr.Screen.playScreen = {
 
                 // Testing stuff out here
                 case ROT.VK_SPACE:
-                    this._player.addComponent(Lootr.EntityComponents.Flight);
+                    //this._player.addComponent(Lootr.EntityComponents.Flight);
                     // var fire = Lootr.EntityRepository.create('fire');
                     // this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
+
+                    var offsets = this.getScreenOffsets();
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'yellow', "W", 'Fireball');                    
+                    this.setSubScreen(Lootr.Screen.castSpellScreen);
+                    break;
+
+                 // Testing Spells
+                case ROT.VK_N:
+                    var offsets = this.getScreenOffsets();
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'red', "!", 'Firebolt');                    
+                    this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
                 // Testing eating food
                 case ROT.VK_U:
-                    this._player.modifyFullnessBy(5);
-                    console.log(this._player._fullness);
+                    if (this._player.hasComponent('FoodConsumer')) {
+                        this._player.modifyFullnessBy(5);
+                        console.log(this._player._fullness);                        
+                    }                    
                     break;
 
                 // Testing raising max fullness
                 case ROT.VK_Y:
-                    this._player._maxFullness = this._player._maxFullness + 5;
-                    console.log(this._player._maxFullness);
+                    if (this._player.hasComponent('FoodConsumer')) {
+                        this._player._maxFullness = this._player._maxFullness + 5;
+                        console.log(this._player._maxFullness);
+                    }
+                    
                     break;
 
                 // Testing invis

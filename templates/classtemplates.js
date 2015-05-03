@@ -49,5 +49,7 @@ Lootr.Templates.Warrior = {
     inventorySlots: 40,  // InventoryHolder
     maxFullness: 800,    // FoodConsumer
     movementSpeed: 800,  // MovementSpeed
-    components: [Lootr.EntityComponents.Bleedable]
+    components: [Lootr.EntityComponents.Bleedable,
+                 Lootr.EntityComponents.FireBreather,
+                 Lootr.EntityComponents.FoodConsumer]
 };

@@ -276,7 +276,7 @@ Lootr.EntityComponents.FireBreather = {
         if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + ++offset )) {
             var fire2 = Lootr.EntityRepository.create('fire');
             this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire2);
-        }
+        }        
     },
     breathFireEndsTurn: true
 };

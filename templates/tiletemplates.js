@@ -86,8 +86,7 @@ Lootr.Tile.shallowWaterTile = {
 
 Lootr.Tile.roadTile = {
     character: '.',
-    foreground: 'grey',
-    //background: 'slategray',
+    foreground: 'grey',    
     walkable: true,
     blocksLight: false,
     description: 'Road path'

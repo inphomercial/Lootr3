@@ -3,7 +3,7 @@ Lootr.Screen.TargetBasedScreen = function(template) {
     template = template || {};
 
     // By default, our ok return does nothing and does not consume a turn
-    this._isAcceptableFunction = template['okFunction'] || function(x, y) {
+    this._okFunction = template['okFunction'] || function(x, y) {
         return false;
     };
 
@@ -13,8 +13,12 @@ Lootr.Screen.TargetBasedScreen = function(template) {
     }
 };
 
-Lootr.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, offsetX, offsetY) {
+Lootr.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, offsetX, offsetY, color, visible_char, item) {
     this._player = player;
+    this._item = item || null;
+
+    this._color = color || 'magenta';
+    this._visible_char = visible_char || '*';
 
     // store original pos, subtract the offset to make life easy so we
     // dont alwayshave to remove it
@@ -47,10 +51,19 @@ Lootr.Screen.TargetBasedScreen.prototype.render = function(display) {
     // Draw a line from the start to the cursor
     var points = Lootr.Geometry.getLine(this._startX, this._startY, this._cursorX, this._cursorY);
 
+    // Render the screen border
+    Lootr.UI.RenderGameBorder(display);
+
+    // Render player stats
+    Lootr.UI.RenderStatsGroup(this._player, 12, 1, display);
+
+    // Render player orbs
+    Lootr.UI.RenderOrbsGroup(this._player, 12, 1, display);
+
     // Render stars along the line
     var l = points.length;
     for(var i=0; i < l; i++) {
-        display.drawText(points[i].x, points[i].y, '%c{magenta}*');
+        display.drawText(points[i].x, points[i].y, '%c{' + this._color + '}' + this._visible_char);
     }
 
     // Render the caption at the botton
@@ -89,7 +102,7 @@ Lootr.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
     // Switch back to the play screen.
     Lootr.Screen.playScreen.setSubScreen(undefined);
     // Call the OK function and end the player's turn if it return true.
-    if (this._okFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY)) {
+    if (this._okFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY, this._item)) {
         this._player.getMap().getEngine().unlock();
     }
 };
