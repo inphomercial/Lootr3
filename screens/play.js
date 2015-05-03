@@ -197,21 +197,24 @@ Lootr.Screen.playScreen = {
                     this.doMove(0, 1);
                     break;
 
-                // Testing stuff out here
+                // Testing Fireball Spell
                 case ROT.VK_SPACE:
-                    //this._player.addComponent(Lootr.EntityComponents.Flight);
-                    // var fire = Lootr.EntityRepository.create('fire');
-                    // this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
-
                     var offsets = this.getScreenOffsets();
                     Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'yellow', "W", 'Fireball');
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
-                 // Testing Spells
+                 // Testing Firebolt Spell
                 case ROT.VK_N:
                     var offsets = this.getScreenOffsets();
                     Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'red', "!", 'Firebolt');
+                    this.setSubScreen(Lootr.Screen.castSpellScreen);
+                    break;
+
+                // Testing Teleport
+                case ROT.VK_B:
+                    var offsets = this.getScreenOffsets();
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'lightblue', "?", 'Teleport');
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 

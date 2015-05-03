@@ -1,9 +1,36 @@
 Lootr.EntitySpells = {};
 
+Lootr.EntitySpells.Teleport = {
+    name: 'Teleport',
+    init: function(template) {
+        this._caster = template['caster'] || null;
+        this._manaConsumptionAmount = 15;
+    },
+    cast: function(x, y) {
+        if (this._checkIfCanCast()) {
+            if (this._caster.getMap().isTileWithoutEntity(x, y)) {
+                this._caster.getMap().updateEntityPositionTo(this._caster, x, y);
+                this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+                this._getDescription();
+            } else {
+                Lootr.sendMessage(this._caster, 'Looks like something is already there.');
+            }
+        } else {
+            Lootr.sendMessage(this._caster, 'Your body is to feeble to make that transition');
+        }
+    },
+    _getDescription: function() {
+        Lootr.sendMessage(this._caster, 'You break apart, joining together again.');
+    },
+    _checkIfCanCast: function() {
+        return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
+    }
+};
+
 Lootr.EntitySpells.Fireball = {
     name: 'FireBall',
     init: function(template) {
-        this._caster = template['caster'] || null
+        this._caster = template['caster'] || null;
         this._manaConsumptionAmount = 2;
     },
     cast: function(x, y) {
@@ -25,7 +52,7 @@ Lootr.EntitySpells.Fireball = {
     },
     _checkIfCanCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
-    },
+    }
 };
 
 Lootr.EntitySpells.Firebolt = {
@@ -59,5 +86,5 @@ Lootr.EntitySpells.Firebolt = {
     },
     _checkIfCanCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
-    },
+    }
 };

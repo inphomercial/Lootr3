@@ -415,30 +415,53 @@ Lootr.Map.prototype.removeEntity = function(entity) {
     }
 };
 
-
-
-Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
-    // Delete the old key if it is the same entity and we have old pos.
-    if(typeof oldX === 'number') {
-        var oldKey = oldX + ',' + oldY;
-        if(this._entities[oldKey] == entity) {
-            delete this._entities[oldKey];
-        }
+Lootr.Map.prototype.removeOldEntityKey = function(entity, x, y) {
+    var oldKey = x + ',' + y;
+    if(this._entities[oldKey] == entity) {
+        delete this._entities[oldKey];
     }
+};
 
-    // Make sure the entitys position is within bounds
+Lootr.Map.prototype.isEntityWithinBounds = function(entity) {
     if(entity.getX() < 0 || entity.getX() >= this._width ||
        entity.getY() < 0 || entity.getY() >= this._height) {
         throw new Error("Entitys position is out of bounds");
     }
 
-    // Sanity Check to make sure there is no entity at new pos
-    var key = entity.getX() + ',' + entity.getY();
-    if(this._entities[key]) {
-        throw new Error('Tried to add entity at an occupied position');
+    return true;
+};
+
+Lootr.Map.prototype.isPositionWithinBounds = function(x, y) {
+    if(x < 0 || x >= this._width ||
+       y < 0 || y >= this._height) {
+        throw new Error("Position is out of bounds");
     }
 
-    // Add the entity to the table of entities
+    return true;
+};
+
+Lootr.Map.prototype.updateEntityPositionTo = function(entity, newX, newY) {
+    this.isEntityAt(newX, newY);
+
+    this.isPositionWithinBounds(newX, newY);
+
+    this.removeOldEntityKey(entity, entity.getX(), entity.getY());
+
+    entity.setX(newX);
+    entity.setY(newY);
+
+    var key = entity.getX() + ',' + entity.getY();
+    this._entities[key] = entity;
+}
+
+Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
+    this.isEntityAt(entity.getX(), entity.getY());
+
+    this.isEntityWithinBounds(entity);
+
+    this.removeOldEntityKey(entity, oldX, oldY);
+
+    var key = entity.getX() + ',' + entity.getY();
     this._entities[key] = entity;
 };
 
