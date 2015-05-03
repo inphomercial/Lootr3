@@ -9,7 +9,7 @@ get the game to restart on death
 be able to draw text directly to the screen from in screen
 more items slots besides equip and wear (hand & wear)
 add a way to remove/unequip items
-player profile screen
+player profile screen (Started)
 make send to near by function take a optional radius
 make it so enemies arent glued
 make better wall gem tiles
@@ -17,36 +17,36 @@ coffins
 come up with good solution to corpses having entity name appended to it for (map.tileContainsItem)
 make a hunt for corpse component, add to vampire
 make tasks have a taskNamePercent that it rolls on
-Races // Classes
 have a way to update a tile's description
 item stat rolling
 spider queens that can lay new nests
 friend entity (dog)
-springTrap listener/raiseEvent
 spike trap ^^^
            ^.^ <- trigger to spring surrounding spikes
            ^^^
 entities turn red to indicate being hit
 fix up lose screen
 fix up win screen
-orb inventory screen
 work on help screen
 make fire able to shoot in all directions and only when closer to player
 fix the map entity/item lookups return booleans
 build a static character set for items/entities
 crit
 accuracy
-Work on stat screen
 dynamicglyph - fill out addComponent & removeComponent methods
 tile objects can contains entities & items
 diggable item component
 allow for see invis
 doodad templates for map use
-spells & mana
 item stacking on same tile is broken...
 
 
 DONE
+spells & mana
+Work on stat screen
+orb inventory screen
+springTrap listener/raiseEvent
+Races // Classes
 move library files into assets folder
 Gold component for items & mobs
 make gold a random amount
