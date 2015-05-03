@@ -28,6 +28,7 @@ Lootr.EntityRepository.define('skeleton', {
     background: 'black',
     maxHp: 15,
     movementSpeed: 600,
+    startingItems: ['potion'], // InventoryHolder
     tasks: ['hunt', 'wander'],
     components: [Lootr.EntityComponents.Destructible,
                  Lootr.EntityComponents.TaskActor,
@@ -36,6 +37,7 @@ Lootr.EntityRepository.define('skeleton', {
                  Lootr.EntityComponents.HuntPlayer,
                  Lootr.EntityComponents.Wander,
                  Lootr.EntityComponents.StrStat,
+                 Lootr.EntityComponents.InventoryHolder,
                  Lootr.EntityComponents.IntStat,
                  Lootr.EntityComponents.DexStat,
                  Lootr.EntityComponents.Sight,

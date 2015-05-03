@@ -623,11 +623,18 @@ Lootr.EntityComponents.Destructible = {
             }
         }
 
+        return mod;
+    },
+    getTotalDefenseValue: function() {
+        var mod = this.getDefenseValue();
         return this._defense + mod;
+    },
+    getBaseDefenseValue: function() {
+        return this._defense;
     },
     increaseDefenseValue: function(value) {
         // if no value was passed, defualt to 2
-        value = value || 2;
+        value = value || 1;
 
         // Add to the defense
         this._defense += value;
@@ -931,10 +938,19 @@ Lootr.EntityComponents.FungusActor = {
 Lootr.EntityComponents.InventoryHolder = {
     name: 'InventoryHolder',
     init: function(template) {
-        var inventorySlots = template['inventorySlots'] || 10;
+        var inventorySlots = template['inventorySlots'] || 5;
+        var startingItems = template['startingItems'] || null;
 
         // Setup an empty inventory
         this._items = new Array(inventorySlots);
+
+        // Populate starting items inside inventory
+        if (startingItems) {
+            for (var i = 0; i < startingItems.length; i++) {
+                var item = Lootr.ItemRepository.create(startingItems[i]);
+                this.addItem(item);
+            }
+        }
     },
     getItems: function() {
         var items = Array();
@@ -1009,7 +1025,7 @@ Lootr.EntityComponents.InventoryHolder = {
                 mapItems.splice(indices[i] - added, 1);
                 added++;
             } else {
-                // Inventory is full
+                Lootr.sendMessage(this, 'Inventory is full.');
                 break;
             }
         }
@@ -1036,6 +1052,12 @@ Lootr.EntityComponents.InventoryHolder = {
         }
 
         this.removeItem(i);
+    },
+    listeners: {
+        onDeath: function() {
+            var random = Lootr.getRandomInt(0, this._items.length);
+            this.dropItem(random);
+        }
     }
 };
 
@@ -1265,8 +1287,8 @@ Lootr.EntityComponents.Attacker = {
     attack: function(target) {
         // If the target is destructible, calc damage based on attack and def
         if(target.hasComponent('Destructible')) {
-            var attack = this.getAttackValue() * this.getStr();
-            var target_def = target.getDefenseValue();
+            var attack = this.getTotalAttackValue() * this.getStr();
+            var target_def = target.getTotalDefenseValue();
             var max = Math.max(0, attack - target_def);
             var damage = 1 + Math.floor(Math.random() * max);
 
@@ -1289,11 +1311,18 @@ Lootr.EntityComponents.Attacker = {
             }
         }
 
+        return mod;
+    },
+    getTotalAttackValue: function() {
+        var mod = this.getAttackValue();
         return this._attack + mod;
+    },
+    getBaseAttackValue: function() {
+        return this._attack;
     },
     increaseAttackValue: function(value) {
         // If no value, defaultt o 2
-        value = value || 2;
+        value = value || 1;
 
         // Add attack to value
         this._attack += value;

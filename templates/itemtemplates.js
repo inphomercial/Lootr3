@@ -110,6 +110,19 @@ Lootr.ItemRepository.define('dagger', {
     disableRandomCreation: false
 });
 
+Lootr.ItemRepository.define('metal helmet', {
+    name: 'metal helmet',
+    character: '^',
+    foreground: 'white',
+    attackValue: 2,
+    defenseValue: 2,
+    wearable: true,
+    slot: Lootr.ITEM_SLOTS.HEAD,
+    components: [Lootr.ItemComponents.Equippable],
+}, {
+    disableRandomCreation: false
+});
+
 // Armors
 Lootr.ItemRepository.define('robe', {
     name: 'robe',

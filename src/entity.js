@@ -21,6 +21,12 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
+// Lootr.Entity.prototype.populateItemInventory = function() {
+//     if (this.hasComponent('InventoryHolder') && this.startingItems.length > 0) {
+//         console.log("YESS");
+//     }
+// };
+
 Lootr.Entity.prototype.convertToJsonObject = function() {
     var obj = {}
 
@@ -215,7 +221,6 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
 
         return true;
     }
-
 
     if (this.isOnWalkableTileAndHasItems(x, y, tile, map)) {
         this.setPosition(x, y);

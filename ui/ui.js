@@ -111,8 +111,8 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     Lootr.UI.AttackValueDisplay(player, startX + 82, startY++, display);
     Lootr.UI.DefenseValueDisplay(player, startX + 82, startY, display);
 
-    Lootr.UI.MovementSpeedDisplay(player, startX + 92, startY--, display);
-    Lootr.UI.SightDisplay(player, startX + 92, startY++, display);
+    Lootr.UI.MovementSpeedDisplay(player, startX + 94, startY--, display);
+    Lootr.UI.SightDisplay(player, startX + 94, startY++, display);
     startY++;
     startY++;
 
@@ -122,7 +122,7 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
 
     startY--;
     startY--;
-    Lootr.UI.SelectedSpellDisplay(player, startX + 92, startY++, display);
+    Lootr.UI.SelectedSpellDisplay(player, startX + 94, startY++, display);
 };
 
 Lootr.UI.LootrDisplay = function(startX, startY, display) {
@@ -242,12 +242,12 @@ Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.DefenseValueDisplay = function(player, startX, startY, display) {
-    var def = '%c{#91AA9D}%b{black} DEF: %c{gold}' + player.getDefenseValue();
+    var def = '%c{#91AA9D}%b{black} DEF: %c{gold}' + player.getBaseDefenseValue() + '%c{green} (' + player.getDefenseValue() + ')';
     display.drawText(startX, startY, def);
 };
 
 Lootr.UI.AttackValueDisplay = function(player, startX, startY, display) {
-    var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + player.getAttackValue();
+    var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + player.getBaseAttackValue() + '%c{green} (' + player.getAttackValue() +')';
     display.drawText(startX, startY, attack);
 };
 

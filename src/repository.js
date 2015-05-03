@@ -18,7 +18,6 @@ Lootr.Repository.prototype.define = function(name, template, options) {
     }
 };
 
-
 // Create an object based on a template.
 Lootr.Repository.prototype.create = function(name, extraProperties) {
     if (!this._templates[name]) {

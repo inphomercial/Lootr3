@@ -11,6 +11,7 @@ have a way to update a tile's description
 make fire able to shoot in all directions and only when closer to player
 build a static character set for items/entities
 tile objects can contains entities & items
+Deities?
 
 // AI
 Make it so enemies arent glued
@@ -64,11 +65,13 @@ Item loot drop table based on rarity
 More wall gem tiles (maybe diggable to add to $)
 Items that can add/remove components to player/item
 Coffins
+Findable Spell books for learning new spells
 
 // SPELLS
 A spell that tells you the direction to the orb on current level
 A spell that can create food
 A Charm Spell
+A chain lightning spell that can jump to nearby enemies at a reduced damage
 
 // TILES
 More traps

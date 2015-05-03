@@ -38,6 +38,10 @@ Lootr.getNeighborPositions = function(x, y) {
     return tiles.randomize();
 };
 
+Lootr.getRandomInt = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 Lootr.getMousePos = function(canvas, evt) {
     //var rect = canvas.getBoundingClientRect();
     /*return {
