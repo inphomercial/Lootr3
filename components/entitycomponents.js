@@ -616,10 +616,10 @@ Lootr.EntityComponents.Destructible = {
         // consideration weapon and armor
         if(this.hasComponent(Lootr.EntityComponents.Equipper)) {
             if(this.getWeapon()) {
-                mod += this.getWeapon().getAttackValue();
+                mod += this.getWeapon().getDefenseValue();
             }
             if(this.getArmor()) {
-                mod += this.getArmor().getAttackValue();
+                mod += this.getArmor().getDefenseValue();
             }
         }
 

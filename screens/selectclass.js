@@ -25,9 +25,9 @@ Lootr.Screen.classSelectScreen = {
         }
 
         if(this.index == 2) {
-            display.drawText((display._options.width / 2) - 14, 15, "                  [x]  Assassin                 ");
+            display.drawText((display._options.width / 2) - 14, 16, "                  [x]  Assassin                 ");
         } else {
-            display.drawText((display._options.width / 2) - 14, 15, "                  [ ]  Assassin                 ");
+            display.drawText((display._options.width / 2) - 14, 16, "                  [ ]  Assassin                 ");
         }
     },
     handleInput: function(inputType, inputData) {
@@ -38,6 +38,7 @@ Lootr.Screen.classSelectScreen = {
                 if(this.index == 0) {
                     this.index++;
                     Lootr.refresh();
+                    return;
                 }
             }
 
@@ -47,6 +48,21 @@ Lootr.Screen.classSelectScreen = {
                     Lootr.refresh();
                 }
             }
+
+            if (inputData.keyCode === ROT.VK_UP) {
+                if(this.index == 2) {
+                    this.index--;
+                    Lootr.refresh();
+                }
+            }
+
+            if (inputData.keyCode === ROT.VK_DOWN) {
+                if(this.index == 1) {
+                    this.index++;
+                    Lootr.refresh();
+                }
+            }
+
             if (inputData.keyCode === ROT.VK_RETURN) {
                 var race = "";
 
