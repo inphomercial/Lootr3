@@ -32,22 +32,21 @@ Lootr.EntitySpells.Firebolt = {
     name: 'FireBolt',
     init: function(template) {
         this._caster = template['caster'] || null;
-        this._manaConsumptionAmount = 5;
         this._target = template['target'] || null;
+        this._manaConsumptionAmount = 5;    
+        this._damage = 5;    
     },
     cast: function(x, y) {
         if (this._checkIfCanCast()) {
-            if(this._target !== null) {
-                //var fireball = Lootr.EntityRepository.create('fire');
-                //this._caster.getMap().addEntityAt(x, y, fireball);
-
-
-                this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
-
-                this._getDescription();
+            if(this._target && this._target.hasComponent('Destructible')) {                
+                this._target.takeDamage(this._caster, this._damage);                
+                this._getDescription();                
             } else {
                 Lootr.sendMessage(this._caster, 'You fire a bolt at nothing');    
             }
+
+            this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+            
         } else {
             Lootr.sendMessage(this._caster, 'You lack the mental fortitude to cast that');
         }   
