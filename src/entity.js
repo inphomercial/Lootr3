@@ -146,9 +146,9 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
     // If entity is at tile
     if (target && this.isAttackerWithPlayerAndTargetIsDestructable(target)) {
         this.attack(target);
-        
+
         return true;
-        
+
     } else if (target) {
         // we cannot attack and cannot move
         Lootr.sendMessage(this, 'You bump into something.');

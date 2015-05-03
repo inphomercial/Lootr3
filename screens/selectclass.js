@@ -23,6 +23,12 @@ Lootr.Screen.classSelectScreen = {
         } else {
             display.drawText((display._options.width / 2) - 14, 15, "                  [ ]  Warrior                 ");
         }
+
+        if(this.index == 2) {
+            display.drawText((display._options.width / 2) - 14, 15, "                  [x]  Assassin                 ");
+        } else {
+            display.drawText((display._options.width / 2) - 14, 15, "                  [ ]  Assassin                 ");
+        }
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
@@ -46,6 +52,7 @@ Lootr.Screen.classSelectScreen = {
 
                 if (this.index == 0) race = "Wizard";
                 if (this.index == 1) race = "Warrior";
+                if (this.index == 2) race = "Assassin";
 
                 Lootr.Screen.playScreen.setup(race);
                 Lootr.switchScreen(Lootr.Screen.playScreen);

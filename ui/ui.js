@@ -106,7 +106,13 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     Lootr.UI.DefenseValueDisplay(player, startX + 82, startY, display);
 
     Lootr.UI.MovementSpeedDisplay(player, startX + 92, startY--, display);
-    Lootr.UI.SightDisplay(player, startX + 92, startY, display);
+    Lootr.UI.SightDisplay(player, startX + 92, startY++, display);
+    startY++;
+    startY++;
+
+    Lootr.UI.StrDisplay(player, startX + 82, startY++, display);
+    Lootr.UI.IntDisplay(player, startX + 82, startY++, display);
+    Lootr.UI.DexDisplay(player, startX + 82, startY++, display);
 };
 
 Lootr.UI.HighScoreDisplay = function(startX, startY, display) {
@@ -161,6 +167,21 @@ Lootr.UI.SightDisplay = function(player, startX, startY, display) {
     display.drawText(startX, startY++, sight);
 };
 
+Lootr.UI.StrDisplay = function(player, startX, startY, display) {
+    var str = '%c{#91AA9D}%b{black}STR: %c{#FCFFF5}' + player.getStr();
+    display.drawText(startX, startY++, str);
+};
+
+Lootr.UI.DexDisplay = function(player, startX, startY, display) {
+    var dex = '%c{#91AA9D}%b{black}DEX: %c{#FCFFF5}' + player.getDex();
+    display.drawText(startX, startY++, dex);
+};
+
+Lootr.UI.IntDisplay = function(player, startX, startY, display) {
+    var int = '%c{#91AA9D}%b{black}INT: %c{#FCFFF5}' + player.getInt();
+    display.drawText(startX, startY++, int);
+};
+
 Lootr.UI.LevelDisplay = function(player, startX, startY, display) {
     var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player.getLevel();
     display.drawText(startX, startY++, level);
@@ -193,11 +214,11 @@ Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
 
 Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
     if (player.hasComponent("ManaPool")) {
-        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();    
+        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();
     } else {
-        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + 0 + '/' + 0;    
+        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + 0 + '/' + 0;
     }
-    
+
     display.drawText(startX, startY++, mp);
 };
 

@@ -76,16 +76,16 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 
 //     if (typeof component === 'object') {
 //         if (!this._attachedComponents[component.name]) {
-          
+
 //             for(var key in component) {
 //                 if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
 //                     this[key] = component[key];
 //                 }
 //             }
-            
+
 //             this._attachedComponents[component.name] = true;
-//             console.info('Component object', component); 
-//             component.init.call(this);              
+//             console.info('Component object', component);
+//             component.init.call(this);
 //         } else {
 //             console.log("Component already exists on player");
 //         }

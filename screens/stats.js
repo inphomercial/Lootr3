@@ -16,7 +16,7 @@ Lootr.Screen.statScreen = {
         Lootr.UI.RenderStatsGroup(this._player, -77, 4, display);
     },
     handleInput: function(inputType, inputData) {
-        if(Lootr.isInputTypeKeyDown(inputType) && Lootr.isInputKey(inputData, ROT.VK_ESCAPE)) {            
+        if(Lootr.isInputTypeKeyDown(inputType) && Lootr.isInputKey(inputData, ROT.VK_ESCAPE)) {
             Lootr.Screen.playScreen.setSubScreen(null);
         }
     }

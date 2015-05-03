@@ -5,8 +5,8 @@ Lootr.EntityComponents = {};
 // Scheduler calls each objects' act method
 Lootr.EntityComponents.PlayerActor = {
     name: 'PlayerActor',
-    groupName: 'Actor',    
-    act: function() {      
+    groupName: 'Actor',
+    act: function() {
         this._acting = true;
 
         if (this.hasComponent('Bleedable'))  this.isBleeding();
@@ -100,7 +100,7 @@ Lootr.EntityComponents.Bleedable = {
     isBleeding: function() {
         if(this.getHp() < 20 && Math.round(Math.random())) {
             this.getMap().bloodyTile(this.getX(), this.getY());
-            console.log("You bleed a little");    
+            console.log("You bleed a little");
         }
     }
 };
@@ -178,8 +178,38 @@ Lootr.EntityComponents.MovementSpeed = {
     }
 };
 
+Lootr.EntityComponents.StrStat = {
+    name: 'StrStat',
+    init: function(template) {
+        this._str = template['str'] || 1;
+    },
+    getStr: function() {
+        return this._str;
+    }
+};
+
+Lootr.EntityComponents.IntStat = {
+    name: 'IntStat',
+    init: function(template) {
+        this._int = template['int'] || 1;
+    },
+    getInt: function() {
+        return this._int;
+    }
+};
+
+Lootr.EntityComponents.DexStat = {
+    name: 'DexStat',
+    init: function(template) {
+        this._dex = template['dex'] || 1;
+    },
+    getDex: function() {
+        return this._dex;
+    }
+};
+
 Lootr.EntityComponents.Flight = {
-    name: 'Flight',    
+    name: 'Flight',
     init: function(template) {
         this._isFlying = template['isFlying'] || false;
     },
@@ -221,21 +251,21 @@ Lootr.EntityComponents.Invisiblity = {
         this._manaConsumptionAmount = 2;
     },
     checkIfCanConsume: function() {
-        return this.hasComponent('ManaPool') && this.getMana() >= this._manaConsumptionAmount;            
+        return this.hasComponent('ManaPool') && this.getMana() >= this._manaConsumptionAmount;
     },
     continueInvisible: function() {
         this.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
     },
     turnInvisible: function() {
-        if (this.checkIfCanConsume()) {            
+        if (this.checkIfCanConsume()) {
             this._isInvisible = true;
             Lootr.sendMessage(this, 'You fade away.');
-            this.setForeground('gray');     
+            this.setForeground('gray');
 
             return true;
-        }    
-           
-        Lootr.sendMessage(this, 'You dont have the mana required.');                
+        }
+
+        Lootr.sendMessage(this, 'You dont have the mana required.');
     },
     turnVisible: function() {
         this._isInvisible = false;
@@ -276,7 +306,7 @@ Lootr.EntityComponents.FireBreather = {
         if(this.getMap().isTileWithoutEntity(this.getX(), this.getY() + ++offset )) {
             var fire2 = Lootr.EntityRepository.create('fire');
             this.getMap().addEntityAt(this.getX(), this.getY()+offset, fire2);
-        }        
+        }
     },
     breathFireEndsTurn: true
 };
@@ -506,7 +536,7 @@ Lootr.EntityComponents.Equipper = {
         } else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
             this._head = item;
         }       */
-        
+
         Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
         this._armor = item;
     },
@@ -549,6 +579,9 @@ Lootr.EntityComponents.Destructible = {
 
         // Raise onHit event to victim
         this.raiseEvent('onHit', this);
+
+         // Make stuff blooooddyyyy
+        this.getMap().bloodyTile(this.getX(), this.getY());
 
         // If less than 1 hp, remove ourselves
         if(this._hp < 1) {
@@ -1199,7 +1232,7 @@ Lootr.EntityComponents.Attacker = {
     attack: function(target) {
         // If the target is destructible, calc damage based on attack and def
         if(target.hasComponent('Destructible')) {
-            var attack = this.getAttackValue();
+            var attack = this.getAttackValue() * this.getStr();
             var target_def = target.getDefenseValue();
             var max = Math.max(0, attack - target_def);
             var damage = 1 + Math.floor(Math.random() * max);
@@ -1208,9 +1241,6 @@ Lootr.EntityComponents.Attacker = {
             Lootr.sendMessage(target, 'The %s strikes you for %d damage!', [this.getName(), damage]);
 
             target.takeDamage(this, damage);
-
-            // Make stuff blooooddyyyy
-            target.getMap().bloodyTile(target.getX(), target.getY());
         }
     },
     getAttackValue: function() {

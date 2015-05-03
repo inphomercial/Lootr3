@@ -16,6 +16,9 @@ Lootr.Templates.Base = {
     movementSpeed: 1000,    // MovementSpeed
     maxFullness: 500,       // FoodConsumer
     components: [Lootr.EntityComponents.PlayerActor,
+                 Lootr.EntityComponents.StrStat,
+                 Lootr.EntityComponents.IntStat,
+                 Lootr.EntityComponents.DexStat,
                  Lootr.EntityComponents.Sight,
                  Lootr.EntityComponents.Destructible,
                  Lootr.EntityComponents.Attacker,
@@ -25,30 +28,45 @@ Lootr.Templates.Base = {
                  Lootr.EntityComponents.MovementSpeed,
                  Lootr.EntityComponents.Orbs,
                  Lootr.EntityComponents.ExperienceGainer,
-                 Lootr.EntityComponents.Equipper,                 
+                 Lootr.EntityComponents.Equipper,
                  Lootr.EntityComponents.PlayerStatGainer]
 };
 
 Lootr.Templates.Wizard = {
-    foreground: 'blue',    
+    foreground: 'blue',
     class: 'Wizard',
     manaReplenishRate: 4,  // ManaPool
     maxMana: 100,          // ManaPool
-    manaIncreaseAmount: 5, // ManaPool    
-    components: [Lootr.EntityComponents.ManaPool,                 
-                 Lootr.EntityComponents.PassThroughWalls,                 
+    manaIncreaseAmount: 5, // ManaPool
+    int: 3,            // IntStat
+    components: [Lootr.EntityComponents.ManaPool,
+                 Lootr.EntityComponents.PassThroughWalls,
+                 Lootr.EntityComponents.Bleedable,
+                 Lootr.EntityComponents.Invisiblity]
+};
+
+Lootr.Templates.Assassin = {
+    foreground: 'grey',
+    class: 'Assassin',
+    manaReplenishRate: 2,  // ManaPool
+    maxMana: 50,          // ManaPool
+    manaIncreaseAmount: 3, // ManaPool
+    dex: 3,            // IntStat
+    components: [Lootr.EntityComponents.ManaPool,
+                 Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.Invisiblity]
 };
 
 Lootr.Templates.Warrior = {
-    foreground: 'red',    
+    foreground: 'red',
     class: 'Warrior',
     maxHp: 200,          // Destructible
     attack: 3,           // Attacker
     inventorySlots: 40,  // InventoryHolder
     maxFullness: 800,    // FoodConsumer
     movementSpeed: 800,  // MovementSpeed
+    str: 3,          // StrStat
     components: [Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.FireBreather,
                  Lootr.EntityComponents.FoodConsumer]

@@ -25,7 +25,7 @@ Lootr.Screen.ItemListScreen.prototype.setup = function(player, items) {
 
     // Should be called before switching to the screen
     var count = 0;
-    
+
     // Iterate over each time, keeping only the acceptable ones and counting the
     // number of acceptable items
     var that = this;

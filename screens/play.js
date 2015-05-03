@@ -7,10 +7,10 @@ Lootr.Screen.playScreen = {
 
     setup: function(race) {
         // Create our player with race
-        var player = new PlayerBuilder(Lootr.Templates.Base, Lootr.Templates[race]);        
+        var player = new PlayerBuilder(Lootr.Templates.Base, Lootr.Templates[race]);
         this._player = new Lootr.Entity(player);
     },
-    
+
     enter: function() {
         console.log("Entered play screen");
 
@@ -20,9 +20,9 @@ Lootr.Screen.playScreen = {
         // Star the games engine
         map.getEngine().start();
     },
-    
+
     exit: function() { console.log("Exited play screen."); },
-    
+
     render: function(display) {
         // Render subscreen if there is one
         if(this._subScreen) {
@@ -204,14 +204,14 @@ Lootr.Screen.playScreen = {
                     // this._player.getMap().addEntityAt(this._player.getX(), this._player.getY()+1, fire);
 
                     var offsets = this.getScreenOffsets();
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'yellow', "W", 'Fireball');                    
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'yellow', "W", 'Fireball');
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
                  // Testing Spells
                 case ROT.VK_N:
                     var offsets = this.getScreenOffsets();
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'red', "!", 'Firebolt');                    
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'red', "!", 'Firebolt');
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
@@ -219,8 +219,8 @@ Lootr.Screen.playScreen = {
                 case ROT.VK_U:
                     if (this._player.hasComponent('FoodConsumer')) {
                         this._player.modifyFullnessBy(5);
-                        console.log(this._player._fullness);                        
-                    }                    
+                        console.log(this._player._fullness);
+                    }
                     break;
 
                 // Testing raising max fullness
@@ -229,7 +229,7 @@ Lootr.Screen.playScreen = {
                         this._player._maxFullness = this._player._maxFullness + 5;
                         console.log(this._player._maxFullness);
                     }
-                    
+
                     break;
 
                 // Testing invis

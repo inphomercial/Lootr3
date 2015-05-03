@@ -1,10 +1,10 @@
 
 Lootr.Storage = {
-    addRecord: function(player) {        
+    addRecord: function(player) {
         if(!this.isCurrentRecordHigher(player)) {
             alert("You beat your previous high score!");
             localStorage.setItem('LootrLog', JSON.stringify(player.convertToJsonObject()));
-        }        
+        }
     },
     getRecord: function() {
         return JSON.parse(localStorage.getItem('LootrLog'));
