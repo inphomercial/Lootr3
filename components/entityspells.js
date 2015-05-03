@@ -5,6 +5,8 @@ Lootr.EntitySpells.Teleport = {
     init: function(template) {
         this._caster = template['caster'] || null;
         this._manaConsumptionAmount = 15;
+        this._char = '?';
+        this._color = 'lightblue';
     },
     cast: function(x, y) {
         if (this._checkIfCanCast()) {
@@ -19,6 +21,12 @@ Lootr.EntitySpells.Teleport = {
             Lootr.sendMessage(this._caster, 'Your body is to feeble to make that transition');
         }
     },
+    getChar: function() {
+        return this._char;
+    },
+    getColor: function() {
+        return this._color;
+    },
     _getDescription: function() {
         Lootr.sendMessage(this._caster, 'You break apart, joining together again.');
     },
@@ -32,6 +40,8 @@ Lootr.EntitySpells.Fireball = {
     init: function(template) {
         this._caster = template['caster'] || null;
         this._manaConsumptionAmount = 2;
+        this._char = 'W';
+        this._color = 'yellow';
     },
     cast: function(x, y) {
         if (this._checkIfCanCast()) {
@@ -46,6 +56,12 @@ Lootr.EntitySpells.Fireball = {
         } else {
             Lootr.sendMessage(this._caster, 'You lack the mental fortitude to cast that');
         }
+    },
+    getChar: function() {
+        return this._char;
+    },
+    getColor: function() {
+        return this._color;
     },
     _getDescription: function() {
         Lootr.sendMessage(this._caster, 'You hurl a ball of fire!');
@@ -62,6 +78,8 @@ Lootr.EntitySpells.Firebolt = {
         this._target = template['target'] || null;
         this._manaConsumptionAmount = 5;
         this._damage = 2;
+        this._char = '!';
+        this._color = 'red';
     },
     cast: function(x, y) {
         if (this._checkIfCanCast()) {
@@ -77,6 +95,12 @@ Lootr.EntitySpells.Firebolt = {
         } else {
             Lootr.sendMessage(this._caster, 'You lack the mental fortitude to cast that');
         }
+    },
+    getChar: function() {
+        return this._char;
+    },
+    getColor: function() {
+        return this._color;
     },
     _getDamage: function() {
         return this._damage * this._caster.getInt();

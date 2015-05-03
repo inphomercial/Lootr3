@@ -19,6 +19,7 @@ Lootr.Templates.Base = {
                  Lootr.EntityComponents.StrStat,
                  Lootr.EntityComponents.IntStat,
                  Lootr.EntityComponents.DexStat,
+                 Lootr.EntityComponents.LearnedSpells,
                  Lootr.EntityComponents.Sight,
                  Lootr.EntityComponents.Destructible,
                  Lootr.EntityComponents.Attacker,
@@ -38,7 +39,8 @@ Lootr.Templates.Wizard = {
     manaReplenishRate: 4,  // ManaPool
     maxMana: 100,          // ManaPool
     manaIncreaseAmount: 5, // ManaPool
-    int: 3,            // IntStat
+    int: 3,                // IntStat
+    learnedSpells: ['Teleport', 'Fireball'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,
@@ -49,9 +51,10 @@ Lootr.Templates.Assassin = {
     foreground: 'grey',
     class: 'Assassin',
     manaReplenishRate: 2,  // ManaPool
-    maxMana: 50,          // ManaPool
+    maxMana: 50,           // ManaPool
     manaIncreaseAmount: 3, // ManaPool
-    dex: 3,            // IntStat
+    dex: 3,                // IntStat
+    learnedSpells: ['Teleport'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,

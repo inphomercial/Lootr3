@@ -112,7 +112,11 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
 
     Lootr.UI.StrDisplay(player, startX + 82, startY++, display);
     Lootr.UI.IntDisplay(player, startX + 82, startY++, display);
-    Lootr.UI.DexDisplay(player, startX + 82, startY++, display);
+    Lootr.UI.DexDisplay(player, startX + 82, startY, display);
+
+    startY--;
+    startY--;
+    Lootr.UI.SelectedSpellDisplay(player, startX + 92, startY++, display);
 };
 
 Lootr.UI.HighScoreDisplay = function(startX, startY, display) {
@@ -155,6 +159,11 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
        weaponString += "Wielding: %c{#7E7F7A}none";
        display.drawText(startX, startY++, weaponString);
     }
+};
+
+Lootr.UI.SelectedSpellDisplay = function(player, startX, startY, display) {
+    var selectedSpell = '%c{#91AA9D}%b{black}SPELL: %c{#FCFFF5}' + player.getSelectedSpell();
+    display.drawText(startX, startY++, selectedSpell);
 };
 
 Lootr.UI.MovementSpeedDisplay = function(player, startX, startY, display) {

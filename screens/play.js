@@ -197,25 +197,22 @@ Lootr.Screen.playScreen = {
                     this.doMove(0, 1);
                     break;
 
-                // Testing Fireball Spell
+                // Testing Selected Spell
                 case ROT.VK_SPACE:
                     var offsets = this.getScreenOffsets();
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'yellow', "W", 'Fireball');
+                    var spell = Lootr.EntitySpells[this._player.getSelectedSpell()];
+                    spell.init({});
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, spell.getColor(), spell.getChar(), this._player.getSelectedSpell());
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
-                 // Testing Firebolt Spell
+                 // Testing
                 case ROT.VK_N:
-                    var offsets = this.getScreenOffsets();
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'red', "!", 'Firebolt');
-                    this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
-                // Testing Teleport
+                // Testing Cycling Selected Spells
                 case ROT.VK_B:
-                    var offsets = this.getScreenOffsets();
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, 'lightblue', "?", 'Teleport');
-                    this.setSubScreen(Lootr.Screen.castSpellScreen);
+                    this._player.cycleSelectedSpell();
                     break;
 
                 // Testing eating food

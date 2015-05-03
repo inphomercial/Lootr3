@@ -153,10 +153,6 @@ Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius)
     return results;
 };
 
-
-// *************
-// ** SETTERS **
-// *************
 Lootr.Map.prototype.setTile = function(tile, x, y) {
     this._tiles[x][y] = tile;
 
@@ -183,10 +179,6 @@ Lootr.Map.prototype.setItemsAt = function(x, y, items) {
     }
 };
 
-
-// *************
-// **   IS    **
-// *************
 Lootr.Map.prototype.isItemsAt = function(x, y) {
     var items = this.getItemsAt(x, y);
 
@@ -351,7 +343,6 @@ Lootr.Map.prototype.setupFov = function() {
     }*/
 };
 
-// Used as a replacement to my create("dragon", 2) struggles....
 Lootr.Map.prototype.addEntityByTypeAndAmount = function(entity_name, amount) {
     for(var i=0; i<amount; i++) {
         var entity = Lootr.EntityRepository.create(entity_name);
@@ -359,7 +350,6 @@ Lootr.Map.prototype.addEntityByTypeAndAmount = function(entity_name, amount) {
     }
 };
 
-// Used as a replacement to my create("sword", 2) struggles....
 Lootr.Map.prototype.addItemByTypeAndAmount = function(item_name, amount) {
     for(var i=0; i<amount; i++) {
         var item = Lootr.ItemRepository.create(item_name);
@@ -368,7 +358,6 @@ Lootr.Map.prototype.addItemByTypeAndAmount = function(item_name, amount) {
 };
 
 Lootr.Map.prototype.addEntityAt = function(x, y, entity) {
-    /*if(this.isTileEmptyFloor(x, y)) {*/
     if(this.isTileWithoutEntity(x, y)) {
         entity.setX(x);
         entity.setY(y);
@@ -467,14 +456,10 @@ Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
 
 Lootr.Map.prototype.addEntityAtRandomPosition = function(entity) {
     var pos = this.getRandomFloorPosition();
-    /*entity.setX(pos.x);
-    entity.setY(pos.y);
-    this.addEntity(entity);*/
     this.addEntityAt(pos.x, pos.y, entity);
 };
 
 Lootr.Map.prototype.dig = function(x, y) {
-    // if the tile is diggable, update it to a floor
     if(this.getTile(x, y).isDiggable()) {
         this._tiles[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
     }

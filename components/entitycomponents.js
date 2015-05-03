@@ -1055,6 +1055,39 @@ Lootr.EntityComponents.MessageRecipient = {
     }
 }
 
+Lootr.EntityComponents.LearnedSpells = {
+    name: 'LearnedSpells',
+    init: function(template) {
+        this._learnedSpells = [];
+        this._selectedSpellIndex = 0;
+
+        if (template.learnedSpells !== undefined) {
+            for (var i = 0; i < template.learnedSpells.length; i++) {
+                this._learnedSpells.push(template.learnedSpells[i]);
+            }
+        }
+    },
+    addLearnedSpell: function(spell_name) {
+        this._learnedSpells.push(spell_name);
+    },
+    getLearnedSpells: function() {
+        return this._learnedSpells;
+    },
+    getSelectedSpell: function() {
+        if (this._learnedSpells.length == 0) return 'None';
+
+        return this._learnedSpells[this._selectedSpellIndex];
+    },
+    cycleSelectedSpell: function(direction) {
+        // If it's the last element, we want to get the first
+        if (this._selectedSpellIndex == this._learnedSpells.length - 1) {
+            this._selectedSpellIndex = 0;
+        } else {
+            this._selectedSpellIndex++;
+        }
+    }
+};
+
 Lootr.EntityComponents.RandomStatGainer = {
     name: 'RandomStatGainer',
     groupName: 'StatGainer',
