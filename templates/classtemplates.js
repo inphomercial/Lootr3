@@ -27,6 +27,7 @@ Lootr.Templates.Base = {
                  Lootr.EntityComponents.MessageRecipient,
                  Lootr.EntityComponents.GoldHolder,
                  Lootr.EntityComponents.MovementSpeed,
+                 Lootr.EntityComponents.FoodConsumer,
                  Lootr.EntityComponents.Orbs,
                  Lootr.EntityComponents.ExperienceGainer,
                  Lootr.EntityComponents.Equipper,
@@ -40,6 +41,7 @@ Lootr.Templates.Wizard = {
     maxMana: 100,          // ManaPool
     manaIncreaseAmount: 5, // ManaPool
     int: 3,                // IntStat
+    maxFullness: 300,      // FoodConsumer
     learnedSpells: ['Teleport', 'Fireball'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -54,6 +56,7 @@ Lootr.Templates.Assassin = {
     maxMana: 50,           // ManaPool
     manaIncreaseAmount: 3, // ManaPool
     dex: 3,                // IntStat
+    maxFullness: 200,      // FoodConsumer
     learnedSpells: ['Teleport'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -71,6 +74,5 @@ Lootr.Templates.Warrior = {
     movementSpeed: 800,  // MovementSpeed
     str: 3,          // StrStat
     components: [Lootr.EntityComponents.Bleedable,
-                 Lootr.EntityComponents.FireBreather,
-                 Lootr.EntityComponents.FoodConsumer]
+                 Lootr.EntityComponents.FireBreather]
 };

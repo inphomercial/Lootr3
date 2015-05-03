@@ -1,47 +1,79 @@
 
-TODO
-add corpse decaying
-figure out lights
-status ailments
+== TODO ==
+
+// MISC
 snow level w/ foot prints
-scent tracks
-get the game to restart on death
 be able to draw text directly to the screen from in screen
-more items slots besides equip and wear (hand & wear)
-add a way to remove/unequip items
-player profile screen (Started)
 make send to near by function take a optional radius
-make it so enemies arent glued
-make better wall gem tiles
-coffins
 come up with good solution to corpses having entity name appended to it for (map.tileContainsItem)
-make a hunt for corpse component, add to vampire
 make tasks have a taskNamePercent that it rolls on
 have a way to update a tile's description
-item stat rolling
-spider queens that can lay new nests
-friend entity (dog)
-spike trap ^^^
+make fire able to shoot in all directions and only when closer to player
+build a static character set for items/entities
+tile objects can contains entities & items
+
+// AI
+Make it so enemies arent glued
+Friend entity (dog)
+
+// BATTLE
+Allow for critical hits
+Get Dex stat involved for accuracy
+
+// PLAYER
+More items slots besides equip and wear (hand & wear)
+Be able to add/remove components dynamically....
+Status ailments
+
+// BUGS
+Item stacking on same tile is broken...
+Fix the map entity/item lookups return booleans
+get the game to restart on death
+
+// ASTHETICS
+Update up lose screen
+Update up win screen
+Update on help screen
+Figure out lights
+Player profile screen (Started)
+
+// PROGRESSION
+Track total turns to be used in the player highscore
+
+// COMPONENTS
+Update FoodConsumer component to allow for a hungerRate (Some classes need more or less food)
+Make a hunt for corpse component, add to vampire
+Corpse decaying component
+Scent tracks
+See Invis Component
+
+// MOBS
+Entities turn red to indicate being hit
+Spider queens that can lay new nests (spiders can maybe evolve to spider queen)
+Get entities to be able to carry inventory
+Get entities to drop inventory if carrying some when they die
+Get entities to be able to hold weapons and have it affect their attack
+Get entities to drop their weapon sometimes when killed
+
+// ITEMS
+Item stat rolling on creation
+Item loot drop table based on rarity
+More wall gem tiles (maybe diggable to add to $)
+Items that can add/remove components to player/item
+Coffins
+
+// TILES
+More traps
+Spike trap ^^^
            ^.^ <- trigger to spring surrounding spikes
            ^^^
-entities turn red to indicate being hit
-fix up lose screen
-fix up win screen
-work on help screen
-make fire able to shoot in all directions and only when closer to player
-fix the map entity/item lookups return booleans
-build a static character set for items/entities
-crit
-accuracy
-dynamicglyph - fill out addComponent & removeComponent methods
-tile objects can contains entities & items
-diggable item component
-allow for see invis
+
+
+
+== DONE ==
+
 doodad templates for map use
-item stacking on same tile is broken...
-
-
-DONE
+add a way to remove/unequip items
 spells & mana
 Work on stat screen
 orb inventory screen
@@ -60,7 +92,7 @@ invisibility component
 flight component
 Make the map viewing area smaller to allow for stats/messages
 DRAGONS THAT BREATHE FIREEEEE
-Add a rest key
+a rest key
 vampires eat corpses
 fix wear screen (wearable items dont equip/modify stats)
 spider nest + lings
