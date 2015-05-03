@@ -2,9 +2,9 @@ var Lootr =  {
     _display: null,
     _currentScreen: null,
     _screenWidth: 125,
-    _screenHeight: 35,
+    _screenHeight: 45,
     _mapScreenWidth: 90,
-    _mapScreenHeight: 20,
+    _mapScreenHeight: 30,
     Screen: {},
 
     ITEM_SLOTS: {

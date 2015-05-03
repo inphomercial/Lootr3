@@ -43,7 +43,7 @@ Lootr.Screen.playScreen = {
         Lootr.UI.RenderGameBorder(display);
 
         // Draw messages
-        Lootr.UI.RenderGameMessages(this._player, 5, 23, display);
+        Lootr.UI.RenderGameMessages(this._player, 5, 32, display);
     },
 
     getScreenOffsets: function() {

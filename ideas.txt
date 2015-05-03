@@ -24,11 +24,14 @@ Get Dex stat involved for accuracy
 More items slots besides equip and wear (hand & wear)
 Be able to add/remove components dynamically....
 Status ailments
+Player name generation
 
 // BUGS
 Item stacking on same tile is broken...
 Fix the map entity/item lookups return booleans
 get the game to restart on death
+Sometimes the game freezes when entering the cave (Might be due to the template generation out of bounds)
+In the item wear/wield screen there are extra letters sometimes
 
 // ASTHETICS
 Update up lose screen
@@ -61,6 +64,11 @@ Item loot drop table based on rarity
 More wall gem tiles (maybe diggable to add to $)
 Items that can add/remove components to player/item
 Coffins
+
+// SPELLS
+A spell that tells you the direction to the orb on current level
+A spell that can create food
+A Charm Spell
 
 // TILES
 More traps

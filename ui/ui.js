@@ -42,6 +42,8 @@ Lootr.UI.RenderGameMessages = function(player, startX, startY, display) {
  */
 Lootr.UI.RenderOrbsGroup = function(player, startX, startY, display) {
     var orbs = player.hasOrbs();
+    startY++;
+    startY++;
 
     display.drawText(101 + startX, startY, "Orbs");
 
@@ -74,6 +76,10 @@ Lootr.UI.RenderOrbsGroup = function(player, startX, startY, display) {
  * Renders out the entire stats GUI
  */
 Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
+    Lootr.UI.LootrDisplay(startX + 82, startY, display);
+    startY++;
+    startY++;
+
     Lootr.UI.NameDisplay(player, startX + 82, startY++, display);
     startY++;
 
@@ -117,6 +123,10 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     startY--;
     startY--;
     Lootr.UI.SelectedSpellDisplay(player, startX + 92, startY++, display);
+};
+
+Lootr.UI.LootrDisplay = function(startX, startY, display) {
+    display.drawText(startX, startY, "%c{yellow}L O O T r %c{white}");
 };
 
 Lootr.UI.HighScoreDisplay = function(startX, startY, display) {

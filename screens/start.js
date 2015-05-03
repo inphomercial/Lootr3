@@ -8,20 +8,22 @@ Lootr.Screen.startScreen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
 
+        var width = display._options.width / 2;
+
         // Render our prompt to the screen
-        display.drawText((display._options.width / 2) - 14, 10, "                        %c{yellow}L O O T r %c{white}   2014-2015             ");
-        display.drawText((display._options.width / 2) - 14, 12, "                    Press [Enter] to continue                 ");
+        display.drawText((width) - 14, 10, "                        %c{yellow}L O O T r %c{white}   2014-2015             ");
+        display.drawText((width) - 14, 12, "                    Press [Enter] to continue                 ");
 
         if(this.index == 0) {
-            display.drawText((display._options.width / 2) - 14, 14, "                  [x]  Start New Game                 ");
+            display.drawText((width) - 14, 14, "                  [x]  Start New Game                 ");
         } else {
-            display.drawText((display._options.width / 2) - 14, 14, "                  [ ]  Start New Game                 ");
+            display.drawText((width) - 14, 14, "                  [ ]  Start New Game                 ");
         }
 
         if(this.index == 1) {
-            display.drawText((display._options.width / 2) - 14, 15, "                  [x]  Continue Game                 ");
+            display.drawText((width) - 14, 15, "                  [x]  Continue Game                 ");
         } else {
-            display.drawText((display._options.width / 2) - 14, 15, "                  [ ]  Continue Game                 ");
+            display.drawText((width) - 14, 15, "                  [ ]  Continue Game                 ");
         }
     },
     handleInput: function(inputType, inputData) {

@@ -10,7 +10,7 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
     },
     ok: function(items) {
         var keys = Object.keys(items);
-        if(keys.length === 1) {
+        if (keys.length === 1) {
             if (items[keys] === this._player.getArmor()) {
                 this._player.takeOff();
             } else {

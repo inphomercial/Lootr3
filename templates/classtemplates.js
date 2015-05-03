@@ -42,6 +42,7 @@ Lootr.Templates.Wizard = {
     manaIncreaseAmount: 5, // ManaPool
     int: 3,                // IntStat
     maxFullness: 300,      // FoodConsumer
+    inventorySlots: 13,     // InventoryHolder
     learnedSpells: ['Teleport', 'Fireball'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -57,6 +58,7 @@ Lootr.Templates.Assassin = {
     manaIncreaseAmount: 3, // ManaPool
     dex: 3,                // IntStat
     maxFullness: 200,      // FoodConsumer
+    movementSpeed: 1300,   // MovementSpeed
     learnedSpells: ['Teleport'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -72,7 +74,7 @@ Lootr.Templates.Warrior = {
     inventorySlots: 40,  // InventoryHolder
     maxFullness: 800,    // FoodConsumer
     movementSpeed: 800,  // MovementSpeed
-    str: 3,          // StrStat
+    str: 3,              // StrStat
     components: [Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.FireBreather]
 };
