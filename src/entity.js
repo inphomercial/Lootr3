@@ -208,8 +208,10 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
             trap[0].springTrap(this);
         }
 
-        // update the entitys position
-        this.setPosition(x, y);
+        if (this.isAlive()) {
+            // update the entitys position
+            this.setPosition(x, y);
+        }
 
         return true;
     }
