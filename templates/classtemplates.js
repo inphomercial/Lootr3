@@ -43,7 +43,7 @@ Lootr.Templates.Wizard = {
     int: 3,                // IntStat
     maxFullness: 300,      // FoodConsumer
     inventorySlots: 13,     // InventoryHolder
-    learnedSpells: ['Teleport', 'Fireball'],
+    learnedSpells: ['Teleport', 'Firebolt'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,

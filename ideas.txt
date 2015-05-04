@@ -54,8 +54,6 @@ See Invis Component
 // MOBS
 Entities turn red to indicate being hit
 Spider queens that can lay new nests (spiders can maybe evolve to spider queen)
-Get entities to be able to carry inventory
-Get entities to drop inventory if carrying some when they die
 Get entities to be able to hold weapons and have it affect their attack
 Get entities to drop their weapon sometimes when killed
 
@@ -72,6 +70,8 @@ A spell that tells you the direction to the orb on current level
 A spell that can create food
 A Charm Spell
 A chain lightning spell that can jump to nearby enemies at a reduced damage
+AOE spells
+Heal Spells
 
 // TILES
 More traps
@@ -83,6 +83,8 @@ Spike trap ^^^
 
 == DONE ==
 
+Get entities to be able to carry inventory
+Get entities to drop inventory if carrying some when they die
 doodad templates for map use
 add a way to remove/unequip items
 spells & mana

@@ -10,22 +10,16 @@ Lootr.Entity = function(args) {
     this._template = args;
 
     // Set properties passed from args
-    //this._name = args['name'] || '';
     this._x = args['x'] || 0;
     this._y = args['y'] || 0;
     this._class = args['class'];
 
+    this._turns = 0;
     this._map = null;
 }
 
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
-
-// Lootr.Entity.prototype.populateItemInventory = function() {
-//     if (this.hasComponent('InventoryHolder') && this.startingItems.length > 0) {
-//         console.log("YESS");
-//     }
-// };
 
 Lootr.Entity.prototype.convertToJsonObject = function() {
     var obj = {}
@@ -35,6 +29,16 @@ Lootr.Entity.prototype.convertToJsonObject = function() {
     obj.weapon = (this.getWeapon() !== null) ? this.getWeapon().getName() : null;
     obj.armor = (this.getArmor() !== null) ? this.getArmor().getName() : null;
     obj.level = this.getLevel();
+    obj.turns = this.getTurns();
+    obj.str = this.getStr();
+    obj.dex = this.getDex();
+    obj.int = this.getInt();
+    obj.total_attack = this.getTotalAttackValue();
+    obj.total_defense = this.getTotalDefenseValue();
+    obj.learned_spells = this.getLearnedSpells();
+    obj.orbs_obtained = this.hasOrbs();
+    // obj.inventory = this.getItems()
+    obj.turns = this.getTurns();
 
     // for (var i = 0; i < this._attachedComponents; i++) {
     //     obj[this._attachedComponents] = this._attachedComponents;
@@ -148,6 +152,9 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
     var map = this.getMap();
     var tile = map.getTile(x, y);
     var target = map.getEntityAt(x, y);
+
+    // Increment total turns
+    this._turns++;
 
     // If entity is at tile
     if (target && this.isAttackerWithPlayerAndTargetIsDestructable(target)) {
@@ -266,6 +273,10 @@ Lootr.Entity.prototype.setPosition = function(x, y) {
     if(this._map) {
         this._map.updateEntityPosition(this, oldX, oldY);
     }
+};
+
+Lootr.Entity.prototype.getTurns = function() {
+    return this._turns;
 };
 
 Lootr.Entity.prototype.getClass = function() {
