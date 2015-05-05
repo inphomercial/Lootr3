@@ -84,8 +84,11 @@ Lootr.EntitySpells.Firebolt = {
     cast: function(x, y) {
         if (this._checkIfCanCast()) {
             if(this._target && this._target.hasComponent('Destructible')) {
-                this._target.takeDamage(this._caster, this._getDamage());
-                this._getDescription();
+                var damage = Lootr.getRandomInt(1, this._getDamage() - this._target.getTotalDefenseValue());
+
+                this._target.takeDamage(this._caster, damage);
+
+                Lootr.sendMessage(this._caster, 'You fire a bolt at the ' + this._target.getName() + ', for ' + damage);
             } else {
                 Lootr.sendMessage(this._caster, 'You fire a bolt at nothing');
             }
@@ -104,9 +107,6 @@ Lootr.EntitySpells.Firebolt = {
     },
     _getDamage: function() {
         return this._damage * this._caster.getInt();
-    },
-    _getDescription: function() {
-        Lootr.sendMessage(this._caster, 'You fire a bolt at the ' + this._target.getName() + ', for ' + this._getDamage());
     },
     _checkIfCanCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
