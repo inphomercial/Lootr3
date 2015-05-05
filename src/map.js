@@ -235,7 +235,7 @@ Lootr.Map.prototype.isPlayerAt = function(x, y) {
 Lootr.Map.prototype.addItem = function(x, y, item) {
     // If we already have items at that position, simply append the item to the list
     var key = x + ',' + y;
-    if(this._items[key] == item) {
+    if(this._items[key]) {
         this._items[key].push(item);
     } else {
         this._items[key] = [item];

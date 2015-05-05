@@ -72,9 +72,7 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
 
             // If we have selected an item, show a +, else show
             // a dash betwen the letter and the items name
-            var selectionState = (this._canSelectItem &&
-                                  this._canSelectMultipleItems &&
-                                  this._canselctedIndices[i]) ? '+' : '-';
+            var selectionState = (this._canSelectItem && this._canSelectMultipleItems && this._selectedIndices[i]) ? '+' : '-';
 
             // Check if the item is worn or wielded
             var suffix = '';
