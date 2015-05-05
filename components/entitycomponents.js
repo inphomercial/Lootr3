@@ -182,9 +182,25 @@ Lootr.EntityComponents.StrStat = {
     name: 'StrStat',
     init: function(template) {
         this._str = template['str'] || 1;
+        this._increaseStrByAmount = template['increaseStrByAmount'] || 1;
     },
     getStr: function() {
         return this._str;
+    },
+    increaseStrStat: function(amount) {
+         if (!amount) {
+            this._str += this._increaseStrByAmount;
+            Lootr.sendMessage(this, 'You become stronger');
+            return;
+        }
+
+        this._str += amount;
+
+        if (amout > 0) {
+            Lootr.sendMessage(this, 'You become stronger');
+        } else {
+            Lootr.sendMessage(this, 'You become weaker');
+        }
     }
 };
 
@@ -192,9 +208,25 @@ Lootr.EntityComponents.IntStat = {
     name: 'IntStat',
     init: function(template) {
         this._int = template['int'] || 1;
+        this._increaseIntByAmount = template['increaseIntByAmount'] || 1;
     },
     getInt: function() {
         return this._int;
+    },
+    increaseIntStat: function(amount) {
+        if (!amount) {
+            this._int += this._increaseIntByAmount;
+            Lootr.sendMessage(this, 'You become smarter');
+            return;
+        }
+
+        this._int += amount;
+
+        if (amount > 0) {
+            Lootr.sendMessage(this, 'You become smarter');
+        } else {
+            Lootr.sendMessage(this, 'You become dumber');
+        }
     }
 };
 
@@ -202,9 +234,25 @@ Lootr.EntityComponents.DexStat = {
     name: 'DexStat',
     init: function(template) {
         this._dex = template['dex'] || 1;
+        this._increaseDexByAmount = template['increaseDexByAmount'] || 1;
     },
     getDex: function() {
         return this._dex;
+    },
+    increaseDexStat: function(amount) {
+        if (!amount) {
+            this._dex += this._increaseDexByAmount;
+            Lootr.sendMessage(this, 'You become faster');
+            return;
+        }
+
+        this._dex += amount;
+
+        if(amount > 0) {
+            Lootr.sendMessage(this, 'You become faster');
+        } else {
+            Lootr.sendMessage(this, 'You become slower');
+        }
     }
 };
 
@@ -1204,6 +1252,15 @@ Lootr.EntityComponents.ExperienceGainer = {
         if(this.hasComponent('ManaPool')) {
             this._statOptions.push(['Increase mana pool', this.increaseMaxMana]);
         }
+        if(this.hasComponent('StrStat')) {
+            this._statOptions.push(['Increase Strength', this.increaseStrStat]);
+        }
+         if(this.hasComponent('IntStat')) {
+            this._statOptions.push(['Increase Intelligence', this.increaseIntStat]);
+        }
+         if(this.hasComponent('DexStat')) {
+            this._statOptions.push(['Increase Dexterity', this.increaseDexStat]);
+        }
     },
     getLevel: function() {
         return this._level;
@@ -1326,7 +1383,7 @@ Lootr.EntityComponents.Attacker = {
 
         // Add attack to value
         this._attack += value;
-        Lootr.sendMessage(this, 'You look stronger');
+        Lootr.sendMessage(this, 'You look deadlier');
     },
     listeners: {
         details: function() {

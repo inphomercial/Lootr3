@@ -37,12 +37,13 @@ Lootr.Templates.Base = {
 Lootr.Templates.Wizard = {
     foreground: 'blue',
     class: 'Wizard',
-    manaReplenishRate: 4,  // ManaPool
-    maxMana: 100,          // ManaPool
-    manaIncreaseAmount: 5, // ManaPool
-    int: 3,                // IntStat
-    maxFullness: 300,      // FoodConsumer
-    inventorySlots: 13,     // InventoryHolder
+    manaReplenishRate: 4,    // ManaPool
+    maxMana: 100,            // ManaPool
+    manaIncreaseAmount: 5,   // ManaPool
+    int: 3,                  // IntStat
+    increaseIntByAmount: 2,  // IntStat
+    maxFullness: 300,        // FoodConsumer
+    inventorySlots: 13,      // InventoryHolder
     learnedSpells: ['Teleport', 'Firebolt'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -53,12 +54,13 @@ Lootr.Templates.Wizard = {
 Lootr.Templates.Assassin = {
     foreground: 'grey',
     class: 'Assassin',
-    manaReplenishRate: 2,  // ManaPool
-    maxMana: 50,           // ManaPool
-    manaIncreaseAmount: 3, // ManaPool
-    dex: 3,                // IntStat
-    maxFullness: 200,      // FoodConsumer
-    movementSpeed: 1300,   // MovementSpeed
+    manaReplenishRate: 2,   // ManaPool
+    maxMana: 50,            // ManaPool
+    manaIncreaseAmount: 3,  // ManaPool
+    dex: 3,                 // DexStat
+    increaseDexByAmount: 2, // DexStat
+    maxFullness: 200,       // FoodConsumer
+    movementSpeed: 1300,    // MovementSpeed
     learnedSpells: ['Teleport'],
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
@@ -69,12 +71,13 @@ Lootr.Templates.Assassin = {
 Lootr.Templates.Warrior = {
     foreground: 'red',
     class: 'Warrior',
-    maxHp: 200,          // Destructible
-    attack: 3,           // Attacker
-    inventorySlots: 40,  // InventoryHolder
-    maxFullness: 800,    // FoodConsumer
-    movementSpeed: 800,  // MovementSpeed
-    str: 3,              // StrStat
+    maxHp: 200,             // Destructible
+    attack: 3,              // Attacker
+    inventorySlots: 40,     // InventoryHolder
+    maxFullness: 800,       // FoodConsumer
+    movementSpeed: 800,     // MovementSpeed
+    str: 3,                 // StrStat
+    increaseStrByAmount: 2, // StrStat
     components: [Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.FireBreather]
 };
