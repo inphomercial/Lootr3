@@ -12,6 +12,7 @@ make fire able to shoot in all directions and only when closer to player
 build a static character set for items/entities
 tile objects can contains entities & items
 Deities?
+Why does the player spawn on the far left of the cave map?
 
 // AI
 Make it so enemies arent glued
@@ -19,7 +20,7 @@ Friend entity (dog)
 
 // BATTLE
 Allow for critical hits
-Get Dex stat involved for accuracy
+Get Dex stat involved for accuracy so that missing is possible
 
 // PLAYER
 More items slots besides equip and wear (hand & wear)
@@ -42,7 +43,7 @@ Figure out lights
 Player profile screen (Started)
 
 // PROGRESSION
-Track total turns to be used in the player highscore
+Get turns to be the main stat used for highscore list
 
 // COMPONENTS
 Update FoodConsumer component to allow for a hungerRate (Some classes need more or less food)
@@ -56,6 +57,8 @@ Entities turn red to indicate being hit
 Spider queens that can lay new nests (spiders can maybe evolve to spider queen)
 Get entities to be able to hold weapons and have it affect their attack
 Get entities to drop their weapon sometimes when killed
+Add rats
+Varied stats when mobs are generated
 
 // ITEMS
 Item stat rolling on creation
@@ -83,6 +86,7 @@ Spike trap ^^^
 
 == DONE ==
 
+Track total turns to be used in the player highscore
 Get entities to be able to carry inventory
 Get entities to drop inventory if carrying some when they die
 doodad templates for map use
