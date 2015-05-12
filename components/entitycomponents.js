@@ -587,6 +587,9 @@ Lootr.EntityComponents.Slot = {
             return false;
         }
     },
+    tryUnEquipSlot: function(item) {
+        this._unequipSlot(item);
+    },
     isSlotOpen: function(slot) {
         for (var key in this._slots) {
             // Find the slot we want to check
@@ -616,63 +619,80 @@ Lootr.EntityComponents.Slot = {
     _equipSlot: function(item) {
         for (var key in this._slots) {
             if (this._slots[key].slot == item.getSlot()) {
+                item.setWorn(true);
                 this._slots[key].items.push(item);
                 return;
             }
         }
     },
     _unequipSlot: function(item) {
-    }
-};
+        for (var key in this._slots) {
+            if (this._slots[key].slot == item.getSlot()) {
+                for (var i = 0; i < this._slots[key].items.length; i++) {
+                    if (this._slots[key].items[i] == item) {
+                        this._slots[key].items[i].setWorn(false);
+                        var removed_item = this._slots[key].items.splice(i, 1);
 
-Lootr.EntityComponents.Equipper = {
-    name: 'Equipper',
-    init: function(template) {
-        this._weapon = null;
-        this._armor = null;
-        this._head = null;
-    },
-    wield: function(item) {
-        if (this.isSlotOpen(item.getSlot())) {
-            Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
-            this._weapon = item;
-        }
-    },
-    unwield: function() {
-        Lootr.sendMessage(this, 'You stop wielding %s', [this._weapon.describeA()]);
-        this._weapon = null;
-    },
-    wear: function(item) {
-        /*if(item._slot == Lootr.ITEM_SLOTS.BODY) {
-            this._armor = item;
-        } else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
-            this._head = item;
-        }       */
-
-        Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
-        this._armor = item;
-    },
-    takeOff: function() {
-        Lootr.sendMessage(this, 'You stop wearing %s', [this._armor.describeA()]);
-        this._armor = null;
-    },
-    getWeapon: function() {
-        return this._weapon;
-    },
-    getArmor: function() {
-        return this._armor;
-    },
-    unequip: function(item) {
-        // Help function to be called before getting rid of an item
-        if(this._weapon === item) {
-            this.unwield();
-        }
-
-        if(this._armor === item) {
-            this.takeOff();
+                        if (this.canAddItem()) {
+                            this.addItem(removed_item);
+                        } else {
+                            console.log("No room in inventory for item, dropping int on the ground.");
+                        }
+                    }
+                }
+            }
         }
     }
 };
+
+// Lootr.EntityComponents.Equipper = {
+//     name: 'Equipper',
+//     init: function(template) {
+//         this._weapon = null;
+//         this._armor = null;
+//         this._head = null;
+//     },
+//     wield: function(item) {
+//         if (this.isSlotOpen(item.getSlot())) {
+//             Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
+//             this._weapon = item;
+//         }
+//     },
+//     unwield: function() {
+//         Lootr.sendMessage(this, 'You stop wielding %s', [this._weapon.describeA()]);
+//         this._weapon = null;
+//     },
+//     wear: function(item) {
+//         if(item._slot == Lootr.ITEM_SLOTS.BODY) {
+//             this._armor = item;
+//         } else if(item._slot == Lootr.ITEM_SLOTS.HEAD) {
+//             this._head = item;
+//         }       
+
+//         Lootr.sendMessage(this, 'You start to wear %s', [item.describeA()]);
+//         this._armor = item;
+//     },
+//     takeOff: function() {
+//         Lootr.sendMessage(this, 'You stop wearing %s', [this._armor.describeA()]);
+//         this._armor = null;
+//     },
+//     getWeapon: function() {
+//         return this._weapon;
+//     },
+//     getArmor: function() {
+//         return this._armor;
+//     },
+//     unequip: function(item) {
+//         // Help function to be called before getting rid of an item
+//         if(this._weapon === item) {
+//             this.unwield();
+//         }
+
+//         if(this._armor === item) {
+//             this.takeOff();
+//         }
+//     }
+// };
 
 /**
  * @params maxHp

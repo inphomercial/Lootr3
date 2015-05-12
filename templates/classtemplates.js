@@ -45,7 +45,7 @@ Lootr.Templates.Base = {
                  Lootr.EntityComponents.FoodConsumer,
                  Lootr.EntityComponents.Orbs,
                  Lootr.EntityComponents.ExperienceGainer,
-                 Lootr.EntityComponents.Equipper,
+                 // Lootr.EntityComponents.Equipper,
                  Lootr.EntityComponents.PlayerStatGainer]
 };
 

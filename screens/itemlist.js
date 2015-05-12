@@ -76,10 +76,12 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
 
             // Check if the item is worn or wielded
             var suffix = '';
-            if(this._items[i] === this._player.getArmor()) {
-                suffix = ' (wearing)';
-            } else if(this._items[i] === this._player.getWeapon()) {
+            // if(this._items[i] === this._player.getArmor()) {
+            if(this._items[i].getWorn() && this._items[i]._slot === Lootr.ITEM_SLOTS.HAND) {
                 suffix = ' (wielding)';
+            // } else if(this._items[i] === this._player.getWeapon()) {
+            } else if(this._items[i].getWorn()) {
+                suffix = ' (wearing)';
             }
 
             // Render at the correct row and add 2

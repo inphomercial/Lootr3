@@ -11,13 +11,18 @@ Lootr.Screen.wieldScreen = new Lootr.Screen.ItemListScreen({
     ok: function(items) {
         var keys = Object.keys(items);
         if (keys.length === 1) {
-            if (items[keys] === this._player.getWeapon()) {
-                //this._player.unwield();
-                this._player.tryEquipSlot(items[keys]);
+             if (items[keys].getWorn()) {
+                this._player.tryUnEquipSlot(items[keys]);
             } else {
                 this._player.tryEquipSlot(items[keys]);
-                //this._player.wield(items[keys]);
             }
+            // if (items[keys] === this._player.getWeapon()) {
+            //     //this._player.unwield();
+            //     this._player.tryEquipSlot(items[keys]);
+            // } else {
+            //     this._player.tryEquipSlot(items[keys]);
+            //     //this._player.wield(items[keys]);
+            // }
         }
 
         return true;

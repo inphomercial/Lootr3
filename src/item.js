@@ -9,6 +9,7 @@ Lootr.Item = function(args) {
     this._name = args['name'];
     this._slot = args['slot'];
     this._rarity = args['rarity'] || Lootr.ITEM_RARITY.COMMON;
+    this._worn = false;
 };
 
  // Items inhert all functionality of glyphs
@@ -22,4 +23,12 @@ Lootr.Item.prototype.pickup = function() {
 
 Lootr.Item.prototype.getSlot = function() {
     return this._slot;
+};
+
+Lootr.Item.prototype.setWorn = function(worn) {
+    this._worn = worn;
+};
+
+Lootr.Item.prototype.getWorn = function() {
+    return this._worn;
 };

@@ -100,6 +100,7 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
 
     Lootr.UI.WieldingDisplay(player, startX + 82, startY, display);
     startY++;
+    startY++;
 
     Lootr.UI.WearingDisplay(player, startX + 82, startY, display);
     startY++;
@@ -146,28 +147,34 @@ Lootr.UI.NameDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.WearingDisplay = function(player, startX, startY, display) {
-    var wearingString = '%c{#91AA9D}%b{black}';
-    var wearing = player.getArmor();
+    var head_slots = player.getSlot(Lootr.ITEM_SLOTS.HEAD);
 
-    if(wearing) {
-        wearingString += 'Wearing: %c{#7E7F7A}' + wearing.getName();
-        display.drawText(startX, startY++, wearingString);
-    } else {
-        wearingString += "Wearing: %c{#7E7F7A}none";
-        display.drawText(startX, startY++, wearingString);
+    for (var i = 0; i < head_slots.slot_count; i++) {
+        var weaponString = '%c{#91AA9D}%b{black}';
+
+        if(head_slots.items[i] && head_slots.items[i].getWorn()) {
+           weaponString += 'Head: %c{#7E7F7A}' + head_slots.items[i].getName();
+           display.drawText(startX, startY++, weaponString);
+        } else {
+           weaponString += "Head: %c{#7E7F7A}none";
+           display.drawText(startX, startY++, weaponString);
+        }
     }
 };
 
 Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
-    var weaponString = '%c{#91AA9D}%b{black}';
-    var weapon = player.getWeapon();
+    var hand_slots = player.getSlot(Lootr.ITEM_SLOTS.HAND);
 
-    if(weapon) {
-       weaponString += 'Wielding: %c{#7E7F7A}' + weapon.getName();
-       display.drawText(startX, startY++, weaponString);
-    } else {
-       weaponString += "Wielding: %c{#7E7F7A}none";
-       display.drawText(startX, startY++, weaponString);
+    for (var i = 0; i < hand_slots.slot_count; i++) {
+        var weaponString = '%c{#91AA9D}%b{black}';
+
+        if(hand_slots.items[i] && hand_slots.items[i].getWorn()) {
+           weaponString += 'Wielding: %c{#7E7F7A}' + hand_slots.items[i].getName();
+           display.drawText(startX, startY++, weaponString);
+        } else {
+           weaponString += "Wielding: %c{#7E7F7A}none";
+           display.drawText(startX, startY++, weaponString);
+        }
     }
 };
 
