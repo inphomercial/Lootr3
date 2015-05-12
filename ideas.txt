@@ -41,6 +41,7 @@ Update up win screen
 Update on help screen
 Figure out lights
 Player profile screen (Started)
+Display a list of all the slots and what's in them for the Status// inventory screen
 
 // PROGRESSION
 Get turns to be the main stat used for highscore list
