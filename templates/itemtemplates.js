@@ -1,4 +1,19 @@
 
+// Create a class of item levels
+Lootr.ITEM_RARITY = {
+    COMMON: "common",
+    MAGICAL: "magical",
+    RARE: "rare",
+    UNIQUE: "unique"
+};
+
+Lootr.ITEM_SLOTS = {
+    HEAD: "head",
+    BODY: "body",
+    HAND: "hand",
+    FEET: "feet"
+};
+
 Lootr.ItemRepository = {};
 
 // Create our central Item template repository
@@ -105,6 +120,7 @@ Lootr.ItemRepository.define('dagger', {
     attackValue: 5,
     wieldable: true,
     slot: Lootr.ITEM_SLOTS.HAND,
+    rarity: Lootr.ITEM_RARITY.COMMON,
     components: [Lootr.ItemComponents.Equippable],
 }, {
     disableRandomCreation: false

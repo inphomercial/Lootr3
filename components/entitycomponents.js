@@ -563,6 +563,68 @@ Lootr.EntityComponents.CorpseDropper = {
     }
 };
 
+Lootr.EntityComponents.Slot = {
+    name: 'Slot',
+    init: function(template) {
+        var slots = template['slots'];
+
+        this._slots = [];
+
+        for (var key in slots) {
+            if (slots.hasOwnProperty(key)) {
+                slots[key].items = [];
+                this._slots.push(slots[key]);
+            }
+        }
+    },
+    tryEquipSlot: function(item) {
+        if (this.isSlotOpen(item.getSlot())) {
+            this._equipSlot(item);
+            Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
+            return true;
+        } else {
+            Lootr.sendMessage(this, 'You fail putting on %s', [item.describeA()]);
+            return false;
+        }
+    },
+    isSlotOpen: function(slot) {
+        for (var key in this._slots) {
+            // Find the slot we want to check
+            if (this._slots[key].slot == slot) {
+                // See if its slot_count has been reached for the slot.items length
+                if (this._slots[key].items.length < this._slots[key].slot_count) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    },
+    getAllSlots: function() {
+        return this._slots;
+    },
+    /**
+     * Gets the single slot object ex: {slot: "head", slot_count: 1, items: array}
+     */
+    getSlot: function(slot) {
+         for (var key in this._slots) {
+            if (this._slots[key].slot == slot) {
+                return this._slots[key];
+            }
+        }
+    },
+    _equipSlot: function(item) {
+        for (var key in this._slots) {
+            if (this._slots[key].slot == item.getSlot()) {
+                this._slots[key].items.push(item);
+                return;
+            }
+        }
+    },
+    _unequipSlot: function(item) {
+    }
+};
+
 Lootr.EntityComponents.Equipper = {
     name: 'Equipper',
     init: function(template) {
@@ -571,8 +633,10 @@ Lootr.EntityComponents.Equipper = {
         this._head = null;
     },
     wield: function(item) {
-        Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
-        this._weapon = item;
+        if (this.isSlotOpen(item.getSlot())) {
+            Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
+            this._weapon = item;
+        }
     },
     unwield: function() {
         Lootr.sendMessage(this, 'You stop wielding %s', [this._weapon.describeA()]);

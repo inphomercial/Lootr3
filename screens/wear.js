@@ -14,7 +14,8 @@ Lootr.Screen.wearScreen = new Lootr.Screen.ItemListScreen({
             if (items[keys] === this._player.getArmor()) {
                 this._player.takeOff();
             } else {
-                this._player.wear(items[keys]);
+                //this._player.wear(items[keys]);
+                this._player.tryEquipSlot(items[keys]);
             }
         }
 

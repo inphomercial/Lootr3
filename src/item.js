@@ -8,6 +8,7 @@ Lootr.Item = function(args) {
     // Instantiate any properties from the args
     this._name = args['name'];
     this._slot = args['slot'];
+    this._rarity = args['rarity'] || Lootr.ITEM_RARITY.COMMON;
 };
 
  // Items inhert all functionality of glyphs
@@ -18,3 +19,7 @@ Lootr.Item.prototype.pickup = function() {
         this._attachedComponents[i].pickup();
     }
 }
+
+Lootr.Item.prototype.getSlot = function() {
+    return this._slot;
+};

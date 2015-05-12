@@ -7,14 +7,6 @@ var Lootr =  {
     _mapScreenHeight: 30,
     Screen: {},
 
-    ITEM_SLOTS: {
-        HAND: 'hand',
-        HEAD: 'head',
-        BODY: 'body',
-        FINGER: 'finger',
-        FEET: 'feet'
-    },
-
     init: function() {
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,

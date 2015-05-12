@@ -21,6 +21,18 @@ Lootr.Entity = function(args) {
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
 
+Lootr.Entity.prototype.buildSlotsFromArgs = function(slots) {
+    this._slots = [];
+
+    for (var key in slots) {
+        if (slots.hasOwnProperty(key)) {
+
+            slots[key].items = [];
+            this._slots.push(slots[key]);
+        }
+    }
+};
+
 Lootr.Entity.prototype.convertToJsonObject = function() {
     var obj = {}
 
