@@ -24,6 +24,14 @@ Lootr.Templates.Base = {
                 "slot": Lootr.ITEM_SLOTS.HAND,
                 "slot_count": 2
             },
+            "body" : {
+                "slot": Lootr.ITEM_SLOTS.BODY,
+                "slot_count": 1
+            },
+            "finger" : {
+                "slot": Lootr.ITEM_SLOTS.FINGER,
+                "slot_count": 2
+            },
             "feet" : {
                 "slot": Lootr.ITEM_SLOTS.FEET,
                 "slot_count": 1

@@ -671,9 +671,9 @@ Lootr.EntityComponents.Destructible = {
                     mod += items[i].getDefenseValue();
                 }
             }
-
-            return mod;
         }
+
+        return mod;
     },
     getTotalDefenseValue: function() {
         var mod = this.getDefenseValue();
@@ -1425,9 +1425,9 @@ Lootr.EntityComponents.Attacker = {
                     mod += items[i].getAttackValue();
                 }
             }
-
-            return mod;
         }
+
+        return mod;
     },
     getTotalAttackValue: function() {
         var mod = this.getAttackValue();

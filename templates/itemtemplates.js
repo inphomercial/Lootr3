@@ -11,6 +11,7 @@ Lootr.ITEM_SLOTS = {
     HEAD: "head",
     BODY: "body",
     HAND: "hand",
+    FINGER: "finger",
     FEET: "feet"
 };
 
@@ -148,6 +149,18 @@ Lootr.ItemRepository.define('robe', {
     slot: Lootr.ITEM_SLOTS.BODY,
     defenseValue: 3,
     components: [Lootr.ItemComponents.Equippable]
+});
+
+Lootr.ItemRepository.define('leather boots', {
+    name: 'leather boots',
+    character: '9',
+    foreground: 'brown',
+    defenseValue: 2,
+    wearable: true,
+    slot: Lootr.ITEM_SLOTS.FEET,
+    components: [Lootr.ItemComponents.Equippable],
+}, {
+    disableRandomCreation: false
 });
 
 Lootr.ItemRepository.define('club', {

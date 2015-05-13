@@ -43,6 +43,7 @@ Lootr.Map.Cave = function(player) {
     this.addItemByTypeAndAmount('dagger', 250);
     this.addItemByTypeAndAmount('gold', 50);
     this.addItemByTypeAndAmount('metal helmet', 250);
+    this.addItemByTypeAndAmount('leather boots', 250);
 
     // Add Traps
     this.addItemByTypeAndAmount('spike trap', 70);
