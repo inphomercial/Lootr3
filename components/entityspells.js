@@ -106,7 +106,7 @@ Lootr.EntitySpells.Firebolt = {
         return this._color;
     },
     _getDamage: function() {
-        return this._damage * this._caster.getInt();
+        return this._damage * this._caster.getTotalIntValue();
     },
     _checkIfCanCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;

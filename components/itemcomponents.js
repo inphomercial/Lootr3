@@ -190,6 +190,9 @@ Lootr.ItemComponents.Equippable = {
     init: function(template) {
         this._attackValue = template['attackValue'] || 0;
         this._defenseValue = template['defenseValue'] || 0;
+        this._intValue = template['intValue'] || 0;
+        this._strValue = template['strValue'] || 0;
+        this._dexValue = template['dexValue'] || 0;
         this._wieldable = template['wieldable'] || false;
         this._wearable = template['wearable'] || false;
     },
@@ -198,6 +201,15 @@ Lootr.ItemComponents.Equippable = {
     },
     getDefenseValue: function() {
         return this._defenseValue;
+    },
+    getIntValue: function() {
+        return this._intValue;
+    },
+    getStrValue: function() {
+        return this._strValue;
+    },
+    getDexValue: function() {
+        return this._dexValue;
     },
     isWieldable: function() {
         return this._wieldable;

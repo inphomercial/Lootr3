@@ -184,8 +184,27 @@ Lootr.EntityComponents.StrStat = {
         this._str = template['str'] || 1;
         this._increaseStrByAmount = template['increaseStrByAmount'] || 1;
     },
-    getStr: function() {
+    getBaseStr: function() {
         return this._str;
+    },
+    getTotalStrValue: function() {
+        var mod = this.getStrValue();
+        return this._int + mod;
+    },
+    getStrValue: function() {
+        var mod = 0;
+
+        if (this.hasComponent('InventoryHolder')) {
+            // Loop through all items to get all attack values
+            var items = this.getItems();
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].getWorn()) {
+                    mod += items[i].getStrValue();
+                }
+            }
+        }
+
+        return mod;
     },
     increaseStrStat: function(amount) {
          if (!amount) {
@@ -210,9 +229,6 @@ Lootr.EntityComponents.IntStat = {
         this._int = template['int'] || 1;
         this._increaseIntByAmount = template['increaseIntByAmount'] || 1;
     },
-    getInt: function() {
-        return this._int;
-    },
     increaseIntStat: function(amount) {
         if (!amount) {
             this._int += this._increaseIntByAmount;
@@ -227,6 +243,28 @@ Lootr.EntityComponents.IntStat = {
         } else {
             Lootr.sendMessage(this, 'You become dumber');
         }
+    },
+    getBaseInt: function() {
+        return this._int;
+    },
+    getTotalIntValue: function() {
+        var mod = this.getIntValue();
+        return this._int + mod;
+    },
+    getIntValue: function() {
+        var mod = 0;
+
+        if (this.hasComponent('InventoryHolder')) {
+            // Loop through all items to get all attack values
+            var items = this.getItems();
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].getWorn()) {
+                    mod += items[i].getIntValue();
+                }
+            }
+        }
+
+        return mod;
     }
 };
 
@@ -236,8 +274,27 @@ Lootr.EntityComponents.DexStat = {
         this._dex = template['dex'] || 1;
         this._increaseDexByAmount = template['increaseDexByAmount'] || 1;
     },
-    getDex: function() {
+    getBaseDex: function() {
         return this._dex;
+    },
+    getTotalDexValue: function() {
+        var mod = this.getDexValue();
+        return this._int + mod;
+    },
+    getDexValue: function() {
+        var mod = 0;
+
+        if (this.hasComponent('InventoryHolder')) {
+            // Loop through all items to get all attack values
+            var items = this.getItems();
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].getWorn()) {
+                    mod += items[i].getDexValue();
+                }
+            }
+        }
+
+        return mod;
     },
     increaseDexStat: function(amount) {
         if (!amount) {
@@ -1042,7 +1099,11 @@ Lootr.EntityComponents.InventoryHolder = {
             }
         }
 
-        return count < this._slotTemplate[slot].slot_count;
+        if (this._slotTemplate[slot] !== undefined) {
+            return count < this._slotTemplate[slot].slot_count;
+        } else {
+            return false;
+        }
     },
     getItem: function(item) {
         for(var i=0; i<this._items.length; i++) {
@@ -1063,7 +1124,9 @@ Lootr.EntityComponents.InventoryHolder = {
         return items;
     },
     getSlotCountBySlot: function(slot) {
-        return this._slotTemplate[slot].slot_count;
+        if (this._slotTemplate[slot] !== undefined) {
+            return this._slotTemplate[slot].slot_count;
+        }
     },
     getItemsBySlot: function(slot) {
         var items = Array();
@@ -1403,7 +1466,7 @@ Lootr.EntityComponents.Attacker = {
     attack: function(target) {
         // If the target is destructible, calc damage based on attack and def
         if(target.hasComponent('Destructible')) {
-            var attack = this.getTotalAttackValue() * this.getStr();
+            var attack = this.getTotalAttackValue() * this.getTotalStrValue();
             var target_def = target.getTotalDefenseValue();
             var max = Math.max(0, attack - target_def);
             var damage = 1 + Math.floor(Math.random() * max);

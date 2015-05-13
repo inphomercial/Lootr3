@@ -175,23 +175,6 @@ Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot)
     }
 }
 
-// Lootr.UI.HeadWearingDisplay = function(player, startX, startY, display) {
-//     var head_slots = player.getWornItemsBySlot(Lootr.ITEM_SLOTS.HEAD);
-//     var slot_count = player.getSlotCountBySlot(Lootr.ITEM_SLOTS.HEAD);
-
-//     for (var i = 0; i < slot_count; i++) {
-//         var weaponString = '%c{#91AA9D}%b{black}';
-
-//         if(head_slots[i] && head_slots[i].getWorn()) {
-//            weaponString += 'Head: %c{#7E7F7A}' + head_slots[i].getName();
-//            display.drawText(startX, startY++, weaponString);
-//         } else {
-//            weaponString += "Head: %c{#7E7F7A}none";
-//            display.drawText(startX, startY++, weaponString);
-//         }
-//     }
-// };
-
 Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
     var hand_slots = player.getWornItemsBySlot(Lootr.ITEM_SLOTS.HAND);
     var slot_count = player.getSlotCountBySlot(Lootr.ITEM_SLOTS.HAND);
@@ -225,18 +208,18 @@ Lootr.UI.SightDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.StrDisplay = function(player, startX, startY, display) {
-    var str = '%c{#91AA9D}%b{black}STR: %c{#FCFFF5}' + player.getStr();
-    display.drawText(startX, startY++, str);
+    var  strValue = '%c{#91AA9D}%b{black}STR: %c{#FCFFF5}' + player.getBaseStr() + '%c{green} (' + player.getStrValue() +')';
+    display.drawText(startX, startY, strValue);
 };
 
 Lootr.UI.DexDisplay = function(player, startX, startY, display) {
-    var dex = '%c{#91AA9D}%b{black}DEX: %c{#FCFFF5}' + player.getDex();
-    display.drawText(startX, startY++, dex);
+    var  dexValue = '%c{#91AA9D}%b{black}DEX: %c{#FCFFF5}' + player.getBaseDex() + '%c{green} (' + player.getDexValue() +')';
+    display.drawText(startX, startY, dexValue);
 };
 
 Lootr.UI.IntDisplay = function(player, startX, startY, display) {
-    var int = '%c{#91AA9D}%b{black}INT: %c{#FCFFF5}' + player.getInt();
-    display.drawText(startX, startY++, int);
+    var  intValue = '%c{#91AA9D}%b{black}INT: %c{#FCFFF5}' + player.getBaseInt() + '%c{green} (' + player.getIntValue() +')';
+    display.drawText(startX, startY, intValue);
 };
 
 Lootr.UI.LevelDisplay = function(player, startX, startY, display) {

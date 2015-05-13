@@ -15,28 +15,6 @@ Lootr.Templates.Base = {
     inventorySlots: 10,     // InventoryHolder
     movementSpeed: 1000,    // MovementSpeed
     maxFullness: 500,       // FoodConsumer
-    slots: {                // Slot
-            "head" : {
-                "slot": Lootr.ITEM_SLOTS.HEAD,
-                "slot_count": 1
-            },
-            "hand" : {
-                "slot": Lootr.ITEM_SLOTS.HAND,
-                "slot_count": 2
-            },
-            "body" : {
-                "slot": Lootr.ITEM_SLOTS.BODY,
-                "slot_count": 1
-            },
-            "finger" : {
-                "slot": Lootr.ITEM_SLOTS.FINGER,
-                "slot_count": 2
-            },
-            "feet" : {
-                "slot": Lootr.ITEM_SLOTS.FEET,
-                "slot_count": 1
-            }
-        },
     components: [Lootr.EntityComponents.PlayerActor,
                  Lootr.EntityComponents.StrStat,
                  Lootr.EntityComponents.IntStat,
@@ -65,7 +43,29 @@ Lootr.Templates.Wizard = {
     increaseIntByAmount: 2,  // IntStat
     maxFullness: 300,        // FoodConsumer
     inventorySlots: 13,      // InventoryHolder
-    learnedSpells: ['Teleport', 'Firebolt'],
+    learnedSpells: ['Teleport', 'Firebolt', 'Fireball'],
+    slots: {                // Slot
+            "head" : {
+                "slot": Lootr.ITEM_SLOTS.HEAD,
+                "slot_count": 1
+            },
+            "hand" : {
+                "slot": Lootr.ITEM_SLOTS.HAND,
+                "slot_count": 2
+            },
+            "body" : {
+                "slot": Lootr.ITEM_SLOTS.BODY,
+                "slot_count": 1
+            },
+            "finger" : {
+                "slot": Lootr.ITEM_SLOTS.FINGER,
+                "slot_count": 3
+            },
+            "feet" : {
+                "slot": Lootr.ITEM_SLOTS.FEET,
+                "slot_count": 1
+            }
+        },
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,
@@ -83,6 +83,28 @@ Lootr.Templates.Assassin = {
     maxFullness: 200,       // FoodConsumer
     movementSpeed: 1300,    // MovementSpeed
     learnedSpells: ['Teleport'],
+    slots: {                // Slot
+            "head" : {
+                "slot": Lootr.ITEM_SLOTS.HEAD,
+                "slot_count": 1
+            },
+            "hand" : {
+                "slot": Lootr.ITEM_SLOTS.HAND,
+                "slot_count": 2
+            },
+            "body" : {
+                "slot": Lootr.ITEM_SLOTS.BODY,
+                "slot_count": 1
+            },
+            "finger" : {
+                "slot": Lootr.ITEM_SLOTS.FINGER,
+                "slot_count": 2
+            },
+            "feet" : {
+                "slot": Lootr.ITEM_SLOTS.FEET,
+                "slot_count": 2
+            }
+        },
     components: [Lootr.EntityComponents.ManaPool,
                  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,
@@ -99,6 +121,28 @@ Lootr.Templates.Warrior = {
     movementSpeed: 800,     // MovementSpeed
     str: 3,                 // StrStat
     increaseStrByAmount: 2, // StrStat
+    slots: {                // Slot
+            "head" : {
+                "slot": Lootr.ITEM_SLOTS.HEAD,
+                "slot_count": 1
+            },
+            "hand" : {
+                "slot": Lootr.ITEM_SLOTS.HAND,
+                "slot_count": 2
+            },
+            "body" : {
+                "slot": Lootr.ITEM_SLOTS.BODY,
+                "slot_count": 2
+            },
+            "finger" : {
+                "slot": Lootr.ITEM_SLOTS.FINGER,
+                "slot_count": 1
+            },
+            "feet" : {
+                "slot": Lootr.ITEM_SLOTS.FEET,
+                "slot_count": 2
+            }
+        },
     components: [Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.FireBreather]
 };

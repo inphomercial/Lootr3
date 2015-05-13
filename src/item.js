@@ -10,7 +10,6 @@ Lootr.Item = function(args) {
     this._slot = args['slot'];
     this._rarity = args['rarity'] || Lootr.ITEM_RARITY.COMMON;
     this._worn = false;
-    this._current_slot = Lootr.ITEM_SLOTS.INVENTORY;
 };
 
  // Items inhert all functionality of glyphs
@@ -32,4 +31,8 @@ Lootr.Item.prototype.setWorn = function(worn) {
 
 Lootr.Item.prototype.getWorn = function() {
     return this._worn;
+};
+
+Lootr.Item.prototype.getRarity = function() {
+    return this._rarity;
 };

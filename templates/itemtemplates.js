@@ -127,6 +127,45 @@ Lootr.ItemRepository.define('dagger', {
     disableRandomCreation: false
 });
 
+Lootr.ItemRepository.define('silver ring', {
+    name: 'silver ring',
+    character: 'o',
+    foreground: 'silver',
+    intValue: 5,
+    wearable: true,
+    slot: Lootr.ITEM_SLOTS.FINGER,
+    rarity: Lootr.ITEM_RARITY.RARE,
+    components: [Lootr.ItemComponents.Equippable],
+}, {
+    disableRandomCreation: false
+});
+
+Lootr.ItemRepository.define('red ring', {
+    name: 'red ring',
+    character: 'o',
+    foreground: 'red',
+    strValue: 5,
+    wearable: true,
+    slot: Lootr.ITEM_SLOTS.FINGER,
+    rarity: Lootr.ITEM_RARITY.RARE,
+    components: [Lootr.ItemComponents.Equippable],
+}, {
+    disableRandomCreation: false
+});
+
+Lootr.ItemRepository.define('green ring', {
+    name: 'green ring',
+    character: 'o',
+    foreground: 'green',
+    dexValue: 5,
+    wearable: true,
+    slot: Lootr.ITEM_SLOTS.FINGER,
+    rarity: Lootr.ITEM_RARITY.RARE,
+    components: [Lootr.ItemComponents.Equippable],
+}, {
+    disableRandomCreation: false
+});
+
 Lootr.ItemRepository.define('metal helmet', {
     name: 'metal helmet',
     character: '^',
