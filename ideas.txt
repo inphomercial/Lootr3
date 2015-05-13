@@ -2,6 +2,9 @@
 == TODO ==
 
 // MISC
+2hand weapons
+duel wielding
+only allowing a single weapon in a hand unless can duel wield
 snow level w/ foot prints
 be able to draw text directly to the screen from in screen
 make send to near by function take a optional radius
@@ -23,7 +26,6 @@ Allow for critical hits
 Get Dex stat involved for accuracy so that missing is possible
 
 // PLAYER
-More items slots besides equip and wear (hand & wear)
 Be able to add/remove components dynamically....
 Status ailments
 Player name generation
@@ -87,6 +89,9 @@ Spike trap ^^^
 
 == DONE ==
 
+Better inventory/equipment control
+Real dynamic slots for classtemplates
+More items slots besides equip and wear (hand & wear)
 Track total turns to be used in the player highscore
 Get entities to be able to carry inventory
 Get entities to drop inventory if carrying some when they die
