@@ -563,87 +563,6 @@ Lootr.EntityComponents.CorpseDropper = {
     }
 };
 
-Lootr.EntityComponents.Slot = {
-    name: 'Slot',
-    init: function(template) {
-        var slots = template['slots'];
-
-        this._slots = [];
-
-        for (var key in slots) {
-            if (slots.hasOwnProperty(key)) {
-                slots[key].items = [];
-                this._slots.push(slots[key]);
-            }
-        }
-    },
-    tryEquipSlot: function(item) {
-        if (this.isSlotOpen(item.getSlot())) {
-            this._equipSlot(item);
-            Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
-            return true;
-        } else {
-            Lootr.sendMessage(this, 'You fail putting on %s', [item.describeA()]);
-            return false;
-        }
-    },
-    tryUnEquipSlot: function(item) {
-        this._unequipSlot(item);
-    },
-    isSlotOpen: function(slot) {
-        for (var key in this._slots) {
-            // Find the slot we want to check
-            if (this._slots[key].slot == slot) {
-                // See if its slot_count has been reached for the slot.items length
-                if (this._slots[key].items.length < this._slots[key].slot_count) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    },
-    getAllSlots: function() {
-        return this._slots;
-    },
-    /**
-     * Gets the single slot object ex: {slot: "head", slot_count: 1, items: array}
-     */
-    getSlot: function(slot) {
-         for (var key in this._slots) {
-            if (this._slots[key].slot == slot) {
-                return this._slots[key];
-            }
-        }
-    },
-    _equipSlot: function(item) {
-        for (var key in this._slots) {
-            if (this._slots[key].slot == item.getSlot()) {
-                item.setWorn(true);
-                this._slots[key].items.push(item);
-                return;
-            }
-        }
-    },
-    _unequipSlot: function(item) {
-        for (var key in this._slots) {
-            if (this._slots[key].slot == item.getSlot()) {
-                for (var i = 0; i < this._slots[key].items.length; i++) {
-                    if (this._slots[key].items[i] == item) {
-                        this._slots[key].items[i].setWorn(false);
-                        var removed_item = this._slots[key].items.splice(i, 1);
-
-                        if (this.canAddItem()) {
-                            this.addItem(removed_item);
-                        } else {
-                            console.log("No room in inventory for item, dropping int on the ground.");
-                        }
-                    }
-                }
-            }
-        }
-    }
-};
 
 // Lootr.EntityComponents.Equipper = {
 //     name: 'Equipper',
@@ -744,18 +663,17 @@ Lootr.EntityComponents.Destructible = {
     getDefenseValue: function() {
         var mod = 0;
 
-        // If we can equip items, then have to take into
-        // consideration weapon and armor
-        if(this.hasComponent(Lootr.EntityComponents.Equipper)) {
-            if(this.getWeapon()) {
-                mod += this.getWeapon().getDefenseValue();
+        if (this.hasComponent('InventoryHolder')) {
+            // Loop through all items to get all attack values
+            var items = this.getItems();
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].getWorn()) {
+                    mod += items[i].getDefenseValue();
+                }
             }
-            if(this.getArmor()) {
-                mod += this.getArmor().getDefenseValue();
-            }
-        }
 
-        return mod;
+            return mod;
+        }
     },
     getTotalDefenseValue: function() {
         var mod = this.getDefenseValue();
@@ -1070,17 +988,66 @@ Lootr.EntityComponents.FungusActor = {
 Lootr.EntityComponents.InventoryHolder = {
     name: 'InventoryHolder',
     init: function(template) {
-        var inventorySlots = template['inventorySlots'] || 5;
+        this._inventorySlots = template['inventorySlots'] || 5;
+        this._slotTemplate = template['slots'];
         var startingItems = template['startingItems'] || null;
 
         // Setup an empty inventory
-        this._items = new Array(inventorySlots);
+        this._items = new Array(this._inventorySlots);
 
         // Populate starting items inside inventory
         if (startingItems) {
             for (var i = 0; i < startingItems.length; i++) {
                 var item = Lootr.ItemRepository.create(startingItems[i]);
                 this.addItem(item);
+            }
+        }
+    },
+    tryEquipSlot: function(item) {
+        if (this.isSlotOpen(item.getSlot())) {
+            this._equipSlot(item);
+            Lootr.sendMessage(this, 'You start to wield %s', [item.describeA()]);
+            return true;
+        } else {
+            Lootr.sendMessage(this, 'You fail putting on %s', [item.describeA()]);
+            return false;
+        }
+    },
+    tryUnEquipSlot: function(item) {
+       this._unequipSlot(item);
+       Lootr.sendMessage(this, 'You put away %s', [item.describeA()]);
+    },
+    _equipSlot: function(item) {
+        for (var i=0; i<this._items.length; i++) {
+            if (this._items[i] == item && !this._items[i].getWorn()) {
+                this._items[i].setWorn(true);
+            }
+        }
+    },
+    _unequipSlot: function(item) {
+        for (var i=0; i<this._items.length; i++) {
+            if (this._items[i] == item && this._items[i].getWorn()) {
+                this._items[i].setWorn(false);
+            }
+        }
+    },
+    isSlotOpen: function(slot) {
+        var count = 0;
+        for (var i=0; i<this._items.length; i++) {
+            if (this._items[i] != null) {
+                // Count how many items of {slot} and how many are warn
+               if (this._items[i].getSlot() == slot && this._items[i].getWorn()) {
+                    count++;
+               }
+            }
+        }
+
+        return count < this._slotTemplate[slot].slot_count;
+    },
+    getItem: function(item) {
+        for(var i=0; i<this._items.length; i++) {
+            if(this._items[i] == item) {
+                return this._items[i];
             }
         }
     },
@@ -1095,8 +1062,30 @@ Lootr.EntityComponents.InventoryHolder = {
 
         return items;
     },
-    getItem: function(i) {
-        return this._items[i];
+    getSlotCountBySlot: function(slot) {
+        return this._slotTemplate[slot].slot_count;
+    },
+    getItemsBySlot: function(slot) {
+        var items = Array();
+
+        for(var i=0; i<this._items.length; i++) {
+            if(typeof this._items[i] !== 'undefined' && this._items[i].getSlot() == slot) {
+                items.push(this._items[i]);
+            }
+        }
+
+        return items;
+    },
+    getWornItemsBySlot: function(slot) {
+        var items = Array();
+
+        for(var i=0; i<this._items.length; i++) {
+            if(typeof this._items[i] !== 'undefined' && this._items[i].getSlot() == slot && this._items[i].getWorn()) {
+                items.push(this._items[i]);
+            }
+        }
+
+        return items;
     },
     addItem: function(item) {
         // Try to find a slot, returning true only if we could add the item
@@ -1109,24 +1098,8 @@ Lootr.EntityComponents.InventoryHolder = {
 
         return false;
     },
-    removeItem: function(i) {
-        // If we can equip items, then make sure we unequip the item we are removing
-        if(this._items[i] && this.hasComponent(Lootr.EntityComponents.Equipper)) {
-            this.unequip(this._items[i]);
-        }
-
-        // Simply clear out the slot
-        this._items[i] = null;
-    },
-    canAddItem: function() {
-        // Check if we have an empty slot
-        for(var i=0; i<this._items.length; i++) {
-            if(!this._items[i]) {
-                return true;
-            }
-        }
-
-        return false;
+    canPickupItem: function() {
+        return this._items.length < this._inventorySlots;
     },
     pickupItem: function(item) {
         if (this.addItem(item)) {
@@ -1141,50 +1114,52 @@ Lootr.EntityComponents.InventoryHolder = {
             return false;
         }
     },
-    pickupItems: function(indices) {
-        // Allows the user to pickup items from the map, where indices
-        // is the indices for the array returned by map.getItemsAt
-        var mapItems = this._map.getItemsAt(this.getX(), this.getY());
-        var added = 0;
+    dropItem: function(item) {
+         for (var i=0; i<this._items.length; i++) {
+            if (this._items[i] == item) {
+                if (this._map) {
+                    // Put item back on map
+                    this._map.addItem(this.getX(), this.getY(), this._items[i]);
 
-        // Iterate through all indices
-        for(var i=0; i<indices.length; i++) {
+                    // Send player notification
+                    Lootr.sendMessage(this, 'You drop %s', [this._items[i].describeA()]);
 
-            // Try to add the item. If our inventory is not full, then splice the
-            // Item out of the list of items. In order to fetch the right item,
-            // we have to offset the number of items already added
-            if(this.addItem(mapItems[indices[i] - added])) {
-                mapItems.splice(indices[i] - added, 1);
-                added++;
-            } else {
-                Lootr.sendMessage(this, 'Inventory is full.');
-                break;
+                    // Raise drop event for item
+                    this._items[i].raiseEvent("drop");
+
+                    // Simply clear out the slot
+                    this._items[i] = null;
+                }
             }
         }
-
-        // Update the map items
-        this._map.setItemsAt(this.getX(), this.getY(), mapItems);
-
-        // Return true only if we added all items
-        return added === indices.length;
     },
-    dropItem: function(i) {
-        // Drops an item to the current map tile
-        if(this._items[i]) {
-            if(this._map) {
-                // Put item back on map
-                this._map.addItem(this.getX(), this.getY(), this._items[i]);
+        // pickupItems: function(indices) {
+    //     // Allows the user to pickup items from the map, where indices
+    //     // is the indices for the array returned by map.getItemsAt
+    //     var mapItems = this._map.getItemsAt(this.getX(), this.getY());
+    //     var added = 0;
 
-                // Send player notification
-                Lootr.sendMessage(this, 'You drop %s', [this._items[i].describeA()]);
+    //     // Iterate through all indices
+    //     for(var i=0; i<indices.length; i++) {
 
-                // Raise drop event for item
-                this._items[i].raiseEvent("drop");
-            }
-        }
+    //         // Try to add the item. If our inventory is not full, then splice the
+    //         // Item out of the list of items. In order to fetch the right item,
+    //         // we have to offset the number of items already added
+    //         if(this.addItem(mapItems[indices[i] - added])) {
+    //             mapItems.splice(indices[i] - added, 1);
+    //             added++;
+    //         } else {
+    //             Lootr.sendMessage(this, 'Inventory is full.');
+    //             break;
+    //         }
+    //     }
 
-        this.removeItem(i);
-    },
+    //     // Update the map items
+    //     this._map.setItemsAt(this.getX(), this.getY(), mapItems);
+
+    //     // Return true only if we added all items
+    //     return added === indices.length;
+    // },
     listeners: {
         onDeath: function() {
             var random = Lootr.getRandomInt(0, this._items.length);
@@ -1441,18 +1416,18 @@ Lootr.EntityComponents.Attacker = {
     },
     getAttackValue: function() {
         var mod = 0;
-        // If we can equip items, then have to take into
-        // consideration weapon and armor
-        if(this.hasComponent(Lootr.EntityComponents.Equipper)) {
-            if(this.getWeapon()) {
-                mod += this.getWeapon().getAttackValue();
-            }
-            if(this.getArmor()) {
-                mod += this.getArmor().getAttackValue();
-            }
-        }
 
-        return mod;
+        if (this.hasComponent('InventoryHolder')) {
+            // Loop through all items to get all attack values
+            var items = this.getItems();
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].getWorn()) {
+                    mod += items[i].getAttackValue();
+                }
+            }
+
+            return mod;
+        }
     },
     getTotalAttackValue: function() {
         var mod = this.getAttackValue();

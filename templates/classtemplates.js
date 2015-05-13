@@ -30,7 +30,6 @@ Lootr.Templates.Base = {
             }
         },
     components: [Lootr.EntityComponents.PlayerActor,
-                 Lootr.EntityComponents.Slot,
                  Lootr.EntityComponents.StrStat,
                  Lootr.EntityComponents.IntStat,
                  Lootr.EntityComponents.DexStat,
@@ -45,7 +44,6 @@ Lootr.Templates.Base = {
                  Lootr.EntityComponents.FoodConsumer,
                  Lootr.EntityComponents.Orbs,
                  Lootr.EntityComponents.ExperienceGainer,
-                 // Lootr.EntityComponents.Equipper,
                  Lootr.EntityComponents.PlayerStatGainer]
 };
 
