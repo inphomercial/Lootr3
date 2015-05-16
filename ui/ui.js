@@ -157,8 +157,7 @@ Lootr.UI.NameDisplay = function(player, startX, startY, display) {
     display.drawText(startX, startY++, name);
 };
 
-Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot)
-{
+Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot) {
     var item_slots = player.getWornItemsBySlot(slot);
     var slot_count = player.getSlotCountBySlot(slot);
 
@@ -166,14 +165,14 @@ Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot)
         var weaponString = '%c{#91AA9D}%b{black}';
 
         if(item_slots[i] && item_slots[i].getWorn()) {
-           weaponString += slot + ": %c{#7E7F7A}" + item_slots[i].getName();
+           weaponString += slot + ": %c{" + item_slots[i].getForeground() + "}" + item_slots[i].getChar() + " %c{#7E7F7A}" + item_slots[i].getName();
            display.drawText(startX, startY++, weaponString);
         } else {
            weaponString += slot + ": %c{#7E7F7A}none";
            display.drawText(startX, startY++, weaponString);
         }
     }
-}
+};
 
 Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
     var hand_slots = player.getWornItemsBySlot(Lootr.ITEM_SLOTS.HAND);
@@ -183,7 +182,7 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
         var weaponString = '%c{#91AA9D}%b{black}';
 
         if(hand_slots[i] && hand_slots[i].getWorn()) {
-           weaponString += 'Wielding: %c{#7E7F7A}' + hand_slots[i].getName();
+           weaponString += 'Wielding: %c{' + hand_slots[i].getForeground() + '}' + hand_slots[i].getChar() + ' %c{#7E7F7A}' + hand_slots[i].getName();
            display.drawText(startX, startY++, weaponString);
         } else {
            weaponString += "Wielding: %c{#7E7F7A}none";
