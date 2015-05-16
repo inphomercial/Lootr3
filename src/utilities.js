@@ -38,6 +38,7 @@ Lootr.getNeighborPositions = function(x, y) {
     return tiles.randomize();
 };
 
+// ex: if you want 1 - 100 min = 1, max = 100
 Lootr.getRandomInt = function(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };

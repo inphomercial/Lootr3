@@ -36,3 +36,7 @@ Lootr.Item.prototype.getWorn = function() {
 Lootr.Item.prototype.getRarity = function() {
     return this._rarity;
 };
+
+Lootr.Item.prototype.setRarity = function(rarity) {
+    this._rarity = rarity;
+};

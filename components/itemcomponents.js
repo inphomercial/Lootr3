@@ -45,6 +45,32 @@ Lootr.ItemComponents.Quaffable = {
     }
 };
 
+// Roll 1D100
+// 1-60 (common)
+// 61-85 (magical)
+// 86-95 (rare)
+// 96-100 (unique)
+Lootr.ItemComponents.RandomRarity = {
+    name: 'GenerateSlot',
+    init: function(template) {
+        var roll = Lootr.getRandomInt(1, 100);
+
+        if (roll < 61) {
+            this.setRarity(Lootr.ITEM_RARITY.COMMON);
+        } else if (roll > 60 && roll < 86) {
+            this.setRarity(Lootr.ITEM_RARITY.MAGICAL);
+        } else if (roll > 85 && roll < 96) {
+            this.setRarity(Lootr.ITEM_RARITY.RARE);
+        } else if (roll > 95 && roll <= 100) {
+            this.setRarity(Lootr.ITEM_RARITY.UNIQUE);
+        } else {
+            console.log("Problem with GenerateSlot..");
+            console.info("GenerateSlot rolled a ", roll);
+            this.setRarity(Lootr.ITEM_RARITY.COMMON);
+        }
+    }
+};
+
 // Edible ItemComponent
 Lootr.ItemComponents.Edible = {
     name: 'Edible',

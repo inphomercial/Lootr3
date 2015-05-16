@@ -113,6 +113,14 @@ Lootr.ItemRepository.define('potion', {
     components: [Lootr.ItemComponents.Quaffable]
 });
 
+Lootr.ItemRepository.define('unidentified', {
+    name: 'unidentified',
+    character: '?',
+    components: [Lootr.ItemComponents.RandomRarity]
+}, {
+    disableRandomCreation: false
+});
+
 // Weapons
 Lootr.ItemRepository.define('dagger', {
     name: 'dagger',
