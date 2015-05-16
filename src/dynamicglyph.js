@@ -140,6 +140,10 @@ Lootr.DynamicGlyph.prototype.setName = function(name) {
     this._name = name;
 };
 
+Lootr.DynamicGlyph.prototype.getNameUpper = function() {
+    return this._name.charAt(0).toUpperCase() + this._name.slice(1);
+}
+
 Lootr.DynamicGlyph.prototype.getName = function() {
     return this._name;
 };

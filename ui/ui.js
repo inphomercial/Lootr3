@@ -98,23 +98,16 @@ Lootr.UI.RenderStatsGroup = function(player, startX, startY, display) {
     Lootr.UI.HungerDisplay(player, startX + 82, startY, display);
     startY=startY+3;
 
-    Lootr.UI.WieldingDisplay(player, startX + 82, startY, display);
-    startY++;
-    startY++;
+    startY = Lootr.UI.WieldingDisplay(player, startX + 82, startY, display);
     startY++;
 
-    Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.HEAD);
-    startY++;
+    startY = Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.HEAD);
 
-    Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.BODY);
-    startY++;
+    startY = Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.BODY);
 
-    Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.FINGER);
-    startY++;
-    startY++;
+    startY = Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.FINGER);
 
-    Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.FEET);
-    startY++;
+    startY = Lootr.UI.WearingSlotDisplay(player, startX + 82, startY, display, Lootr.ITEM_SLOTS.FEET);
     startY++;
 
     Lootr.UI.StatusDisplay(player, startX + 82, startY++, display);
@@ -165,13 +158,15 @@ Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot) {
         var weaponString = '%c{#91AA9D}%b{black}';
 
         if(item_slots[i] && item_slots[i].getWorn()) {
-           weaponString += slot + ": %c{" + item_slots[i].getForeground() + "}" + item_slots[i].getChar() + " %c{#7E7F7A}" + item_slots[i].getName();
+           weaponString += slot + ": %c{" + item_slots[i].getForeground() + "}" + item_slots[i].getChar() + " %c{#7E7F7A}" + item_slots[i].getNameUpper();
            display.drawText(startX, startY++, weaponString);
         } else {
-           weaponString += slot + ": %c{#7E7F7A}none";
+           weaponString += slot + ": %c{#7E7F7A}None";
            display.drawText(startX, startY++, weaponString);
         }
     }
+
+    return startY;
 };
 
 Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
@@ -182,13 +177,15 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
         var weaponString = '%c{#91AA9D}%b{black}';
 
         if(hand_slots[i] && hand_slots[i].getWorn()) {
-           weaponString += 'Wielding: %c{' + hand_slots[i].getForeground() + '}' + hand_slots[i].getChar() + ' %c{#7E7F7A}' + hand_slots[i].getName();
+           weaponString += 'Wielding: %c{' + hand_slots[i].getForeground() + '}' + hand_slots[i].getChar() + ' %c{#7E7F7A}' + hand_slots[i].getNameUpper();
            display.drawText(startX, startY++, weaponString);
         } else {
-           weaponString += "Wielding: %c{#7E7F7A}none";
+           weaponString += "Wielding: %c{#7E7F7A}None";
            display.drawText(startX, startY++, weaponString);
         }
     }
+
+    return startY;
 };
 
 Lootr.UI.SelectedSpellDisplay = function(player, startX, startY, display) {
