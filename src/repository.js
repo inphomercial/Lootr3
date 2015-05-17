@@ -44,3 +44,19 @@ Lootr.Repository.prototype.createRandom = function() {
     // Pick a random key and create an object based off of it.
     return this.create(Object.keys(this._randomTemplates).random());
 };
+
+Lootr.Repository.prototype.getRandomTemplates = function() {
+    return this._randomTemplates;
+};
+
+Lootr.Repository.prototype.getRandomTemplatesByRarity = function(rarity) {
+    var rarity_templates = [];
+
+    for (var key in this._randomTemplates) {
+        if(this._randomTemplates[key].rarity == rarity) {
+            rarity_templates.push(this._randomTemplates[key]);
+        }
+    }
+
+    return rarity_templates;
+};

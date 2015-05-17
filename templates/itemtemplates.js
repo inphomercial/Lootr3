@@ -57,34 +57,6 @@ Lootr.ItemRepository.define('Blue Orb', {
     disableRandomCreation: true
 });
 
-// Edibles
-Lootr.ItemRepository.define('apple', {
-    name: 'apple',
-    character: '%',
-    foreground: 'red',
-    foodValue: 50,
-    components: [Lootr.ItemComponents.Edible]
-});
-
-Lootr.ItemRepository.define('melon', {
-    name: 'melon',
-    character: '%',
-    foreground: '#33FF33',
-    foodValue: 35,
-    comsumptions: 4,
-    components: [Lootr.ItemComponents.Edible]
-});
-
-// Traps
-Lootr.ItemRepository.define('spike trap', {
-    name: 'spike trap',
-    character: '.',
-    trapDamage: 10,
-    foreground: 'gray',
-    components: [Lootr.ItemComponents.SpringTrap]
-});
-
-// Doodadas
 Lootr.ItemRepository.define('corpse', {
     name: 'corpse',
     character: '&',
@@ -96,11 +68,47 @@ Lootr.ItemRepository.define('corpse', {
     disableRandomCreation: true
 });
 
+// Edibles
+Lootr.ItemRepository.define('apple', {
+    name: 'apple',
+    character: '%',
+    foreground: 'red',
+    foodValue: 50,
+    rarity: Lootr.ITEM_RARITY.COMMON,
+    components: [Lootr.ItemComponents.Edible]
+}, {
+    disableRandomCreation: false
+});
+
+Lootr.ItemRepository.define('melon', {
+    name: 'melon',
+    character: '%',
+    foreground: '#33FF33',
+    foodValue: 35,
+    comsumptions: 4,
+    components: [Lootr.ItemComponents.Edible]
+}, {
+    disableRandomCreation: false
+});
+
+// Traps
+Lootr.ItemRepository.define('spike trap', {
+    name: 'spike trap',
+    character: '.',
+    trapDamage: 10,
+    foreground: 'gray',
+    components: [Lootr.ItemComponents.SpringTrap]
+}, {
+    disableRandomCreation: false
+});
+
 Lootr.ItemRepository.define('gold', {
     name: 'gold',
     character: '$',
     foreground: 'gold',
     components: [Lootr.ItemComponents.Gold]
+}, {
+    disableRandomCreation: false
 });
 
 // Quaffables
@@ -111,6 +119,8 @@ Lootr.ItemRepository.define('potion', {
     quaff_value: 6,
     quaffs: 2,
     components: [Lootr.ItemComponents.Quaffable]
+}, {
+    disableRandomCreation: false
 });
 
 Lootr.ItemRepository.define('unidentified', {
@@ -196,6 +206,8 @@ Lootr.ItemRepository.define('robe', {
     slot: Lootr.ITEM_SLOTS.BODY,
     defenseValue: 3,
     components: [Lootr.ItemComponents.Equippable]
+}, {
+    disableRandomCreation: false
 });
 
 Lootr.ItemRepository.define('leather boots', {
@@ -234,5 +246,7 @@ Lootr.ItemRepository.define('pumpkin', {
     wieldable: true,
     slot: Lootr.ITEM_SLOTS.HEAD,
     components: [Lootr.ItemComponents.Equippable,
-                 Lootr.ItemComponents.Edible]
+                 Lootr.ItemComponents.Edible],
+}, {
+    disableRandomCreation: false
 });

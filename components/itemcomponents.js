@@ -51,7 +51,7 @@ Lootr.ItemComponents.Quaffable = {
 // 86-95 (rare)
 // 96-100 (unique)
 Lootr.ItemComponents.RandomRarity = {
-    name: 'GenerateSlot',
+    name: 'RandomRarity',
     init: function(template) {
         var roll = Lootr.getRandomInt(1, 100);
 
@@ -64,8 +64,8 @@ Lootr.ItemComponents.RandomRarity = {
         } else if (roll > 95 && roll <= 100) {
             this.setRarity(Lootr.ITEM_RARITY.UNIQUE);
         } else {
-            console.log("Problem with GenerateSlot..");
-            console.info("GenerateSlot rolled a ", roll);
+            console.log("Problem with RandomRarity..");
+            console.info("RandomRarity rolled a ", roll);
             this.setRarity(Lootr.ITEM_RARITY.COMMON);
         }
     }

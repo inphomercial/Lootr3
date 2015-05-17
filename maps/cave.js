@@ -37,6 +37,11 @@ Lootr.Map.Cave = function(player) {
     this.addEntityByTypeAndAmount('dragon', 10);
 
     // Add items
+    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.COMMON, 50);
+    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.MAGICAL, 20);
+    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
+    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
+
     this.addItemByTypeAndAmount('unidentified', 100);
     this.addItemByTypeAndAmount('potion', 25);
     this.addItemByTypeAndAmount('robe', 50);
