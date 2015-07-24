@@ -140,7 +140,7 @@ Lootr.ItemRepository.define('dagger', {
     wieldable: true,
     slot: Lootr.ITEM_SLOTS.HAND,
     rarity: Lootr.ITEM_RARITY.COMMON,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -153,7 +153,7 @@ Lootr.ItemRepository.define('silver ring', {
     wearable: true,
     slot: Lootr.ITEM_SLOTS.FINGER,
     rarity: Lootr.ITEM_RARITY.RARE,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -166,7 +166,7 @@ Lootr.ItemRepository.define('red ring', {
     wearable: true,
     slot: Lootr.ITEM_SLOTS.FINGER,
     rarity: Lootr.ITEM_RARITY.RARE,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -179,7 +179,7 @@ Lootr.ItemRepository.define('green ring', {
     wearable: true,
     slot: Lootr.ITEM_SLOTS.FINGER,
     rarity: Lootr.ITEM_RARITY.RARE,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -192,7 +192,7 @@ Lootr.ItemRepository.define('metal helmet', {
     defenseValue: 2,
     wearable: true,
     slot: Lootr.ITEM_SLOTS.HEAD,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -217,7 +217,7 @@ Lootr.ItemRepository.define('leather boots', {
     defenseValue: 2,
     wearable: true,
     slot: Lootr.ITEM_SLOTS.FEET,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -229,7 +229,7 @@ Lootr.ItemRepository.define('club', {
     attackValue: 7,
     wieldable: true,
     slot: Lootr.ITEM_SLOTS.HAND,
-    components: [Lootr.ItemComponents.Equippable],
+    components: [Lootr.ItemComponents.Equippable]
 }, {
     disableRandomCreation: false
 });
@@ -246,7 +246,7 @@ Lootr.ItemRepository.define('pumpkin', {
     wieldable: true,
     slot: Lootr.ITEM_SLOTS.HEAD,
     components: [Lootr.ItemComponents.Equippable,
-                 Lootr.ItemComponents.Edible],
+                 Lootr.ItemComponents.Edible]
 }, {
     disableRandomCreation: false
 });

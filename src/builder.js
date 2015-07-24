@@ -1,12 +1,13 @@
+
 Lootr.Builder = function(args) {
 
-    args = args || {};
+    var args = args || {};
 
     this.layout = args['layout'] || {};
     this.special = args['special'] || undefined;
 
     // Completed item
-    this.map;
+    //this.map;
 };
 
 Lootr.Builder.prototype.generate = function(global_map) {
@@ -45,6 +46,12 @@ Lootr.Builder.prototype._generateLayout = function() {
                     break;
                 case 4:
                     this.map[y][x] = new Lootr.Tile(Lootr.Tile.wallGemTile);
+                    break;
+                case 5:
+                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.tombstoneTile);
+                    break;
+                case 6:
+                    this.map[y][x] = new Lootr.Tile(Lootr.Tile.grassTile);
                     break;
 
                 default:

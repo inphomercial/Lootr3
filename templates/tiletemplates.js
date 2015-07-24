@@ -100,6 +100,14 @@ Lootr.Tile.bridgeTile = {
     description: 'A Wooden Bridge'
 };
 
+Lootr.Tile.tombstoneTile = {
+    character: '╪',
+    foreground: 'grey',
+    walkable: false,
+    blocksLight: false,
+    description: 'An old stone tombstone'
+};
+
 Lootr.Tile.sandTile = {
     character: '~',
     foreground: 'yellow',

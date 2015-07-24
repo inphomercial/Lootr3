@@ -1,8 +1,8 @@
 
 Lootr.Map.Cave = function(player) {
 
-    this._width = 40;
-    this._height = 40;
+    //this._width = 60;
+    //this._height = 60;
 
     this._width = 200;
     this._height = 200;
@@ -16,16 +16,15 @@ Lootr.Map.Cave = function(player) {
     // Add exit back to overworld
     var pos = this.getRandomFloorPosition();
     this.setTile(pos.x, pos.y, new Lootr.Tile(Lootr.Tile.exitToOverworld));
-//    this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
 
-    // Try to add pool to level
-    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Pool).generate(this));
+    // Try to add graveyard to level
+    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Graveyard).generate());
 
     // Try to add gem treasure to level;
-    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
+    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
 
     // Try to add stream to level
-    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
+    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
     this.addEntityByTypeAndAmount('skeleton', 300);

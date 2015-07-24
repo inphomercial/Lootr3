@@ -4,6 +4,8 @@
 // 2 waterTile
 // 3 treeTile
 // 4 wallGemTile
+// 5 tombstone
+// 6 grass
 
 Lootr.Builder.Pool = {
     layout: [
@@ -25,6 +27,17 @@ Lootr.Builder.Pool = {
     // ]
 };
 
+Lootr.Builder.Graveyard = {
+    size: {x: 5, y: 5},
+    layout: [
+        [6,0,0,5,0],
+        [0,5,0,6,5],
+        [0,0,0,6,0],
+        [6,5,0,0,0],
+        [0,0,6,6,0]
+    ]
+};
+
 Lootr.Builder.Stream = {
     size: {x: 5, y: 5},
     layout: [
@@ -34,7 +47,7 @@ Lootr.Builder.Stream = {
         [0,2,0,2,0],
         [0,2,0,0,2]
     ]
-}
+};
 
 Lootr.Builder.GemTreasure = {
     size: {x: 5, y: 5},
@@ -45,4 +58,4 @@ Lootr.Builder.GemTreasure = {
         [4,0,0,0,4],
         [4,4,4,4,4]
     ]
-}
+};
