@@ -9,10 +9,10 @@ Lootr.Tile = function(args) {
     // Setup the args, using false by default
     this._walkable = args['walkable'] || false;
     this._diggable = args['diggable'] || false;
-    this._blocksLight = args['blocksLight'] == false ? false : true;
+    this._blocksLight = args['blocksLight'] != false;
     this._description = args['description'] || '';
     this._ground = args['ground'] || false;
-    this._itemSpawnable = args['itemSpawnable'] == false ? false : true;
+    this._itemSpawnable = args['itemSpawnable'] != false;
 };
 
 // Make all tiles inhert all the functionality of glyphs

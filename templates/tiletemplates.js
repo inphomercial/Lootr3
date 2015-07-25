@@ -101,9 +101,10 @@ Lootr.Tile.bridgeTile = {
 };
 
 Lootr.Tile.tombstoneTile = {
-    character: '╪',
+    character: 'T',
     foreground: 'grey',
     walkable: false,
+    ground: true,
     blocksLight: false,
     description: 'An old stone tombstone'
 };

@@ -1,8 +1,8 @@
 
 Lootr.Map.Cave = function(player) {
 
-    //this._width = 60;
-    //this._height = 60;
+    //this._width = 20;
+    //this._height = 20;
 
     this._width = 200;
     this._height = 200;
@@ -18,22 +18,22 @@ Lootr.Map.Cave = function(player) {
     this.setTile(pos.x, pos.y, new Lootr.Tile(Lootr.Tile.exitToOverworld));
 
     // Try to add graveyard to level
-    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Graveyard).generate());
+    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Graveyard).generate());
 
     // Try to add gem treasure to level;
-    //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
+    this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.GemTreasure).generate());
 
     // Try to add stream to level
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
-    this.addEntityByTypeAndAmount('skeleton', 300);
-    this.addEntityByTypeAndAmount('bat', 25);
-    this.addEntityByTypeAndAmount('spider', 25);
-    this.addEntityByTypeAndAmount('spider nest', 250);
-    this.addEntityByTypeAndAmount('slime', 25);
-    this.addEntityByTypeAndAmount('fungus', 30);
-    this.addEntityByTypeAndAmount('dragon', 10);
+    //this.addEntityByTypeAndAmount('skeleton', 300);
+    //this.addEntityByTypeAndAmount('bat', 25);
+    //this.addEntityByTypeAndAmount('spider', 25);
+    //this.addEntityByTypeAndAmount('spider nest', 250);
+    //this.addEntityByTypeAndAmount('slime', 25);
+    //this.addEntityByTypeAndAmount('fungus', 30);
+    //this.addEntityByTypeAndAmount('dragon', 10);
 
     // Add items
     // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.COMMON, 50);
@@ -41,20 +41,20 @@ Lootr.Map.Cave = function(player) {
     // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
     // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
 
-    this.addItemByTypeAndAmount('unidentified', 100);
-    this.addItemByTypeAndAmount('potion', 25);
-    this.addItemByTypeAndAmount('robe', 50);
-    this.addItemByTypeAndAmount('apple', 20);
-    this.addItemByTypeAndAmount('dagger', 250);
-    this.addItemByTypeAndAmount('gold', 50);
-    this.addItemByTypeAndAmount('metal helmet', 250);
-    this.addItemByTypeAndAmount('leather boots', 250);
-    this.addItemByTypeAndAmount('silver ring', 250);
-    this.addItemByTypeAndAmount('green ring', 250);
-    this.addItemByTypeAndAmount('red ring', 250);
+    //this.addItemByTypeAndAmount('unidentified', 100);
+    //this.addItemByTypeAndAmount('potion', 25);
+    //this.addItemByTypeAndAmount('robe', 50);
+    //this.addItemByTypeAndAmount('apple', 20);
+    //this.addItemByTypeAndAmount('dagger', 250);
+    //this.addItemByTypeAndAmount('gold', 50);
+    //this.addItemByTypeAndAmount('metal helmet', 250);
+    //this.addItemByTypeAndAmount('leather boots', 250);
+    //this.addItemByTypeAndAmount('silver ring', 250);
+    //this.addItemByTypeAndAmount('green ring', 250);
+    //this.addItemByTypeAndAmount('red ring', 250);
 
     // Add Traps
-    this.addItemByTypeAndAmount('spike trap', 70);
+    //this.addItemByTypeAndAmount('spike trap', 70);
 
     // Add Orb
     this.addItemByTypeAndAmount('Red Orb', 1);
@@ -75,8 +75,9 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     // Setup the cave generator
     var generator = new ROT.Map.Cellular(this._width, this._height);
     generator.randomize(0.5);
-    var totalIterations = 3;
+
     // Iteratively smoothen the map
+    var totalIterations = 3;
     for (var i = 0; i < totalIterations - 1; i++) {
         generator.create();
     }

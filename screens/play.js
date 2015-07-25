@@ -92,6 +92,11 @@ Lootr.Screen.playScreen = {
         // Render the explored, visible, items and entitiy map cells
         for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
             for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
+
+                //if (! x >= 0 && x < screenWidth && y >= 0 && y < screenHeight) {
+                //    return false;
+                //}
+
                 if (map.isExplored(x, y)) {
                     // Fetch the tile and render it to the screen
                     var glyph = map.getTile(x, y);

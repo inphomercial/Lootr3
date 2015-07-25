@@ -53,12 +53,13 @@ Lootr.Map.prototype.getEntities = function() {
 };
 
 Lootr.Map.prototype.getTile = function(x, y) {
-    // Make suer we are inside the bounds, otherwise return nullTile
-    if( x < 0 || x >= this._width || y < 0 || y >= this._height) {
+    // Make sure we are inside the bounds, otherwise return nullTile
+    if (x < 0 || x > this._width || y < 0 || y > this._height) {
+        //console.error("Map.getTile failed to get a tile within bounds. x: " + x + " y: " + y);
         return Lootr.Tile.nullTile;
-    } else {
-        return this._tiles[x][y] || Lootr.Tile.nullTile;
     }
+
+    return this._tiles[x][y] || Lootr.Tile.nullTile;
 };
 
 // Get the entity based on position key
@@ -94,7 +95,7 @@ Lootr.Map.prototype.addSegment = function(segment, pos) {
             this._tiles[pos.x+x][pos.y+y] = segment[y][x];
         }
     }
-}
+};
 
 Lootr.Map.prototype.getRandomFloorPosition = function() {
     // Randomly generate a tile which is a floor
@@ -412,12 +413,18 @@ Lootr.Map.prototype.removeOldEntityKey = function(entity, x, y) {
 };
 
 Lootr.Map.prototype.isEntityWithinBounds = function(entity) {
-    if(entity.getX() < 0 || entity.getX() >= this._width ||
-       entity.getY() < 0 || entity.getY() >= this._height) {
-        throw new Error("Entitys position is out of bounds");
-    }
 
-    return true;
+    return (entity.getX() < 0 ||
+            entity.getX() >= this._width ||
+            entity.getY() < 0 ||
+            entity.getY() >= this._height)
+
+    //if(entity.getX() < 0 || entity.getX() >= this._width ||
+    //   entity.getY() < 0 || entity.getY() >= this._height) {
+    //    throw new Error("Entitys position is out of bounds");
+    //}
+    //
+    //return true;
 };
 
 Lootr.Map.prototype.isPositionWithinBounds = function(x, y) {
@@ -432,7 +439,9 @@ Lootr.Map.prototype.isPositionWithinBounds = function(x, y) {
 Lootr.Map.prototype.updateEntityPositionTo = function(entity, newX, newY) {
     this.isEntityAt(newX, newY);
 
-    this.isPositionWithinBounds(newX, newY);
+    if (!this.isPositionWithinBounds(newX, newY)) {
+        return false;
+    }
 
     this.removeOldEntityKey(entity, entity.getX(), entity.getY());
 
