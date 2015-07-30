@@ -6,6 +6,8 @@ Lootr.Map = function(tiles) {
     this._width = tiles.length;
     this._height = tiles[0].length;
 
+    this._map = null;
+
     // Create a table to hold entities
     this._entities = {};
 
@@ -50,6 +52,18 @@ Lootr.Map.prototype.getEngine = function() {
 
 Lootr.Map.prototype.getEntities = function() {
     return this._entities;
+};
+
+Lootr.Map.prototype.createEmptyMap = function() {
+// Create the empty map
+    this._map = new Array(this._width);
+    for (var w = 0; w < this._width; w++) {
+        this._map[w] = new Array(this._height);
+    }
+};
+
+Lootr.Map.prototype.getEmptyMap = function() {
+    return this._map;
 };
 
 Lootr.Map.prototype.getTile = function(x, y) {

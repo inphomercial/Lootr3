@@ -1,4 +1,9 @@
-Lootr.EntitySpells = {};
+Lootr.EntitySpells = {
+};
+
+Lootr.EntitySpells.prototype.canEntityCast = function() {
+    return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
+};
 
 Lootr.EntitySpells.Teleport = {
     name: 'Teleport',
@@ -9,7 +14,7 @@ Lootr.EntitySpells.Teleport = {
         this._color = 'lightblue';
     },
     cast: function(x, y) {
-        if (this._checkIfCanCast()) {
+        if (this._canEntityCast()) {
             if (this._caster.getMap().isTileWithoutEntity(x, y)) {
                 this._caster.getMap().updateEntityPositionTo(this._caster, x, y);
                 this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
@@ -30,10 +35,11 @@ Lootr.EntitySpells.Teleport = {
     _getDescription: function() {
         Lootr.sendMessage(this._caster, 'You break apart, joining together again.');
     },
-    _checkIfCanCast: function() {
+    _canEntityCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
     }
 };
+Lootr.EntitySpells.Teleport.extend(Lootr.EntitySpells);
 
 Lootr.EntitySpells.Fireball = {
     name: 'FireBall',
@@ -44,7 +50,7 @@ Lootr.EntitySpells.Fireball = {
         this._color = 'yellow';
     },
     cast: function(x, y) {
-        if (this._checkIfCanCast()) {
+        if (this._canEntityCast()) {
             if(this._caster.getMap().isTileWithoutEntity(x, y)) {
                 var fireball = Lootr.EntityRepository.create('fire');
                 this._caster.getMap().addEntityAt(x, y, fireball);
@@ -66,10 +72,11 @@ Lootr.EntitySpells.Fireball = {
     _getDescription: function() {
         Lootr.sendMessage(this._caster, 'You hurl a ball of fire!');
     },
-    _checkIfCanCast: function() {
+    _canEntityCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
     }
 };
+Lootr.EntitySpells.Fireball.extend(Lootr.EntitySpells);
 
 Lootr.EntitySpells.Firebolt = {
     name: 'FireBolt',
@@ -82,7 +89,7 @@ Lootr.EntitySpells.Firebolt = {
         this._color = 'red';
     },
     cast: function(x, y) {
-        if (this._checkIfCanCast()) {
+        if (this._canEntityCast()) {
             if(this._target && this._target.hasComponent('Destructible')) {
                 var damage = Lootr.getRandomInt(1, this._getDamage() - this._target.getTotalDefenseValue());
 
@@ -108,7 +115,8 @@ Lootr.EntitySpells.Firebolt = {
     _getDamage: function() {
         return this._damage * this._caster.getTotalIntValue();
     },
-    _checkIfCanCast: function() {
+    _canEntityCast: function() {
         return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
     }
 };
+Lootr.EntitySpells.Firebolt.extend(Lootr.EntitySpells);

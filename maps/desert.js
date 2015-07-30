@@ -1,4 +1,5 @@
 
+
 Lootr.Map.Desert = function(player) {
 
     this._width = 30;
@@ -45,11 +46,10 @@ Lootr.Map.Desert = function(player) {
 Lootr.Map.Desert.extend(Lootr.Map);
 
 Lootr.Map.Desert.prototype._generateLevel = function() {
-    // Create the empty map
-    var map = new Array(this._width);
-    for (var w = 0; w < this._width; w++) {
-        map[w] = new Array(this._height);
-    }
+
+    this.createEmptyMap();
+    var map = this.getEmptyMap();
+
     // Setup the cave generator
     var generator = new ROT.Map.Cellular(this._width, this._height);
 

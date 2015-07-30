@@ -27,31 +27,31 @@ Lootr.Map.Cave = function(player) {
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
-    //this.addEntityByTypeAndAmount('skeleton', 300);
-    //this.addEntityByTypeAndAmount('bat', 25);
-    //this.addEntityByTypeAndAmount('spider', 25);
-    //this.addEntityByTypeAndAmount('spider nest', 250);
-    //this.addEntityByTypeAndAmount('slime', 25);
-    //this.addEntityByTypeAndAmount('fungus', 30);
-    //this.addEntityByTypeAndAmount('dragon', 10);
+    this.addEntityByTypeAndAmount('skeleton', 300);
+    this.addEntityByTypeAndAmount('bat', 25);
+    this.addEntityByTypeAndAmount('spider', 25);
+    this.addEntityByTypeAndAmount('spider nest', 250);
+    this.addEntityByTypeAndAmount('slime', 25);
+    this.addEntityByTypeAndAmount('fungus', 30);
+    this.addEntityByTypeAndAmount('dragon', 10);
 
     // Add items
-    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.COMMON, 50);
-    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.MAGICAL, 20);
-    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
-    // this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
+    //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.COMMON, 50);
+    //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.MAGICAL, 20);
+    //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
+    //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
 
-    //this.addItemByTypeAndAmount('unidentified', 100);
-    //this.addItemByTypeAndAmount('potion', 25);
-    //this.addItemByTypeAndAmount('robe', 50);
-    //this.addItemByTypeAndAmount('apple', 20);
-    //this.addItemByTypeAndAmount('dagger', 250);
-    //this.addItemByTypeAndAmount('gold', 50);
-    //this.addItemByTypeAndAmount('metal helmet', 250);
-    //this.addItemByTypeAndAmount('leather boots', 250);
-    //this.addItemByTypeAndAmount('silver ring', 250);
-    //this.addItemByTypeAndAmount('green ring', 250);
-    //this.addItemByTypeAndAmount('red ring', 250);
+    this.addItemByTypeAndAmount('unidentified', 100);
+    this.addItemByTypeAndAmount('potion', 25);
+    this.addItemByTypeAndAmount('robe', 50);
+    this.addItemByTypeAndAmount('apple', 20);
+    this.addItemByTypeAndAmount('dagger', 250);
+    this.addItemByTypeAndAmount('gold', 50);
+    this.addItemByTypeAndAmount('metal helmet', 250);
+    this.addItemByTypeAndAmount('leather boots', 250);
+    this.addItemByTypeAndAmount('silver ring', 250);
+    this.addItemByTypeAndAmount('green ring', 250);
+    this.addItemByTypeAndAmount('red ring', 250);
 
     // Add Traps
     //this.addItemByTypeAndAmount('spike trap', 70);
@@ -65,12 +65,12 @@ Lootr.Map.Cave = function(player) {
 
 Lootr.Map.Cave.extend(Lootr.Map);
 
+
+
 Lootr.Map.Cave.prototype._generateLevel = function() {
-    // Create the empty map
-    var map = new Array(this._width);
-    for (var w = 0; w < this._width; w++) {
-        map[w] = new Array(this._height);
-    }
+
+    this.createEmptyMap();
+    var map = this.getEmptyMap();
 
     // Setup the cave generator
     var generator = new ROT.Map.Cellular(this._width, this._height);
