@@ -27,7 +27,7 @@ Lootr.Map.Cave = function(player) {
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
-    this.addEntityByTypeAndAmount('skeleton', 300);
+    this.addEntityByTypeAndAmount('skeleton', 30);
     this.addEntityByTypeAndAmount('bat', 25);
     this.addEntityByTypeAndAmount('spider', 25);
     this.addEntityByTypeAndAmount('spider nest', 250);
@@ -62,7 +62,6 @@ Lootr.Map.Cave = function(player) {
     // Add the player
     this.addEntityAtRandomPosition(player);
 };
-
 Lootr.Map.Cave.extend(Lootr.Map);
 
 

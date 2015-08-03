@@ -73,7 +73,11 @@ Lootr.Map.prototype.getTile = function(x, y) {
         return Lootr.Tile.nullTile;
     }
 
-    return this._tiles[x][y] || Lootr.Tile.nullTile;
+    if (typeof this._tiles[x][y] == 'undefined') {
+        return Lootr.Tile.nullTile;
+    }
+
+    return this._tiles[x][y];
 };
 
 // Get the entity based on position key
