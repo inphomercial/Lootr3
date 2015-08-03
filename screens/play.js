@@ -205,8 +205,8 @@ Lootr.Screen.playScreen = {
                 // Testing Selected Spell
                 case ROT.VK_SPACE:
                     var offsets = this.getScreenOffsets();
-                    var spell = Lootr.EntitySpells[this._player.getSelectedSpell()];
-                    spell.init({});
+                    var spell = new Lootr.EntitySpells[this._player.getSelectedSpell()]({caster: this._player});
+                    //spell.init({});
                     Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, spell.getColor(), spell.getChar(), this._player.getSelectedSpell());
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;

@@ -42,7 +42,6 @@ Lootr.Map.Desert = function(player) {
     var pos = this.getRandomFloorPosition();
     this._tiles[pos.x][pos.y] = new Lootr.Tile(Lootr.Tile.exitToOverworld);
 };
-
 Lootr.Map.Desert.extend(Lootr.Map);
 
 Lootr.Map.Desert.prototype._generateLevel = function() {
@@ -54,7 +53,6 @@ Lootr.Map.Desert.prototype._generateLevel = function() {
     var generator = new ROT.Map.Cellular(this._width, this._height);
 
     generator.randomize(0.7);
-
 
     var totalIterations = 3;
     // Iteratively smoothen the map
