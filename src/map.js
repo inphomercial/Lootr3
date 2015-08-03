@@ -132,6 +132,22 @@ Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
     return tile;
 };
 
+Lootr.Map.prototype.getRandomBoundedFloorPositionForX = function(origin_x, origin_y, amount) {
+    do {
+        xOffset = Math.floor(Math.random() * amount);
+    } while(!this.isTileEmptyFloor(origin_x + xOffset, origin_y));
+
+    return xOffset;
+};
+
+Lootr.Map.prototype.getRandomBoundedFloorPositionForY = function(origin_x, origin_y, amount) {
+    do {
+        yOffset = Math.floor(Math.random() * amount);
+    } while(!this.isTileEmptyFloor(origin_x, origin_y + yOffset));
+
+    return yOffset;
+};
+
 Lootr.Map.prototype.getItemsToAct = function() {
     for(var key in this._items) {
         if(typeof this._items[key][0].act === 'function') {

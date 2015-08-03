@@ -843,20 +843,30 @@ Lootr.EntityComponents.SpiderNestActor = {
                     // Generate the coordinates of a random adjacent square
                     // by generating an offset between [-1, 0, 1] for both
                     // the x and y. to do this we get a number from 0-2 and then sub 1
-                    var xOffSet = Math.floor(Math.random() * 3);
-                    var yOffSet = Math.floor(Math.random() * 3);
+                    var distance = 3;
+                    var xOffSet = this.getMap().getRandomBoundedFloorPositionForX(this.getX(), this.getY(), distance);
+                    var yOffSet = this.getMap().getRandomBoundedFloorPositionForY(this.getX(), this.getY(), distance);
 
                     // Make sure we arent trying to spawn on the same tile
                     if(xOffSet != 0 && yOffSet != 0) {
-                        // check if we can actually grow at location
-                        if(this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
-                            var entity = Lootr.EntityRepository.create('spider');
-                            entity.setX(this.getX() + xOffSet);
-                            entity.setY(this.getY() + yOffSet);
+                        var entity = Lootr.EntityRepository.create('spider');
+                        entity.setX(this.getX() + xOffSet);
+                        entity.setY(this.getY() + yOffSet);
 
-                            this.getMap().addEntity(entity);
-                        }
+                        this.getMap().addEntity(entity);
                     }
+
+                    // Make sure we arent trying to spawn on the same tile
+                    //if(xOffSet != 0 && yOffSet != 0) {
+                    //    // check if we can actually grow at location
+                    //    if(this.getMap().isTileEmptyFloor(this.getX() + xOffSet, this.getY() + yOffSet)) {
+                    //        var entity = Lootr.EntityRepository.create('spider');
+                    //        entity.setX(this.getX() + xOffSet);
+                    //        entity.setY(this.getY() + yOffSet);
+                    //
+                    //        this.getMap().addEntity(entity);
+                    //    }
+                    //}
 
                     // Decrement regardless incase of walls/items
                     this._spawnAmount--;
