@@ -1,6 +1,6 @@
 
 Lootr.Screen.TargetBasedScreen = function(template) {
-    template = template || {};
+    var template = template || {};
 
     // By default, our ok return does nothing and does not consume a turn
     this._okFunction = template['okFunction'] || function(x, y) {
@@ -16,7 +16,6 @@ Lootr.Screen.TargetBasedScreen = function(template) {
 Lootr.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, offsetX, offsetY, color, visible_char, item) {
     this._player = player;
     this._item = item || null;
-
     this._color = color || 'magenta';
     this._visible_char = visible_char || '*';
 
@@ -35,8 +34,9 @@ Lootr.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY
 
     // Cache the FOV
     var visibleCells = {};
-    this._player.getMap().getFov(this._player).compute(
-        this._player.getX(), this._player.getY(),
+    this._player.getMap()
+        .getFov(this._player)
+        .compute(this._player.getX(), this._player.getY(),
         this._player.getSightRadius(),
         function(x, y, radius, visibility) {
             visibleCells[x + ',' + y] = true;
@@ -62,7 +62,7 @@ Lootr.Screen.TargetBasedScreen.prototype.render = function(display) {
 
     // Render stars along the line
     var l = points.length;
-    for(var i=0; i < l; i++) {
+    for (var i = 0; i < l; i++) {
         display.drawText(points[i].x, points[i].y, '%c{' + this._color + '}' + this._visible_char);
     }
 

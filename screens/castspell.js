@@ -5,7 +5,6 @@ Lootr.Screen.castSpellScreen = new Lootr.Screen.TargetBasedScreen({
         console.info("Casted : ", spell);
 
         var target = this._player.getMap().getEntityAt(x, y);
-
         var spell_obj = new Lootr.EntitySpells[spell]({caster: this._player, target: target});
         spell_obj.cast(x, y);
     },

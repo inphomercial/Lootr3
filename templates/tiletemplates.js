@@ -1,5 +1,10 @@
 
-Lootr.Tile.nullTile = new Lootr.Tile({description: '(unknown)'});
+Lootr.Tile.nullTile = new Lootr.Tile({
+    description: '(unknown)',
+    character: '?',
+    forground: 'red',
+    background: 'red'
+});
 
 Lootr.Tile.floorTile = {
     character: '.',

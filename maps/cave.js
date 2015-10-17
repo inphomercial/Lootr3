@@ -1,9 +1,6 @@
 
 Lootr.Map.Cave = function(player) {
 
-    //this._width = 20;
-    //this._height = 20;
-
     this._width = 200;
     this._height = 200;
 
@@ -27,7 +24,7 @@ Lootr.Map.Cave = function(player) {
     //this.addSegment(new Lootr.BuilderTemplate(Lootr.Builder.Stream).generate());
 
     // Add entities
-    this.addEntityByTypeAndAmount('skeleton', 3000);
+    this.addEntityByTypeAndAmount('skeleton', 30);
     //this.addEntityByTypeAndAmount('bat', 25);
     //this.addEntityByTypeAndAmount('spider', 25);
     //this.addEntityByTypeAndAmount('spider nest', 200);
@@ -79,17 +76,14 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
         generator.create();
     }
     // Smoothen it one last time and then update our map
-    generator.create(function(x,y,v) {
+    generator.create(function(x, y, v) {
         if (v === 1) {
-
             if(Math.floor(Math.random() * 100) >= 96) {
                 map[x][y] = new Lootr.Tile(Lootr.Tile.waterTile);
             } else {
                 map[x][y] = new Lootr.Tile(Lootr.Tile.floorTile);
             }
-
         } else {
-
             if(Math.floor(Math.random() * 10) >= 9) {
                 map[x][y] = new Lootr.Tile(Lootr.Tile.wallGemTile);
             } else {
@@ -97,5 +91,6 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
             }
         }
     });
+
     return map;
 };

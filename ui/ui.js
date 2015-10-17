@@ -8,8 +8,8 @@ Lootr.UI.RenderGameBorder = function(display) {
     var screenWidth = Lootr._mapScreenWidth;
     var screenHeight = Lootr._mapScreenHeight;
 
-    for(var x=0; x<=screenWidth; x++) {
-        for(var y=0; y<=screenHeight; y++) {
+    for(var x = 0; x <= screenWidth; x++) {
+        for(var y = 0; y <= screenHeight; y++) {
             if(y == 0) {
                 display.drawText(x, y, "%b{grey}%c{grey}*");
             }
@@ -279,7 +279,6 @@ Lootr.UI.ClassDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.HungerDisplay = function(player, startX, startY, display) {
-
     startY++;
 
     display.drawText(startX, startY, '%c{#91AA9D}%b{black}HUNGER: %c{#FCFFF5}');

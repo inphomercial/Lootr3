@@ -31,7 +31,7 @@ Lootr.Screen.ItemListScreen.prototype.setup = function(player, items) {
     var that = this;
     this._items = items.map(function(item) {
         // Transform the item into null if it's not acceptable
-        if(that._isAcceptableFunction(item)) {
+        if (that._isAcceptableFunction(item)) {
             count++;
             return item;
         } else {
@@ -59,14 +59,14 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
     display.drawText(startX, startY, this._caption);
 
     // Render the no item row if enabled
-    if(this._hasNoItemOption) {
+    if (this._hasNoItemOption) {
         display.drawText(startX, startY + 2, '0 - no item');
     }
 
     var row = 2;
     for (var i = 0; i < this._items.length; i++) {
         // If we have an item, we want to render it.
-        if(this._items[i]) {
+        if (this._items[i]) {
             // Get the letter matching the item's index
             var letter = letters.substring(i, i+1);
 
@@ -77,10 +77,10 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
             // Check if the item is worn or wielded
             var suffix = '';
             // if(this._items[i] === this._player.getArmor()) {
-            if(this._items[i].getWorn() && this._items[i]._slot === Lootr.ITEM_SLOTS.HAND) {
+            if (this._items[i].getWorn() && this._items[i]._slot === Lootr.ITEM_SLOTS.HAND) {
                 suffix = ' (wielding)';
             // } else if(this._items[i] === this._player.getWeapon()) {
-            } else if(this._items[i].getWorn()) {
+            } else if (this._items[i].getWorn()) {
                 suffix = ' (wearing)';
             }
 
@@ -92,10 +92,10 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
 }
 
 Lootr.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
-    if(inputType == 'keydown') {
+    if (inputType == 'keydown') {
         // If the user hit escape, hit enter and cannot select an item
         // or hit enter without any items selecteed, cancel out
-        if(inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN &&
+        if (inputData.keyCode === ROT.VK_ESCAPE || inputData.keyCode === ROT.VK_RETURN &&
            (!this._canSelectItem || Object.keys(this._selectedIndices).length === 0)) {
             Lootr.Screen.playScreen.setSubScreen(undefined);
         } else if (inputData.keyCode === ROT.VK_RETURN) {
@@ -111,11 +111,11 @@ Lootr.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputDat
             // check if it maps to a valid item by subtracting 'a' from the character
             // to know what letter of the alphabet we used
             var index = inputData.keyCode - ROT.VK_A;
-            if(this._items[index]) {
+            if (this._items[index]) {
                 // If multiple selection is allowed, toggle the selection status, else
                 // select the item and exit the screen
-                if(this._canSelectMultipleItems) {
-                    if(this._selectedIndices[index]) {
+                if (this._canSelectMultipleItems) {
+                    if (this._selectedIndices[index]) {
                         delete this._selectedIndices[index];
                     } else {
                         this._selectedIndices[index] = true;
@@ -135,7 +135,7 @@ Lootr.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputDat
 Lootr.Screen.ItemListScreen.prototype.executeOkFunction = function() {
     // Gather the selected items
     var selectedItems = {};
-    for(var key in this._selectedIndices) {
+    for (var key in this._selectedIndices) {
         selectedItems[key] = this._items[key];
     }
 
@@ -143,7 +143,7 @@ Lootr.Screen.ItemListScreen.prototype.executeOkFunction = function() {
     Lootr.Screen.playScreen.setSubScreen(undefined);
 
     // Call the OK function and end the players turn if it return true
-    if(this._okFunction(selectedItems)) {
+    if (this._okFunction(selectedItems)) {
         this._player.getMap().getEngine().unlock();
     }
 }

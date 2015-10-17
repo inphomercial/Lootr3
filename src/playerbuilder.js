@@ -21,7 +21,7 @@ PlayerBuilder.prototype.combineTemplates = function() {
 
 PlayerBuilder.prototype._addAllComponentsToBaseClass = function(components) {
     console.log(this._classTemplate[components].length);
-    for (var i=0; i<this._classTemplate[components].length; i++) {
+    for (var i = 0; i < this._classTemplate[components].length; i++) {
         this._baseTemplate[components].push(this._classTemplate[components][i])
     }
 };

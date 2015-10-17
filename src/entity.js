@@ -1,21 +1,19 @@
 
 Lootr.Entity = function(args) {
-    args = args || {};
+    var args = args || {};
 
     // Call the DynamicGlyphs constructor
     Lootr.DynamicGlyph.call(this, args);
 
     this._alive = true;
-
     this._template = args;
+    this._turns = 0;
+    this._map = null;
 
     // Set properties passed from args
     this._x = args['x'] || 0;
     this._y = args['y'] || 0;
     this._class = args['class'];
-
-    this._turns = 0;
-    this._map = null;
 };
 
 // Inhert all from Glyph
@@ -26,7 +24,6 @@ Lootr.Entity.prototype.buildSlotsFromArgs = function(slots) {
 
     for (var key in slots) {
         if (slots.hasOwnProperty(key)) {
-
             slots[key].items = [];
             this._slots.push(slots[key]);
         }
@@ -83,19 +80,18 @@ Lootr.Entity.prototype.getSpeed = function() {
 
 Lootr.Entity.prototype.kill = function(message) {
     // Only kill one
-    if(!this.isAlive()) {
-        return;
-    }
+    if(!this.isAlive()) return;
 
     this._alive = false;
-    if(message) {
+
+    if (message) {
         Lootr.sendMessage(this, message);
     } else {
         Lootr.sendMessage(this, "You have died!!");
     }
 
     // Check if the player died, and if so call their act method to prompt the user
-    if(this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
+    if (this.hasComponent(Lootr.EntityComponents.PlayerActor)) {
         this.act();
     } else {
         this.getMap().removeEntity(this);

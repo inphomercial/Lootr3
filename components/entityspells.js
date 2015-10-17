@@ -1,3 +1,4 @@
+
 Lootr.EntitySpell = function() {
     this._caster = null;
     this._description = null;
