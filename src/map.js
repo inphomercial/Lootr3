@@ -435,27 +435,12 @@ Lootr.Map.prototype.removeOldEntityKey = function(entity, x, y) {
 };
 
 Lootr.Map.prototype.isEntityWithinBounds = function(entity) {
-
-    return (entity.getX() < 0 ||
-            entity.getX() >= this._width ||
-            entity.getY() < 0 ||
-            entity.getY() >= this._height)
-
-    //if(entity.getX() < 0 || entity.getX() >= this._width ||
-    //   entity.getY() < 0 || entity.getY() >= this._height) {
-    //    throw new Error("Entitys position is out of bounds");
-    //}
-    //
-    //return true;
+    return (entity.getX() < 0 || entity.getX() >= this._width ||
+            entity.getY() < 0 || entity.getY() >= this._height);
 };
 
 Lootr.Map.prototype.isPositionWithinBounds = function(x, y) {
-    if(x < 0 || x >= this._width ||
-       y < 0 || y >= this._height) {
-        throw new Error("Position is out of bounds");
-    }
-
-    return true;
+    return !(x < 0 || x >= this._width || y < 0 || y >= this._height);
 };
 
 Lootr.Map.prototype.updateEntityPositionTo = function(entity, newX, newY) {

@@ -1871,6 +1871,10 @@ ROT.Engine = function(scheduler) {
 	this._lock = 1;
 }
 
+ROT.Engine.prototype.isLocked = function() {
+    return this._lock;
+};
+
 /**
  * Start the main loop. When this call returns, the loop is locked.
  */

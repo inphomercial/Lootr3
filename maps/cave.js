@@ -26,7 +26,7 @@ Lootr.Map.Cave = function(player) {
     // Add entities
     this.addEntityByTypeAndAmount('skeleton', 30);
     this.addEntityByTypeAndAmount('bat', 25);
-    this.addEntityByTypeAndAmount('spider', 205);
+    this.addEntityByTypeAndAmount('spider', 1000);
     //this.addEntityByTypeAndAmount('spider nest', 200);
     //this.addEntityByTypeAndAmount('slime', 25);
     //this.addEntityByTypeAndAmount('fungus', 30);
@@ -38,9 +38,9 @@ Lootr.Map.Cave = function(player) {
     //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
     //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
 
-    //this.addItemByTypeAndAmount('unidentified', 100);
-    //this.addItemByTypeAndAmount('potion', 25);
-    //this.addItemByTypeAndAmount('robe', 50);
+    this.addItemByTypeAndAmount('unidentified', 100);
+    this.addItemByTypeAndAmount('potion', 25);
+    this.addItemByTypeAndAmount('robe', 50);
     //this.addItemByTypeAndAmount('apple', 20);
     //this.addItemByTypeAndAmount('dagger', 250);
     //this.addItemByTypeAndAmount('gold', 50);

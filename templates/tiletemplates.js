@@ -3,7 +3,8 @@ Lootr.Tile.nullTile = new Lootr.Tile({
     description: '(unknown)',
     character: '?',
     forground: 'red',
-    background: 'red'
+    background: 'red',
+    blocksLight: false
 });
 
 Lootr.Tile.floorTile = {

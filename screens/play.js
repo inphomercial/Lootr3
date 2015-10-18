@@ -289,7 +289,6 @@ Lootr.Screen.playScreen = {
                     break;
 
                 case ROT.VK_E:
-
                     if (!this._player.hasComponent('FoodConsumer')) {
                         Lootr.sendMessage(this._player, 'You cant even think about eating.');
                         break;
@@ -340,7 +339,6 @@ Lootr.Screen.playScreen = {
 
                 case ROT.VK_COMMA:
                     var items = this._player.getMap().getItemsAt(this._player.getX(), this._player.getY());
-                    console.log(items);
                     // If there are no items, show a message
                     if(!items) {
                         Lootr.sendMessage(this._player, 'There is nothing here to pickup.');
@@ -373,8 +371,10 @@ Lootr.Screen.playScreen = {
 
         Lootr.refresh();
 
-        // Unlock the engine
-        this._player.getMap().getEngine().unlock();
+        if (this._player.getMap().getEngine().isLocked()) {
+            // Unlock the engine
+            this._player.getMap().getEngine().unlock();
+        }
     },
 
     doMove: function(dX, dY) {

@@ -158,6 +158,10 @@ Lootr.Entity.prototype.isOnWalkableTileAndHasItems = function(newX, newY, tile, 
 
 Lootr.Entity.prototype.tryMove = function(x, y) {
     var map = this.getMap();
+
+    // Check if x, y are inside the map
+    if(!map.isPositionWithinBounds(x, y)) return false;
+
     var tile = map.getTile(x, y);
     var target = map.getEntityAt(x, y);
 
