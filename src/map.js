@@ -69,7 +69,6 @@ Lootr.Map.prototype.getEmptyMap = function() {
 Lootr.Map.prototype.getTile = function(x, y) {
     // Make sure we are inside the bounds, otherwise return nullTile
     if (x < 0 || x > this._width || y < 0 || y > this._height) {
-        //console.error("Map.getTile failed to get a tile within bounds. x: " + x + " y: " + y);
         return Lootr.Tile.nullTile;
     }
 
@@ -82,14 +81,13 @@ Lootr.Map.prototype.getTile = function(x, y) {
 
 // Get the entity based on position key
 Lootr.Map.prototype.getEntityAt = function(x, y) {
-
     var entity = this._entities[x + ',' + y];
 
     if(entity !== undefined) {
         return entity;
+    } else {
+        return false;
     }
-
-    return false;
 };
 
 // Checks to ensure that the segment wont go out of bounds
@@ -127,9 +125,8 @@ Lootr.Map.prototype.getRandomFloorPosition = function() {
 
 Lootr.Map.prototype.getRandomFloorPositionAroundTile = function(x, y) {
     var tileOptions = Lootr.getNeighborPositions(x, y);
-    var tile = tileOptions.slice().pop();
 
-    return tile;
+    return tileOptions.slice().pop();
 };
 
 Lootr.Map.prototype.getRandomBoundedFloorPositionForX = function(origin_x, origin_y, amount) {
@@ -160,11 +157,9 @@ Lootr.Map.prototype.getItemsToAct = function() {
 Lootr.Map.prototype.getItemsAt = function(x, y) {
     var items = this._items[x + ',' + y];
 
-    if(items != null) {
-        return items;
-    }
+    if (items == null) return false;
 
-    return false;
+    return items;
 };
 
 Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius) {
@@ -203,7 +198,7 @@ Lootr.Map.prototype.setExplored = function(x, y, state) {
 
 Lootr.Map.prototype.setItemsAt = function(x, y, items) {
     // If our items array si empty then delete the key from table
-    var key = x + ',' + y;
+    var key = this.buildKey(x, y);
     if(items.length === 0) {
         if(this._items[key]) {
             delete this._items[key];
@@ -215,9 +210,7 @@ Lootr.Map.prototype.setItemsAt = function(x, y, items) {
 };
 
 Lootr.Map.prototype.isItemsAt = function(x, y) {
-    var items = this.getItemsAt(x, y);
-
-    return items;
+    return this.getItemsAt(x, y);
 };
 
 Lootr.Map.prototype.isExplored = function(x, y) {
@@ -243,33 +236,25 @@ Lootr.Map.prototype.isTileItemSpawnable = function(x, y) {
     }
 
     return tile.isItemSpawnable();
-}
+};
 
 Lootr.Map.prototype.isTileEmptyFloor = function(x, y) {
-    var tile = this.getTile(x, y);
-
     return (!this.isEntityAt(x, y) && !this.isItemsAt(x, y) && this.isTileItemSpawnable(x, y));
 };
 
 Lootr.Map.prototype.isEntityAt = function(x, y) {
-    var result = this.getEntityAt(x, y);
-
-    return result;
+    return this.getEntityAt(x, y);
 };
 
 Lootr.Map.prototype.isPlayerAt = function(x, y) {
     var entity = this.getEntityAt(x, y);
 
-    if(entity.hasComponent('PlayerActor')) {
-        return true;
-    } else {
-        return false;
-    }
+    return !!entity.hasComponent('PlayerActor');
 };
 
 Lootr.Map.prototype.addItem = function(x, y, item) {
     // If we already have items at that position, simply append the item to the list
-    var key = x + ',' + y;
+    var key = this.buildKey(x, y);
     if(this._items[key]) {
         this._items[key].push(item);
     } else {
@@ -291,18 +276,21 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
     }
 
     return false;
-}
+};
 
 Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
-    var key = x + ',' + y;
+    var key = this.buildKey(x, y);
 
     /*if(this._items[key] && this._items[key][0].getName() == item_name) {      */
     // removed below to help capture things like 'rat corpse' when looking for just generic 'corpse'
     if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {
         delete this._items[key];
-        return;
     }
-}
+};
+
+Lootr.Map.prototype.buildKey = function(x, y) {
+  return x + ',' + y;
+};
 
 Lootr.Map.prototype.addItemAtRandomPosition = function(item) {
     var pos = this.getRandomFloorPosition();
@@ -379,14 +367,14 @@ Lootr.Map.prototype.setupFov = function() {
 };
 
 Lootr.Map.prototype.addEntityByTypeAndAmount = function(entity_name, amount) {
-    for(var i=0; i<amount; i++) {
+    for(var i = 0; i < amount; i++) {
         var entity = Lootr.EntityRepository.create(entity_name);
         this.addEntityAtRandomPosition(entity);
     }
 };
 
 Lootr.Map.prototype.addItemByTypeAndAmount = function(item_name, amount) {
-    for(var i=0; i<amount; i++) {
+    for(var i = 0; i < amount; i++) {
         var item = Lootr.ItemRepository.create(item_name);
         this.addItemAtRandomPosition(item);
     }
@@ -473,27 +461,23 @@ Lootr.Map.prototype.isPositionWithinBounds = function(x, y) {
 Lootr.Map.prototype.updateEntityPositionTo = function(entity, newX, newY) {
     this.isEntityAt(newX, newY);
 
-    if (!this.isPositionWithinBounds(newX, newY)) {
-        return false;
-    }
+    if (!this.isPositionWithinBounds(newX, newY)) return false;
 
     this.removeOldEntityKey(entity, entity.getX(), entity.getY());
 
     entity.setX(newX);
     entity.setY(newY);
 
-    var key = entity.getX() + ',' + entity.getY();
+    var key = this.buildKey(entity.getX(), entity.getY());
     this._entities[key] = entity;
-}
+};
 
 Lootr.Map.prototype.updateEntityPosition = function(entity, oldX, oldY) {
     this.isEntityAt(entity.getX(), entity.getY());
-
     this.isEntityWithinBounds(entity);
-
     this.removeOldEntityKey(entity, oldX, oldY);
 
-    var key = entity.getX() + ',' + entity.getY();
+    var key = this.buildKey(entity.getX(), entity.getY());
     this._entities[key] = entity;
 };
 
@@ -516,7 +500,6 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
     var fc = ROT.Color.fromString(tile.getForeground());
     var sc = ROT.Color.fromString('salmon');
     var c = ROT.Color.multiply_(fc, sc);
-    foreground = ROT.Color.toHex(c);
-    tile._foreground = foreground;
+    tile._foreground = ROT.Color.toHex(c);
 };
 
