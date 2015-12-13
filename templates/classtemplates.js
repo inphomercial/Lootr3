@@ -43,7 +43,7 @@ Lootr.Templates.Wizard = {
     increaseIntByAmount: 2,  // IntStat
     maxFullness: 300,        // FoodConsumer
     inventorySlots: 13,      // InventoryHolder
-    learnedSpells: ['Teleport', 'Firebolt', 'Fireball'],
+    learnedSpells: ['Teleport', 'Firebolt', 'Fireball', 'HealLight'],
     slots: {                // Slot
             "head" : {
                 "slot": Lootr.ITEM_SLOTS.HEAD,

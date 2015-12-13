@@ -2,9 +2,11 @@
 Lootr.EntitySpell = function() {
 	this._name = "";
 	this._description = null;
+	this._successMessage = "success";
+	this._failMessage = "failed";
 	this._caster = null;
 	this._target = null;
-	this._manaConsumptionAmount = null;
+	this._manaConsumptionAmount = 0;
 	this._char = '?';
 	this._color = 'lightblue';
 };
@@ -14,7 +16,15 @@ Lootr.EntitySpell.prototype.getName = function() {
 };
 
 Lootr.EntitySpell.prototype.getDescription = function() {
-	Lootr.sendMessage(this._caster, this._description);
+	return this._description;
+};
+
+Lootr.EntitySpell.prototype.getSuccessMessage = function() {
+	return this._successMessage;
+};
+
+Lootr.EntitySpell.prototype.getFailMessage = function() {
+	return this._failMessage;
 };
 
 Lootr.EntitySpell.prototype.getCaster = function() {
@@ -43,9 +53,40 @@ Lootr.EntitySpell.prototype.canEntityCast = function() {
 };
 
 Lootr.EntitySpells = {};
+
+Lootr.EntitySpells.HealLight = function(template) {
+	this._name = "Light Heal";
+	this._description = "A Light Healing spell";
+	this._successMessage = "You lightly heal yourself";
+	this._failMessage = "You fail to gather the power to heal anything.";
+	this._caster = template['caster'] || null;
+	this._manaConsumptionAmount = 10;
+	this._char = "H";
+	this._color = 'red';
+
+	this.cast = function() {
+		if (this.canEntityCast()) {
+			if (this._caster.hasComponent('Destructible')) {
+				this._caster.modifyHpBy(10);
+				Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
+			} else {
+				Lootr.sendMessage(this.getCaster(), "Not a healable entity.");
+			}
+
+			this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+
+		} else {
+			Lootr.sendMessage(this.getCaster(), this.getFailMessage());
+		}
+	}
+}
+Lootr.EntitySpells.HealLight.extend(Lootr.EntitySpell);
+
 Lootr.EntitySpells.Teleport = function(template) {
 	this._name = 'Teleport';
-	this._description = "You break apart, joining together again.";
+	this._description = "A Teleport spell";
+	this._successMessage = "You break apart, joining together again.";
+	this._failMessage = "Your body is to feeble to make that transition";
 	this._caster = template['caster'] || null;
 	this._manaConsumptionAmount = 15;
 	this._char = '?';
@@ -53,15 +94,17 @@ Lootr.EntitySpells.Teleport = function(template) {
 
 	this.cast = function(x, y) {
 			if (this.canEntityCast()) {
-					if (this._caster.getMap().isTileWithoutEntity(x, y)) {
-							this._caster.getMap().updateEntityPositionTo(this._caster, x, y);
-							this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
-							this.getDescription();
+					if (this.getCaster().getMap().isTileWithoutEntity(x, y)) {
+						this._caster.getMap().updateEntityPositionTo(this.getCaster(), x, y);
+						Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
 					} else {
-							Lootr.sendMessage(this._caster, 'Looks like something is already there.');
+						Lootr.sendMessage(this.getCaster(), 'Looks like something is already there.');
 					}
+
+					this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+
 			} else {
-					Lootr.sendMessage(this._caster, 'Your body is to feeble to make that transition');
+					Lootr.sendMessage(this.getCaster(), this.getFailMessage());
 			}
 	};
 };
@@ -69,7 +112,9 @@ Lootr.EntitySpells.Teleport.extend(Lootr.EntitySpell);
 
 Lootr.EntitySpells.Fireball = function(template) {
 	this._name = 'FireBall';
-	this._description = "An explosive fireball";
+	this._description = "A Fireball spell";
+	this._successMessage = "An explosive fireball erupts.";
+	this._failMessage = "You fail to ignite anything.";
 	this._caster = template['caster'] || null;
 	this._manaConsumptionAmount = 2;
 	this._char = 'W';
@@ -80,13 +125,13 @@ Lootr.EntitySpells.Fireball = function(template) {
 				if(this._caster.getMap().isTileWithoutEntity(x, y)) {
 					var fireball = Lootr.EntityRepository.create('fire');
 					this._caster.getMap().addEntityAt(x, y, fireball);
-
-					this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
-
-					this.getDescription();
+					Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
 				}
+
+				this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+
 			} else {
-				Lootr.sendMessage(this._caster, 'You lack the mental fortitude to cast that');
+				Lootr.sendMessage(this.getCaster(), this.getFailMessage());
 			}
 	}
 };
@@ -94,7 +139,9 @@ Lootr.EntitySpells.Fireball.extend(Lootr.EntitySpell);
 
 Lootr.EntitySpells.Firebolt = function(template) {
 	this._name = 'FireBolt';
-	this._description = "A arrow of fire";
+	this._description = "A Firebolt spell";
+	this._successMessage = "An arrow of fire strikes out hitting";
+	this._failMessage = "You fail to shoot anything.";
 	this._caster = template['caster'] || null;
 	this._target = template['target'] || null;
 	this._manaConsumptionAmount = 5;
@@ -105,19 +152,17 @@ Lootr.EntitySpells.Firebolt = function(template) {
 	this.cast = function(x, y) {
 		if (this.canEntityCast()) {
 			if(this._target && this._target.hasComponent('Destructible')) {
-				var damage = Lootr.getRandomInt(1, this._getDamage() - this._target.getTotalDefenseValue());
-
-				this._target.takeDamage(this._caster, damage);
-
-				Lootr.sendMessage(this._caster, 'You fire a bolt at the ' + this._target.getName() + ', for ' + damage);
+				var damage = Lootr.getRandomInt(1, this._damage - this._target.getTotalDefenseValue());
+				this._target.takeDamage(this.getCaster(), damage);
+				Lootr.sendMessage(this.getCaster(), this.getSuccessMessage() + this.getTarget().getName() + ', for ' + damage);
 			} else {
-				Lootr.sendMessage(this._caster, 'You fire a bolt at nothing');
+				Lootr.sendMessage(this.getCaster(), 'You fire a bolt at nothing');
 			}
 
 			this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
 
 		} else {
-			Lootr.sendMessage(this._caster, 'You lack the mental fortitude to cast that');
+			Lootr.sendMessage(this.getCaster(), this.getFailMessage());
 		}
 	};
 };
