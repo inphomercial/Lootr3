@@ -47,7 +47,7 @@ Lootr.EntitySpell.prototype.getColor = function() {
 	return this._color;
 };
 
-// No Attribute Methods
+// Non Attribute Methods
 Lootr.EntitySpell.prototype.canEntityCast = function() {
 	return this._caster.hasComponent('ManaPool') && this._caster.getMana() >= this._manaConsumptionAmount;
 };
@@ -94,17 +94,17 @@ Lootr.EntitySpells.Teleport = function(template) {
 
 	this.cast = function(x, y) {
 			if (this.canEntityCast()) {
-					if (this.getCaster().getMap().isTileWithoutEntity(x, y)) {
-						this._caster.getMap().updateEntityPositionTo(this.getCaster(), x, y);
-						Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
-					} else {
-						Lootr.sendMessage(this.getCaster(), 'Looks like something is already there.');
-					}
+				if (this.getCaster().getMap().isTileWithoutEntity(x, y)) {
+					this._caster.getMap().updateEntityPositionTo(this.getCaster(), x, y);
+					Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
+				} else {
+					Lootr.sendMessage(this.getCaster(), 'Looks like something is already there.');
+				}
 
-					this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+				this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
 
 			} else {
-					Lootr.sendMessage(this.getCaster(), this.getFailMessage());
+				Lootr.sendMessage(this.getCaster(), this.getFailMessage());
 			}
 	};
 };
@@ -121,18 +121,18 @@ Lootr.EntitySpells.Fireball = function(template) {
 	this._color = 'yellow';
 
 	this.cast = function(x, y) {
-			if (this.canEntityCast()) {
-				if(this._caster.getMap().isTileWithoutEntity(x, y)) {
-					var fireball = Lootr.EntityRepository.create('fire');
-					this._caster.getMap().addEntityAt(x, y, fireball);
-					Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
-				}
-
-				this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
-
-			} else {
-				Lootr.sendMessage(this.getCaster(), this.getFailMessage());
+		if (this.canEntityCast()) {
+			if(this._caster.getMap().isTileWithoutEntity(x, y)) {
+				var fireball = Lootr.EntityRepository.create('fire');
+				this._caster.getMap().addEntityAt(x, y, fireball);
+				Lootr.sendMessage(this.getCaster(), this.getSuccessMessage());
 			}
+
+			this._caster.raiseEvent('onConsumeMana', this._manaConsumptionAmount);
+
+		} else {
+			Lootr.sendMessage(this.getCaster(), this.getFailMessage());
+		}
 	}
 };
 Lootr.EntitySpells.Fireball.extend(Lootr.EntitySpell);
