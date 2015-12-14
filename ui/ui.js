@@ -146,7 +146,7 @@ Lootr.UI.HighScoreDisplay = function(startX, startY, display) {
 };
 
 Lootr.UI.NameDisplay = function(player, startX, startY, display) {
-    var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}Inpho';
+    var name = '%c{#91AA9D}%b{black} Name: %c{#CCB4B0}' + player.getNameUpper();
     display.drawText(startX, startY++, name);
 };
 

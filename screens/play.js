@@ -183,7 +183,7 @@ Lootr.Screen.playScreen = {
         }
 
         if (Lootr.isInputTypeKeyDown(inputType)) {
-
+            console.log(inputData);
             // Any key press
             switch(inputData.keyCode) {
                 case ROT.VK_LEFT:
@@ -260,9 +260,14 @@ Lootr.Screen.playScreen = {
 
                     break;
 
-                case ROT.VK_H:
-                    // Show help screen
-                    this.setSubScreen(Lootr.Screen.helpScreen);
+                case ROT.VK_SLASH:
+                    // Check for shift to make it the ? Key
+                    if (inputData.shiftKey) {
+                        // Show help screen
+                        Lootr.Screen.helpScreen.setup(this._player);
+                        this.setSubScreen(Lootr.Screen.helpScreen);
+                        break;
+                    }
                     break;
 
                 case ROT.VK_L:
@@ -359,9 +364,13 @@ Lootr.Screen.playScreen = {
 
                 default:
                     // not a valid key
-                    Lootr.sendMessage(this._player, 'Not a valid key..');
-                    Lootr.refresh();
-                    break;
+                    if (inputData.shiftKey) {
+                        break;
+                    } else {
+                        Lootr.sendMessage(this._player, 'Not a valid key..');
+                        Lootr.refresh();
+                        break;
+                    }
             }
         }
 

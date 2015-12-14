@@ -1,10 +1,10 @@
 var Lootr =  {
 	_display: null,
 	_currentScreen: null,
-	_screenWidth: 125,
-	_screenHeight: 45,
-	_mapScreenWidth: 90,
-	_mapScreenHeight: 30,
+	_screenWidth: 125, // Actual window size width
+	_screenHeight: 45, // Actual window size height
+	_mapScreenWidth: 90, // Border width
+	_mapScreenHeight: 30, // Border Height
 	Screen: {},
 
 	init: function() {
@@ -47,6 +47,12 @@ var Lootr =  {
 	},
 	getScreenHeight: function() {
 		return this._screenHeight;
+	},
+	getMapScreenWidth: function() {
+		return this._mapScreenWidth;
+	},
+	getMapScreenHeight: function() {
+		return this._mapScreenHeight;
 	},
 	switchScreen: function(screen) {
 		// If we had a screen before, notify it that we exited

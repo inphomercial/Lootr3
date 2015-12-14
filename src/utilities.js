@@ -14,6 +14,16 @@ Lootr.extend = function(src, dest) {
     return result;
 };
 
+/**
+ * Returns the middle of the map screen
+ * Great for drawing text to the middle by suppling an offset
+ * @param text String [The string you want to print]
+ * @param offset Int [Used for when you want to color text and not have it modify center]
+ */
+Lootr.getMapScreenMiddle = function(text, offset) {
+    return (Lootr.getMapScreenWidth() / 2) - (text.length - offset) / 2;
+}
+
 Lootr.isInputTypeKeyDown = function(inputType) {
     return inputType == "keydown";
 };

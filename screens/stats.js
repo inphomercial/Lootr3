@@ -8,11 +8,20 @@ Lootr.Screen.statScreen = {
     enter: function() { console.log("Entered stats screen."); },
     exit: function() { console.log("Exited stats screen."); },
     render: function(display) {
+
+        // Game Border Area
         Lootr.UI.RenderGameBorder(display);
 
-        display.drawText(35, 2, this._player.getName() + ' Stats Screen');
+        // Render Player States
+        Lootr.UI.RenderStatsGroup(this._player, 12, 1, display);
 
-        Lootr.UI.RenderStatsGroup(this._player, -77, 4, display);
+        // Render Player Orbs
+        Lootr.UI.RenderOrbsGroup(this._player, 12, 1, display);
+
+        var y = 3,
+            text = "%c{lightblue}" + this._player.getNameUpper() + ' Stats Screen';
+
+        display.drawText(Lootr.getMapScreenMiddle(text, 13), y, text);
     },
     handleInput: function(inputType, inputData) {
         if (Lootr.isInputTypeKeyDown(inputType) && Lootr.isInputKey(inputData, ROT.VK_ESCAPE)) {

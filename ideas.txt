@@ -40,7 +40,6 @@ In the item wear/wield screen there are extra letters sometimes
 // ASTHETICS
 Update up lose screen
 Update up win screen
-Update on help screen
 Figure out lights
 Player profile screen (Started)
 Display a list of all the slots and what's in them for the Status// inventory screen
@@ -77,7 +76,6 @@ A spell that can create food
 A Charm Spell
 A chain lightning spell that can jump to nearby enemies at a reduced damage
 AOE spells
-Heal Spells
 
 // TILES
 More traps
@@ -88,6 +86,11 @@ Spike trap ^^^
 
 
 == DONE ==
+
+
+Update Lose screen
+Figure out shiftkey commands
+Heal Spells
 
 Better inventory/equipment control
 Real dynamic slots for classtemplates
