@@ -1171,6 +1171,17 @@ Lootr.EntityComponents.InventoryHolder = {
 
 		return false;
 	},
+	removeItem: function(item) {
+		// Try to find a slot, returning true only if we could add the item
+		for(var i=0; i<this._items.length; i++) {
+			if(this._items[i] == item) {
+				delete this._items[i];
+				return true;
+			}
+		}
+
+		return false;
+	},
 	canPickupItem: function() {
 		return this._items.length < this._inventorySlots;
 	},

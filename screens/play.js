@@ -306,7 +306,7 @@ Lootr.Screen.playScreen = {
                             Lootr.sendMessage(this._player, 'You eat %s', [item.describeThe()]);
                             item.eat(this._player);
                             if(!item.hasRemainingConsumptions()) {
-                                this._player.removeItem(key);
+                                this._player.getMap().removeItemFromTile(this._player.getX(), this._player.getY(), item.getName());
                                 break;
                             }
                         }

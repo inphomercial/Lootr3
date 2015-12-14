@@ -14,7 +14,7 @@ Lootr.Screen.eatScreen = new Lootr.Screen.ItemListScreen({
         //Lootr.sendMessage(this._player, 'You eat %s', [item.describeThe()]);
         item.eat(this._player);
         if(!item.hasRemainingConsumptions()) {
-            this._player.removeItem(key);
+            this._player.removeItem(item);
         }
 
         return true;
