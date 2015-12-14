@@ -27,8 +27,8 @@ Lootr.Map.Cave = function(player) {
     this.addEntityByTypeAndAmount('skeleton', 30);
     this.addEntityByTypeAndAmount('bat', 25);
     this.addEntityByTypeAndAmount('spider', 1000);
-    //this.addEntityByTypeAndAmount('spider nest', 200);
-    //this.addEntityByTypeAndAmount('slime', 25);
+    this.addEntityByTypeAndAmount('spider nest', 200);
+    this.addEntityByTypeAndAmount('slime', 25);
     //this.addEntityByTypeAndAmount('fungus', 30);
     //this.addEntityByTypeAndAmount('dragon', 10);
 
@@ -38,7 +38,7 @@ Lootr.Map.Cave = function(player) {
     //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.RARE, 4);
     //this.generateItemPoolByRarity(Lootr.ITEM_RARITY.UNIQUE, 1);
 
-    this.addItemByTypeAndAmount('unidentified', 100);
+    //this.addItemByTypeAndAmount('unidentified', 100);
     this.addItemByTypeAndAmount('potion', 25);
     this.addItemByTypeAndAmount('robe', 50);
     //this.addItemByTypeAndAmount('apple', 20);
@@ -71,7 +71,7 @@ Lootr.Map.Cave.prototype._generateLevel = function() {
     generator.randomize(0.5);
 
     // Iteratively smoothen the map
-    var totalIterations = 3;
+    var totalIterations = Lootr.getRandomInt(1, 10);
     for (var i = 0; i < totalIterations - 1; i++) {
         generator.create();
     }

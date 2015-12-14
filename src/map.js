@@ -54,6 +54,10 @@ Lootr.Map.prototype.getEntities = function() {
     return this._entities;
 };
 
+Lootr.Map.prototype.getItems = function() {
+    return this._items;
+};
+
 Lootr.Map.prototype.createEmptyMap = function() {
 // Create the empty map
     this._map = new Array(this._width);
@@ -69,10 +73,12 @@ Lootr.Map.prototype.getEmptyMap = function() {
 Lootr.Map.prototype.getTile = function(x, y) {
     // Make sure we are inside the bounds, otherwise return nullTile
     if (x < 0 || x > this._width || y < 0 || y > this._height) {
+        console.log("getTile out of bounds : x: " + x + ", y: " + y);
         return Lootr.Tile.nullTile;
     }
 
     if (typeof this._tiles[x][y] == 'undefined') {
+        console.log("getTile is undefined : x: " + x + ", y: " + y);
         return Lootr.Tile.nullTile;
     }
 
@@ -487,4 +493,3 @@ Lootr.Map.prototype.bloodyTile = function(x, y) {
     var c = ROT.Color.multiply_(fc, sc);
     tile._foreground = ROT.Color.toHex(c);
 };
-

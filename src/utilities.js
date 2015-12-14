@@ -14,6 +14,21 @@ Lootr.extend = function(src, dest) {
     return result;
 };
 
+Lootr.debug = function(player, map) {
+    var debug_object = {
+        map: map,
+        monsters: map.getEntities(),
+        items: map.getItems(),
+        player: player
+    };
+
+    // Uncomment out for some type of debug help
+    // console.table(debug_object.map);
+    // console.table(debug_object.monsters);
+    // console.table(debug_object.items);
+    // console.table(debug_object.player);
+}
+
 /**
  * Returns the middle of the map screen
  * Great for drawing text to the middle by suppling an offset

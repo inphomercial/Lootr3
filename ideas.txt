@@ -31,7 +31,6 @@ Status ailments
 Player name generation
 
 // BUGS
-Eating items seem to have a problem (.removeItem not a function)
 Quaffing a potion is now displaying text until next turn
 Item stacking on same tile is broken...
 Fix the map entity/item lookups return booleans
@@ -86,10 +85,10 @@ Spike trap ^^^
            ^^^
 
 
-
 == DONE ==
 
-
+Dec 13 2015
+Eating items seem to have a problem (.removeItem not a function)
 Update Lose screen
 Figure out shiftkey commands
 Heal Spells

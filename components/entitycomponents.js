@@ -9,6 +9,9 @@ Lootr.EntityComponents.PlayerActor = {
 	act: function() {
 		this._acting = true;
 
+		// Run debug script
+		Lootr.debug(this, this.getMap());
+
 		if (this.hasComponent('Bleedable'))  this.isBleeding();
 		if (this.hasComponent('FoodConsumer')) this.addTurnHunger();
 
@@ -38,7 +41,7 @@ Lootr.EntityComponents.PlayerActor = {
 	}
 };
 
-// This runs doing each turn - due to the entity now having the act method
+// This runs during each turn - due to the entity now having the act method
 // Scheduler calls each objects' act method
 Lootr.EntityComponents.TaskActor = {
 	name: 'TaskActor',
@@ -85,6 +88,7 @@ Lootr.EntityComponents.TaskActor = {
 					   this.hasComponent('Sight') &&
 					   this.canSee(this.getMap().getPlayer());
 			default:
+				console.error('Tried to preform undefined task ' + task);
 				throw new Error('Tried to perform undefined task ' + task);
 		}
 	}
@@ -490,7 +494,7 @@ Lootr.EntityComponents.HuntPlayer = {
 	name: 'HuntPlayer',
 	hunt: function() {
 
-		console.log(this.name + "starts to hunt");
+		console.log(this.getName() + " starts to hunt");
 
 		var player = this.getMap().getPlayer();
 

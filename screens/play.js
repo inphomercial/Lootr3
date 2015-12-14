@@ -1,3 +1,4 @@
+'use strict';
 
 // Define our playing screen
 Lootr.Screen.playScreen = {
@@ -183,7 +184,6 @@ Lootr.Screen.playScreen = {
         }
 
         if (Lootr.isInputTypeKeyDown(inputType)) {
-            console.log(inputData);
             // Any key press
             switch(inputData.keyCode) {
                 case ROT.VK_LEFT:
