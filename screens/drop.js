@@ -5,8 +5,12 @@ Lootr.Screen.dropScreen = new Lootr.Screen.ItemListScreen({
     canSelect: true,
     canSelectMultipleItems: false,
     ok: function(selectedItems) {
+        var that = this;
         // Drop the selected item
-        this._player.dropItem(Object.keys(selectedItems)[0]);
+        _.each(selectedItems, function(item) {
+            that._player.dropItem(item);
+        });
+
         return true;
     }
 });

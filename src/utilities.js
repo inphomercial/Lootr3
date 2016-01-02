@@ -18,6 +18,14 @@ Lootr.genUID = function() {
     return (((1+Math.random())*0x10000)|0).toString(6).substring(1);
 }
 
+// Lootr.notUndefined = function(thing) {
+//     return (typeof thing !== 'undefined');
+// }
+//
+// Lootr.notNull = function(thing) {
+//     return ();
+// }
+
 Lootr.debug = function(player, map) {
     var debug_object = {
         map: map,

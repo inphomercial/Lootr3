@@ -4,6 +4,21 @@ Lootr.EntityRepository = {};
 // Create our central Entity template repository
 Lootr.EntityRepository = new Lootr.Repository('entities', Lootr.Entity);
 
+/**
+ * Entity Definition Template List for EntityComponents
+ *
+ * name
+ * character
+ * foreground
+ * background
+ * maxHp
+ * speed
+ * movementSpeed
+ * startingItems
+ * tasks
+ *
+ */
+
 Lootr.EntityRepository.define('spider nest', {
     name: 'spider nest',
     character: '&',

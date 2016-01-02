@@ -5,11 +5,15 @@ Lootr.Screen.pickupScreen = new Lootr.Screen.ItemListScreen({
     canSelect: true,
     canSelectMultipleItems: true,
     ok: function(selectedItems) {
-        // Try to pickup all items, messagin the player if they
-        // couldnt pick up all
-        if(!this._player.pickupItems(Object.keys(selectedItems))) {
-            Lootr.sendMessage(this._player, 'Your inventory is full. Not all items were picked up.');
-        }
+        var that = this;
+
+        _.each(selectedItems, function(item) {
+            if (that._player.canPickupItem(item)) {
+                that._player.pickupItem(item);
+            } else {
+                Lootr.sendMessage(that._player, 'Your inventory is full. Not all items were picked up.');
+            }
+        });
 
         return true;
     }
