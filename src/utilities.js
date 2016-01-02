@@ -15,7 +15,7 @@ Lootr.extend = function(src, dest) {
 };
 
 Lootr.genUID = function() {
-    return (((1+Math.random())*0x10000)|0).toString(5).substring(1);
+    return (((1+Math.random())*0x10000)|0).toString(6).substring(1);
 }
 
 Lootr.debug = function(player, map) {

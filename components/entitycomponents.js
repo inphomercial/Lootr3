@@ -1191,8 +1191,9 @@ Lootr.EntityComponents.InventoryHolder = {
 	},
 	pickupItem: function(item) {
 		if (this.addItem(item)) {
-			// Update the map items
-			this._map.setItemsAt(this.getX(), this.getY(), item);
+			// Update the map by not passing an item
+			this._map.setItemsAt(this.getX(), this.getY());
+			//this._map.setItemsAt(this.getX(), this.getY(), item);
 			Lootr.sendMessage(this, 'You pick up %s.', [item.describeA()]);
 			item.raiseEvent("pickup");
 			return true;

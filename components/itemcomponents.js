@@ -111,25 +111,18 @@ Lootr.ItemComponents.Edible = {
 Lootr.ItemComponents.Decay = {
     name: 'Decay',
     init: function(template) {
-        this._decay_turns = template['decay_turns'] || 10;
+        this._decay_turns = template['decay_turns'] || 50;
     },
     act: function() {
         this._decay_turns--;
-        console.log(this, " is decaying.." + this._decay_turns + " turns left");
 
         if(this._decay_turns <= 0) {
             var player = Lootr.Screen.playScreen._player;
-            Lootr.sendMessage(player, 'A ' + this +' decays away', []);
-
-            //Remove Corpse by reaching into the map from the player
-            //...fail, items dont have x & y....
-
-            console.log("item ", this);
-            var player = Lootr.Screen.playScreen._player;
             var map = player.getMap();
-
             var item = map.getItemFromMap(this);
             map.removeItemFromMap(item);
+
+            Lootr.sendMessage(player, 'A ' + this +' decays away', []);
         }
     }
 };

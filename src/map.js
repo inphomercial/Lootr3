@@ -221,7 +221,7 @@ Lootr.Map.prototype.setExplored = function(x, y, state) {
 Lootr.Map.prototype.setItemsAt = function(x, y, items) {
     // If our items array si empty then delete the key from table
     var key = this.buildKey(x, y);
-    if(items.length === 0) {
+    if(items == undefined) {
         if(this._items[key]) {
             delete this._items[key];
         }
