@@ -11,6 +11,7 @@ Lootr.Entity = function(args) {
     this._map = null;
 
     // Set properties passed from args
+    this._uid = Lootr.genUID();
     this._x = args['x'] || 0;
     this._y = args['y'] || 0;
     this._class = args['class'];
@@ -18,6 +19,10 @@ Lootr.Entity = function(args) {
 
 // Inhert all from Glyph
 Lootr.Entity.extend(Lootr.DynamicGlyph);
+
+Lootr.Entity.prototype.getUid = function() {
+    return this._uid;
+}
 
 Lootr.Entity.prototype.buildSlotsFromArgs = function(slots) {
     this._slots = [];
@@ -318,4 +323,3 @@ Lootr.Entity.prototype.getX = function() {
 Lootr.Entity.prototype.getY = function() {
     return this._y;
 };
-

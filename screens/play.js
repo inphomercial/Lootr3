@@ -375,7 +375,7 @@ Lootr.Screen.playScreen = {
         }
 
         // Have items act if they have the act method
-        // this._player.getMap().getItemsToAct();
+        this._player.getMap().getItemsToAct();
 
         Lootr.refresh();
 

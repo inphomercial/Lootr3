@@ -73,12 +73,12 @@ Lootr.Map.prototype.getEmptyMap = function() {
 Lootr.Map.prototype.getTile = function(x, y) {
     // Make sure we are inside the bounds, otherwise return nullTile
     if (x < 0 || x > this._width || y < 0 || y > this._height) {
-        console.log("getTile out of bounds : x: " + x + ", y: " + y);
+        //console.log("getTile out of bounds : x: " + x + ", y: " + y);
         return Lootr.Tile.nullTile;
     }
 
     if (typeof this._tiles[x][y] == 'undefined') {
-        console.log("getTile is undefined : x: " + x + ", y: " + y);
+        //console.log("getTile is undefined : x: " + x + ", y: " + y);
         return Lootr.Tile.nullTile;
     }
 
@@ -156,6 +156,22 @@ Lootr.Map.prototype.getItemsToAct = function() {
         if(typeof this._items[key][0].act === 'function') {
             console.log(this._items[key][0].getName() + " has a function!");
             this._items[key][0].act();
+        }
+    }
+};
+
+Lootr.Map.prototype.getItemFromMap = function(item) {
+    for(var key in this._items) {
+        if(this._items[key][0].getUID() == item.getUID()) {
+            return this._items[key][0];
+        }
+    }
+};
+
+Lootr.Map.prototype.getItemFromMapByUID = function(uid) {
+    for(var i=0; i<items.length; i++) {
+        if(items[i].getUID() == uid) {
+            return items[i];
         }
     }
 };
@@ -282,6 +298,15 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
     }
 
     return false;
+};
+
+Lootr.Map.prototype.removeItemFromMap = function(item) {
+    for(var key in this._items) {
+        if(this._items[key][0].getUID() == item.getUID()) {
+            console.log("removeItemFromMAp :", this._items[key][0]);
+            delete this._items[key];
+        }
+    }
 };
 
 Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {

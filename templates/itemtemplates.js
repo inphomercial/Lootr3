@@ -75,7 +75,7 @@ Lootr.ItemRepository.define('apple', {
     foreground: 'red',
     foodValue: 50,
     rarity: Lootr.ITEM_RARITY.COMMON,
-    components: [Lootr.ItemComponents.Edible]
+    components: [Lootr.ItemComponents.Edible, Lootr.ItemComponents.Decay]
 }, {
     disableRandomCreation: false
 });

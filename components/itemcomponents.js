@@ -108,26 +108,31 @@ Lootr.ItemComponents.Edible = {
     }
 };
 
-// Lootr.ItemComponents.Decay = {
-//     name: 'Decay',
-//     init: function(template) {
-//         this._decay_turns = template['decay_turns'] || 10;
-//     },
-//     act: function() {
-//         console.log("corpse is decaying.." + this._decay_turns + " turns left");
+Lootr.ItemComponents.Decay = {
+    name: 'Decay',
+    init: function(template) {
+        this._decay_turns = template['decay_turns'] || 10;
+    },
+    act: function() {
+        this._decay_turns--;
+        console.log(this, " is decaying.." + this._decay_turns + " turns left");
 
-//         this._decay_turns--;
+        if(this._decay_turns <= 0) {
+            var player = Lootr.Screen.playScreen._player;
+            Lootr.sendMessage(player, 'A ' + this +' decays away', []);
 
-//         // if(this._decay_turns <= 0) {
-//         //     var player = Lootr.Screen.playScreen._player;
-//         //     Lootr.sendMessage(player, 'A corpse decays', []);
-//             // Remove Corpse by reaching into the map from the player
-//             // ...fail, items dont have x & y....
-//             // var player = Lootr.Screen.playScreen._player;
-//             // player.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
-//         // }
-//     }
-// };
+            //Remove Corpse by reaching into the map from the player
+            //...fail, items dont have x & y....
+
+            console.log("item ", this);
+            var player = Lootr.Screen.playScreen._player;
+            var map = player.getMap();
+
+            var item = map.getItemFromMap(this);
+            map.removeItemFromMap(item);
+        }
+    }
+};
 
 Lootr.ItemComponents.Orb = {
     name: 'Orb',

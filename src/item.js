@@ -6,6 +6,7 @@ Lootr.Item = function(args) {
     Lootr.DynamicGlyph.call(this, args);
 
     // Instantiate any properties from the args
+    this._uid = Lootr.genUID();
     this._name = args['name'];
     this._slot = args['slot'];
     this._rarity = args['rarity'] || Lootr.ITEM_RARITY.COMMON;
@@ -19,6 +20,10 @@ Lootr.Item.prototype.pickup = function() {
     for(var i=0; i<this._attachedComponents.length; i++) {
         this._attachedComponents[i].pickup();
     }
+}
+
+Lootr.Item.prototype.getUID = function() {
+    return this._uid;
 }
 
 Lootr.Item.prototype.getSlot = function() {
