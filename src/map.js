@@ -153,28 +153,34 @@ Lootr.Map.prototype.getRandomBoundedFloorPositionForY = function(origin_x, origi
 
 Lootr.Map.prototype.getItemsToAct = function() {
     for(var key in this._items) {
-        if(typeof this._items[key][0].act === 'function') {
-            console.log(this._items[key][0].getName() + " has a function!");
-            this._items[key][0].act();
+        for(var i = 0; i < this._items[key].length; i++) {
+            if(this._items[key][i] != null && typeof this._items[key][i].act === 'function') {
+                console.log(this._items[key][i].getName() + " has a function!");
+                this._items[key][i].act();
+            }
         }
     }
 };
 
 Lootr.Map.prototype.getItemFromMap = function(item) {
     for(var key in this._items) {
-        if(this._items[key][0].getUID() == item.getUID()) {
-            return this._items[key][0];
+        for(var i = 0; i < this._items[key].length; i++) {
+            if(_.isObject(this._items[key][i])) {
+                if(this._items[key][i].getUID() == item.getUID()) {
+                    return this._items[key][i];
+                }
+            }
         }
     }
 };
 
-Lootr.Map.prototype.getItemFromMapByUID = function(uid) {
-    for(var i=0; i<items.length; i++) {
-        if(items[i].getUID() == uid) {
-            return items[i];
-        }
-    }
-};
+// Lootr.Map.prototype.getItemFromMapByUID = function(uid) {
+//     for(var i=0; i<items.length; i++) {
+//         if(items[i].getUID() == uid) {
+//             return items[i];
+//         }
+//     }
+// };
 
 Lootr.Map.prototype.getItemsAt = function(x, y) {
     var items = this._items[x + ',' + y];
@@ -218,18 +224,19 @@ Lootr.Map.prototype.setExplored = function(x, y, state) {
     }
 };
 
-Lootr.Map.prototype.setItemsAt = function(x, y, items) {
-    // If our items array si empty then delete the key from table
-    var key = this.buildKey(x, y);
-    if(items == undefined) {
-        if(this._items[key]) {
-            delete this._items[key];
-        }
-    } else {
-        // Simple update the items at that key
-        this._items[key] = items;
-    }
-};
+// Lootr.Map.prototype.setItemsAt = function(x, y, items) {
+//     // If our items array si empty then delete the key from table
+//     var key = this.buildKey(x, y);
+//     if(items == null) {
+//         if(this._items[key]) {
+//             delete this._items[key];
+//         }
+//     } else {
+//         // Simple update the items at that key
+//         // this._items[key] = items;
+//         this._items[key].push(items);
+//     }
+// };
 
 Lootr.Map.prototype.isItemsAt = function(x, y) {
     return this.getItemsAt(x, y);
@@ -287,7 +294,7 @@ Lootr.Map.prototype.addItem = function(x, y, item) {
 Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
     var items = this.getItemsAt(x, y);
 
-    if(items) {
+    if(!_.isEmpty(items)) {
         for(var i=0; i<items.length; i++) {
             /*if(items[i].getName() == item_name) {*/
             // removed above to help capture things like 'rat corpse' when looking for just generic 'corpse'
@@ -302,9 +309,14 @@ Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
 
 Lootr.Map.prototype.removeItemFromMap = function(item) {
     for(var key in this._items) {
-        if(this._items[key][0].getUID() == item.getUID()) {
-            console.log("removeItemFromMAp :", this._items[key][0]);
-            delete this._items[key];
+        for(var i = 0; i < this._items[key].length; i++) {
+            if(_.isObject(this._items[key][i])) {
+                if(this._items[key][i].getUID() == item.getUID()) {
+                    console.log("removeItemFromMAp :", this._items[key][i]);
+                    delete this._items[key][i];
+                    return;
+                }
+            }
         }
     }
 };

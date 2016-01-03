@@ -11,7 +11,7 @@ Lootr.Screen.startScreen = {
         var width = display._options.width / 2;
 
         // Render our prompt to the screen
-        display.drawText((width) - 14, 10, "                        %c{yellow}L O O T r %c{white}   2014-2015             ");
+        display.drawText((width) - 14, 10, "                        %c{yellow}L O O T r %c{white}   2014-2016             ");
         display.drawText((width) - 14, 12, "                    Press [Enter] to continue                 ");
 
         if(this.index == 0) {

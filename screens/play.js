@@ -106,36 +106,55 @@ Lootr.Screen.playScreen = {
                     // If we are at a cell that is in the FOV, we need to see
                     // If there are items or entities
                     if(visibleCells[x + ',' + y]) {
-                        // Check for items first since we want to draw entities over them
-                        var items = map.getItemsAt(x, y);
 
-                        // Sometimes getItemsAt can return 1 or more
-                        if(items.length === 1) {
-                            glyph = items[0];
+                        // Check for items first
+                        // Since we later check for entities
+                        // We will draw over the items
+                        // var items = map.getItemsAt(x, y);
+                        //
+                        // // Sometimes getItemsAt can return 1 or more
+                        // if(items.length === 1) {
+                        //     glyph = items[0];
+                        // // If we have items, render the last one
+                        // } else if (items.length > 1) {
+                        //     glyph = items[items.length -1];
+                        // } else {
+                        //     console.log("AHHH");
+                        //     debugger;
+                        // }
 
-                        // If we have items, render the last one
-                        } else if (items.length > 1) {
-                            glyph = items[items.length -1];
+                        // Check for items first
+                        // Since we later check for entities
+                        // We will draw over the items
+                        if(this.getItemGlyph(map, x, y)) {
+                            glyph = this.getItemGlyph(map, x, y);
                         }
 
                         // If we have entities
-                        if(map.getEntityAt(x, y)) {
-
-                            // We dont want to print any entity that is invisible, unless it's the player
-                            var en = map.getEntityAt(x, y);
-                            if(en.hasComponent('PlayerActor')) {
-                                glyph = en;
-                            } else if (en.hasComponent('Invisiblity')) {
-                                if(!en.isInvisible()) {
-                                    glyph = en;
-                                }
-                            } else {
-                                glyph = en;
-                            }
+                        if(this.getEntityGlyph(map, x, y)) {
+                            glyph = this.getEntityGlyph(map, x, y);
                         }
 
-                        // Update the foreground color based on our glphy changed
-                        foreground = glyph.getForeground();
+                        // if(map.getEntityAt(x, y)) {
+                        //
+                        //     // We dont want to print any entity that is invisible, unless it's the player
+                        //     var en = map.getEntityAt(x, y);
+                        //     if(en.hasComponent('PlayerActor')) {
+                        //         glyph = en;
+                        //     } else if (en.hasComponent('Invisiblity')) {
+                        //         if(!en.isInvisible()) {
+                        //             glyph = en;
+                        //         }
+                        //     } else {
+                        //         glyph = en;
+                        //     }
+                        // }
+
+                        if(glyph != null) {
+                            // Update the foreground color based on our glphy changed
+                            foreground = glyph.getForeground();
+                        }
+
                     } else {
                         // Since the tile was previously explored but is not visible
                         // make grayinterpolate
@@ -383,6 +402,46 @@ Lootr.Screen.playScreen = {
             // Unlock the engine
             this._player.getMap().getEngine().unlock();
         }
+    },
+
+    getEntityGlyph: function(map, x, y) {
+        var glyph = null;
+
+        if(map.getEntityAt(x, y)) {
+            // We dont want to print any entity that is invisible, unless it's the player
+            var en = map.getEntityAt(x, y);
+            if(en.hasComponent('PlayerActor')) {
+                glyph = en;
+            } else if (en.hasComponent('Invisiblity')) {
+                if(!en.isInvisible()) {
+                    glyph = en;
+                }
+            } else {
+                glyph = en;
+            }
+        }
+
+        return glyph;
+    },
+
+    getItemGlyph: function(map, x, y) {
+        var glyph = null;
+        var items = map.getItemsAt(x, y);
+
+        glyph = _.last(items);
+
+        // Sometimes getItemsAt can return 1 or more
+        // if(items.length === 1) {
+        //     glyph = items[0];
+        // // If we have items, render the last one
+        // } else if (items.length > 1) {
+        //     glyph = items[items.length -1];
+        // } else {
+        //     console.log("AHHH");
+        //     debugger;
+        // }
+
+        return glyph;
     },
 
     doMove: function(dX, dY) {

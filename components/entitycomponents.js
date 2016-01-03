@@ -1179,7 +1179,7 @@ Lootr.EntityComponents.InventoryHolder = {
     addItem: function(item) {
         // Try to find a slot, returning true only if we could add the item
         for(var i=0; i<this._items.length; i++) {
-            if(!this._items[i]) {
+            if(this._items[i] == null) {
                 this._items[i] = item;
                 return true;
             }
@@ -1204,7 +1204,7 @@ Lootr.EntityComponents.InventoryHolder = {
     pickupItem: function(item) {
         if (this.addItem(item)) {
             // Update the map by not passing an item
-            this._map.setItemsAt(this.getX(), this.getY());
+            this._map.removeItemFromMap(item);
             //this._map.setItemsAt(this.getX(), this.getY(), item);
             Lootr.sendMessage(this, 'You pick up %s.', [item.describeA()]);
             item.raiseEvent("pickup");

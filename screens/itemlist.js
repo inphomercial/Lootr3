@@ -51,6 +51,12 @@ Lootr.Screen.ItemListScreen.prototype.render = function(display) {
     // Render our Game Border
     Lootr.UI.RenderGameBorder(display);
 
+    // Render Player States
+    Lootr.UI.RenderStatsGroup(this._player, 12, 1, display);
+
+    // Render Player Orbs
+    Lootr.UI.RenderOrbsGroup(this._player, 12, 1, display);
+
     // Starting X & Y
     var startX = 5;
     var startY = 3;
