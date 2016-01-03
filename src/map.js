@@ -186,8 +186,11 @@ Lootr.Map.prototype.getItemsAt = function(x, y) {
     var items = this._items[x + ',' + y];
 
     if (items == null) return false;
+    if (items[0] == null) return false;
 
-    return items;
+    var cleanArray = items.filter(function(e){return e});
+
+    return cleanArray;
 };
 
 Lootr.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY, radius) {
@@ -275,26 +278,34 @@ Lootr.Map.prototype.isEntityAt = function(x, y) {
     return this.getEntityAt(x, y);
 };
 
-Lootr.Map.prototype.isPlayerAt = function(x, y) {
-    var entity = this.getEntityAt(x, y);
-
-    return !!entity.hasComponent('PlayerActor');
-};
+// Lootr.Map.prototype.isPlayerAt = function(x, y) {
+//     var entity = this.getEntityAt(x, y);
+//
+//     return !!entity.hasComponent('PlayerActor');
+// };
 
 Lootr.Map.prototype.addItem = function(x, y, item) {
     // If we already have items at that position, simply append the item to the list
     var key = this.buildKey(x, y);
-    if(this._items[key]) {
-        this._items[key].push(item);
-    } else {
-        this._items[key] = [item];
+
+    if(this._items[key] == null) {
+        this._items[key] = [];
     }
+
+    this._items[key].push(item);
+
+    // var key = this.buildKey(x, y);
+    // if(this._items[key]) {
+    //     this._items[key].push(item);
+    // } else {
+    //     this._items[key] = [item];
+    // }
 };
 
 Lootr.Map.prototype.tileContainsItem = function(x, y, item_name) {
     var items = this.getItemsAt(x, y);
 
-    if(!_.isEmpty(items)) {
+    if(!_.isEmpty(items) && items[0] != null) {
         for(var i=0; i<items.length; i++) {
             /*if(items[i].getName() == item_name) {*/
             // removed above to help capture things like 'rat corpse' when looking for just generic 'corpse'
