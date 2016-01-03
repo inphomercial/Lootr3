@@ -1176,6 +1176,12 @@ Lootr.EntityComponents.InventoryHolder = {
 
         return items;
     },
+    getTotalInventorySlots: function() {
+        return this._inventorySlots;
+    },
+    getInventorySlotsUsed: function() {
+        return this.getItems().length;
+    },
     addItem: function(item) {
         // Try to find a slot, returning true only if we could add the item
         for(var i=0; i<this._items.length; i++) {

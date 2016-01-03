@@ -218,6 +218,11 @@ Lootr.UI.IntDisplay = function(player, startX, startY, display) {
     display.drawText(startX, startY, intValue);
 };
 
+Lootr.UI.InventoryRemainingDisplay = function(player, x, y, display) {
+    var  slotString = '%c{#91AA9D}%b{black}' + player.getInventorySlotsUsed() + '/%c{#91AA9D}%b{black}' + player.getTotalInventorySlots();
+    display.drawText(x, y, slotString);
+};
+
 Lootr.UI.LevelDisplay = function(player, startX, startY, display) {
     var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player.getLevel();
     display.drawText(startX, startY++, level);
