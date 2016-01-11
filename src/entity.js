@@ -223,7 +223,7 @@ Lootr.Entity.prototype.tryMove = function(x, y) {
         Lootr.sendMessage(this, 'You pickup ' + gold[0].getGold() + ' gold');
 
         // Remove it from game
-        map.removeItemFromTile(x, y, 'gold');
+        map.removeItemFromTileByName(x, y, 'gold');
 
         return true;
     }

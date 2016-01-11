@@ -12,6 +12,9 @@ Lootr.DynamicGlyph = function(args) {
     // we have attached to this entity based on name property
     this._attachedComponents = {};
 
+    // new components holder
+    this._components = [];
+
     // Create one for groups
     this._attachedComponentGroups = {};
 
@@ -21,6 +24,12 @@ Lootr.DynamicGlyph = function(args) {
     // Setup the components
     var components = args['components'] || {};
     for(var i=0; i<components.length; i++) {
+
+        // Add our component to the new component holder
+        var name = components[i].name;
+        this._components[name] = components[i];
+        ////////////////////////////////////////////////
+
         // Copy over all properties from each mixin as long
         // as it's not the name, init or listeners property. also
         // dont override a property that already exists
@@ -70,27 +79,27 @@ Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
 };
 
 // @todo fix this... currently not working
-// Lootr.DynamicGlyph.prototype.addComponent = function(component) {
-//     console.info("components", this._attachedComponents);
-//     console.info("componentGroups", this._attachedComponentGroups);
+Lootr.DynamicGlyph.prototype.addComponent = function(component) {
+    console.info("components", this._attachedComponents);
+    console.info("componentGroups", this._attachedComponentGroups);
 
-//     if (typeof component === 'object') {
-//         if (!this._attachedComponents[component.name]) {
+    if (typeof component === 'object') {
+        if (!this._attachedComponents[component.name]) {
 
-//             for(var key in component) {
-//                 if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
-//                     this[key] = component[key];
-//                 }
-//             }
+            for(var key in component) {
+                if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
+                    this[key] = component[key];
+                }
+            }
 
-//             this._attachedComponents[component.name] = true;
-//             console.info('Component object', component);
-//             component.init.call(this);
-//         } else {
-//             console.log("Component already exists on player");
-//         }
-//     }
-// };
+            this._attachedComponents[component.name] = true;
+            console.info('Component object', component);
+            component.init.call(this);
+        } else {
+            console.log("Component already exists on player");
+        }
+    }
+};
 
 Lootr.DynamicGlyph.prototype.removeComponent = function(component) {
 };

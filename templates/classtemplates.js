@@ -67,7 +67,7 @@ Lootr.Templates.Wizard = {
             }
         },
     components: [Lootr.EntityComponents.ManaPool,
-                 Lootr.EntityComponents.PassThroughWalls,
+                //  Lootr.EntityComponents.PassThroughWalls,
                  Lootr.EntityComponents.Bleedable,
                  Lootr.EntityComponents.Invisiblity]
 };

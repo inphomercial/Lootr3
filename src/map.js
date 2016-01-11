@@ -58,14 +58,19 @@ Lootr.Map.prototype.getItems = function() {
     return this._items;
 };
 
-Lootr.Map.prototype.createEmptyMap = function() {
 // Create the empty map
+Lootr.Map.prototype.createEmptyMap = function() {
     this._map = new Array(this._width);
     for (var w = 0; w < this._width; w++) {
         this._map[w] = new Array(this._height);
     }
 };
 
+/**
+ * Returns the map
+ *
+ * @return {object} this._map
+ */
 Lootr.Map.prototype.getEmptyMap = function() {
     return this._map;
 };
@@ -159,6 +164,30 @@ Lootr.Map.prototype.getItemsToAct = function() {
                 this._items[key][i].act();
             }
         }
+    }
+};
+
+Lootr.Map.prototype.getComponentsToAct = function() {
+    for(var key in this._entities) {
+
+        var names = _.keys(this._entities[key]._attachedComponents);
+        for (var i = 0; i < names.length; i++) {
+            var string = names[i];
+            if (this._entities[key]._components[string] != null) {
+                // if (this._entities[key][string].act === 'function') {
+                if (_.isFunction(this._entities[key]._components[string].act)) {
+                    this._entities[key]._components[string].act();
+                }
+            }
+        }
+
+        // for(var i = 0; i < _.size(this._entities[key]._attachedComponents); i++) {
+        //     this._entities[key]._attachedComponents
+            // if(this._entities[key]._attachedComponents[i] != null && typeof this._entities[key]._attachedComponents[i].act === 'function') {
+            //     console.log(this._entities[key]._attachedComponents[i].getName() + " has a function!");
+            //     this._entities[key]._attachedComponents[i].act();
+            // }
+        // }
     }
 };
 
@@ -334,14 +363,28 @@ Lootr.Map.prototype.removeItemFromMap = function(item) {
     }
 };
 
-Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
+/**
+ * Finds a single item that contains the name as part of the string and deletes
+ * it from the this._items array
+ *
+ * @param  {int} x [x position of tile on map]
+ * @param  {int} y [y position of tile on map]
+ * @param  {string} item_name ["corpse" would be found if passed "skeleton corpse"]
+ * @return {void}
+ */
+Lootr.Map.prototype.removeItemFromTileByName = function(x, y, item_name) {
     var key = this.buildKey(x, y);
 
-    /*if(this._items[key] && this._items[key][0].getName() == item_name) {      */
-    // removed below to help capture things like 'rat corpse' when looking for just generic 'corpse'
-    if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {
-        //delete this._items[key];
-        this._items.splice(key, 1);
+    for(var i = 0; i < this._items[key].length; i++) {
+        if(_.isObject(this._items[key][i])) {
+            if(this._items[key][i] && (this._items[key][i].getName().indexOf(item_name) > -1)) {
+                console.log("removeItemFromMap :", this._items[key][i]);
+                this._items[key].splice(i, 1);
+                return;
+            }
+        } else {
+            console.log("Item from removeItemFromTileByName not object", this._items[key][i]);
+        }
     }
 };
 

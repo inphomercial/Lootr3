@@ -457,6 +457,17 @@ Lootr.EntityComponents.Sight = {
         this._sightRadius += value;
         Lootr.sendMessage(this, 'You can see better');
     },
+    modifySightRadius: function(value) {
+        // If no value default to 1
+        value = value || 1;
+
+        this._sightRadius += value;
+        if (value > 0) {
+            Lootr.sendMessage(this, 'Your vision improves');
+        } else {
+            Lootr.sendMessage(this, 'Your vision worsens');
+        }
+    },
     canSee: function(entity) {
         // if not on the same map then exit early
         if(!entity || this._map !== entity.getMap()) {
@@ -791,7 +802,7 @@ Lootr.EntityComponents.CorpseEater = {
         }
 
         // Remove Corpse
-        this.getMap().removeItemFromTile(this.getX(), this.getY(), 'corpse');
+        this.getMap().removeItemFromTileByName(this.getX(), this.getY(), 'corpse');
 
         // Send a message to player
         Lootr.sendMessageNearby(this.getMap(), this.getX(), this.getY(), 'A corpse has been consumed.');
@@ -913,8 +924,51 @@ Lootr.EntityComponents.LeaveTrail = {
 };
 
 Lootr.EntityComponents.PassThroughWalls = {
-    name: 'PassThroughWalls'
+    name: 'PassThroughWalls',
+    init: function() {
+        console.log("pass through walls init");
+    }
 };
+
+Lootr.EntityComponents.Blind = {
+    name: "Blind",
+    init: function(timer) {
+        this._timer = timer || 10;
+        Lootr.sendMessage(this, 'You\'ve been blinded!');
+
+        if (this.hasComponent("Sight")) {
+            this.modifySightRadius(-this.getSightRadius() + 1);
+        }
+        console.log("does this get called?");
+    },
+    act: function() {
+        console.log("acting!");
+        this._timer--;
+
+        if(this._timer <= 0) {
+            if (this.hasComponent("Sight")) {
+                this.modifySightRadius(this.getSightRadius());
+            }
+
+            Lootr.sendMessage(this, "You can see again");
+        }
+    }
+
+
+    // listeners: {
+    //     onMove: function() {
+    //         console.log("acting!");
+    //         timer--;
+    //
+    //         if(timer <= 0) {
+    //             if (this.hasComponent("Sight")) {
+    //                 this.modifySightRadius(this.getSightRadius());
+    //             }
+    //
+    //             Lootr.sendMessage(this, "You can see again");
+    //     }
+    // }
+}
 
 Lootr.EntityComponents.FireSpread = {
     name: 'FireSpread',
@@ -980,7 +1034,7 @@ Lootr.EntityComponents.FireSpread = {
                         var that = this;
 
                         // Remove corpse
-                        this.getMap().removeItemFromTile(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
+                        this.getMap().removeItemFromTileByName(this.getX() + xOffSet, this.getY() + yOffSet, 'corpse');
 
                         // Create new fire entity
                         var entity = Lootr.EntityRepository.create('fire');
