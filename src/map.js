@@ -323,10 +323,12 @@ Lootr.Map.prototype.removeItemFromMap = function(item) {
         for(var i = 0; i < this._items[key].length; i++) {
             if(_.isObject(this._items[key][i])) {
                 if(this._items[key][i].getUID() == item.getUID()) {
-                    console.log("removeItemFromMAp :", this._items[key][i]);
-                    delete this._items[key][i];
+                    console.log("removeItemFromMap :", this._items[key][i]);
+                    this._items[key].splice(i, 1);
                     return;
                 }
+            } else {
+                console.log("Item from removeItemFromMap not object", this._items[key][i]);
             }
         }
     }
@@ -338,7 +340,8 @@ Lootr.Map.prototype.removeItemFromTile = function(x, y, item_name) {
     /*if(this._items[key] && this._items[key][0].getName() == item_name) {      */
     // removed below to help capture things like 'rat corpse' when looking for just generic 'corpse'
     if(this._items[key] && (this._items[key][0].getName().indexOf(item_name) > -1)) {
-        delete this._items[key];
+        //delete this._items[key];
+        this._items.splice(key, 1);
     }
 };
 

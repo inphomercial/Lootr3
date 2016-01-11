@@ -9,7 +9,16 @@ Lootr.Screen.gainStatScreen = {
     render: function(display) {
         this._display = display;
 
-        display.drawText(0, 0, 'Choose a stat to increase:');
+        // Render our Game Border
+        Lootr.UI.RenderGameBorder(display);
+
+        // Render Player States
+        Lootr.UI.RenderStatsGroup(this._entity, 12, 1, display);
+
+        // Render Player Orbs
+        Lootr.UI.RenderOrbsGroup(this._entity, 12, 1, display);
+
+        display.drawText(3, 2, 'Choose a stat to increase:');
 
         this._renderRemainingStatOptions();
         this._renderRemainingStatPoints();
@@ -40,14 +49,14 @@ Lootr.Screen.gainStatScreen = {
         }
     },
     _renderRemainingStatPoints: function() {
-        this._display.drawText(0, 4 + this._options.length,
+        this._display.drawText(3, 5 + this._options.length,
                 'Remaining points: ' + this._entity.getStatPoints());
     },
     _renderRemainingStatOptions: function() {
         var letters = 'abcdefghijklmnopqrstuvwxyz';
 
         for(var i=0; i<this._options.length; i++) {
-            this._display.drawText(0, 2 + i,
+            this._display.drawText(3, 4 + i,
                 letters.substring(i, i+1) + ' - ' + this._options[i][0]);
         }
     }
