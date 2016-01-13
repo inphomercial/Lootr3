@@ -170,10 +170,11 @@ Lootr.Map.prototype.getItemsToAct = function() {
 Lootr.Map.prototype.getComponentsToAct = function() {
     for(var key in this._entities) {
 
-        var names = _.keys(this._entities[key]._attachedComponents);
+        var names = _.keys(this._entities[key]._components);
         for (var i = 0; i < names.length; i++) {
             var string = names[i];
-            if (this._entities[key]._components[string] != null) {
+            if (this._entities[key]._components[string] != "PlayerActor") {
+            // if (this._entities[key]._components[string] != null && this._entities[key]._components[string] !== "PlayerActor") {
                 // if (this._entities[key][string].act === 'function') {
                 if (_.isFunction(this._entities[key]._components[string].act)) {
                     this._entities[key]._components[string].act();

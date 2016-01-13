@@ -554,7 +554,10 @@ Lootr.EntityComponents.HuntPlayer = {
 Lootr.EntityComponents.GoldHolder = {
     name: 'GoldHolder',
     init: function(template) {
-        this._gold = template['gold'] || 0;
+        this._components.GoldHolder._gold = template['gold'] || 0;
+    },
+    act: function() {
+        console.log("act is owkring");
     },
     getGold: function() {
         return this._gold;

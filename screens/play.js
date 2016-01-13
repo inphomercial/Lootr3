@@ -398,7 +398,7 @@ Lootr.Screen.playScreen = {
 
         // Have entity components if they have the act method
         // @TODO
-        // this._player.getMap().getComponentsToAct();
+        this._player.getMap().getComponentsToAct();
 
         Lootr.refresh();
 

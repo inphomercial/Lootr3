@@ -28,6 +28,11 @@ Lootr.DynamicGlyph = function(args) {
         // Add our component to the new component holder
         var name = components[i].name;
         this._components[name] = components[i];
+
+        // Finally call the init function if there is one
+        if(this._components[name].init) {
+            this._components[name].init.call(this, args);
+        }
         ////////////////////////////////////////////////
 
         // Copy over all properties from each mixin as long
