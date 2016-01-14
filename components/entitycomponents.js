@@ -48,7 +48,7 @@ Lootr.EntityComponents.TaskActor = {
     groupName: 'Actor',
     init: function(template) {
         // Load tasks
-        this._tasks = template['tasks'] || ['wander'];
+        this._components.TaskActor._tasks = template['tasks'] || ['wander'];
     },
     act: function() {
         // Iterate through all tasks
@@ -113,10 +113,10 @@ Lootr.EntityComponents.Orbs = {
     name: 'Orbs',
     groupName: 'Orbs',
     init: function(template) {
-        this._redOrb = false;
-        this._blueOrb = false;
-        this._greenOrb = false;
-        this._yellowOrb = false;
+        this._components.Orbs._redOrb = false;
+        this._components.Orbs._blueOrb = false;
+        this._components.Orbs._greenOrb = false;
+        this._components.Orbs._yellowOrb = false;
     },
     hasOrbs: function() {
         return orbs = {
@@ -172,7 +172,7 @@ Lootr.EntityComponents.Orbs = {
 Lootr.EntityComponents.MovementSpeed = {
     name: 'MovementSpeed',
     init: function(template) {
-        this._movementSpeed = template['movementSpeed'] || 1000;
+        this._components.MovementSpeed._movementSpeed = template['movementSpeed'] || 1000;
     },
     getMovementSpeed: function() {
         return this._movementSpeed;
@@ -185,8 +185,8 @@ Lootr.EntityComponents.MovementSpeed = {
 Lootr.EntityComponents.StrStat = {
     name: 'StrStat',
     init: function(template) {
-        this._str = template['str'] || 1;
-        this._increaseStrByAmount = template['increaseStrByAmount'] || 1;
+        this._components.StrStat._str = template['str'] || 1;
+        this._components.StrStat._increaseStrByAmount = template['increaseStrByAmount'] || 1;
     },
     getBaseStr: function() {
         return this._str;
@@ -195,12 +195,12 @@ Lootr.EntityComponents.StrStat = {
         var mod = this.getStrValue();
         return this._int + mod;
     },
-    getStrValue: function() {
+    getStrValue: function(self) {
         var mod = 0;
 
-        if (this.hasComponent('InventoryHolder')) {
+        if (self.hasComponent('InventoryHolder')) {
             // Loop through all items to get all attack values
-            var items = this.getItems();
+            var items = self._components.InventoryHolder.getItems();
             for (var i = 0; i < items.length; i++) {
 				if (this._items[i] != null) {
 	                if (items[i].getWorn()) {
@@ -232,8 +232,8 @@ Lootr.EntityComponents.StrStat = {
 Lootr.EntityComponents.IntStat = {
     name: 'IntStat',
     init: function(template) {
-        this._int = template['int'] || 1;
-        this._increaseIntByAmount = template['increaseIntByAmount'] || 1;
+        this._components.IntStat._int = template['int'] || 1;
+        this._components.IntStat._increaseIntByAmount = template['increaseIntByAmount'] || 1;
     },
     increaseIntStat: function(amount) {
         if (!amount) {
@@ -257,12 +257,12 @@ Lootr.EntityComponents.IntStat = {
         var mod = this.getIntValue();
         return this._int + mod;
     },
-    getIntValue: function() {
+    getIntValue: function(self) {
         var mod = 0;
 
-        if (this.hasComponent('InventoryHolder')) {
+        if (self.hasComponent('InventoryHolder')) {
             // Loop through all items to get all attack values
-            var items = this.getItems();
+            var items = self._components.InventoryHolder.getItems();
             for (var i = 0; i < items.length; i++) {
 				if (this._items[i] != null) {
 	                if (items[i].getWorn()) {
@@ -279,8 +279,8 @@ Lootr.EntityComponents.IntStat = {
 Lootr.EntityComponents.DexStat = {
     name: 'DexStat',
     init: function(template) {
-        this._dex = template['dex'] || 1;
-        this._increaseDexByAmount = template['increaseDexByAmount'] || 1;
+        this._components.DexStat._dex = template['dex'] || 1;
+        this._components.DexStat._increaseDexByAmount = template['increaseDexByAmount'] || 1;
     },
     getBaseDex: function() {
         return this._dex;
@@ -289,12 +289,12 @@ Lootr.EntityComponents.DexStat = {
         var mod = this.getDexValue();
         return this._int + mod;
     },
-    getDexValue: function() {
+    getDexValue: function(self) {
         var mod = 0;
 
-        if (this.hasComponent('InventoryHolder')) {
+        if (self.hasComponent('InventoryHolder')) {
             // Loop through all items to get all attack values
-            var items = this.getItems();
+            var items = self._components.InventoryHolder.getItems();
             for (var i = 0; i < items.length; i++) {
 				if (this._items[i] != null) {
 	                if (items[i].getWorn()) {
@@ -445,7 +445,7 @@ Lootr.EntityComponents.Sight = {
     name: 'Sight',
     groupName: 'Sight',
     init: function(template) {
-        this._sightRadius = template['sightRadius'] || 5;
+        this._components.Sight._sightRadius = template['sightRadius'] || 5;
     },
     getSightRadius: function() {
         return this._sightRadius;
@@ -557,7 +557,6 @@ Lootr.EntityComponents.GoldHolder = {
         this._components.GoldHolder._gold = template['gold'] || 0;
     },
     act: function() {
-        console.log("act is owkring");
     },
     getGold: function() {
         return this._gold;
@@ -580,13 +579,13 @@ Lootr.EntityComponents.GoldHolder = {
 Lootr.EntityComponents.FoodConsumer = {
     name: 'FoodConsumer',
     init: function(template) {
-        this._maxFullness = template['maxFullness'] || 1000;
+        this._components.FoodConsumer._maxFullness = template['maxFullness'] || 1000;
 
         // Start halfway to max fullness if no default value
-        this._fullness = template['fullness'] || (this._maxFullness / 2);
+        this._components.FoodConsumer._fullness = template['fullness'] || (this._maxFullness / 2);
 
         // Number of points to decrease fullness by every turn
-        this._fullnessDepletionRate = template['fullnessDepletionRate'] || 1;
+        this._components.FoodConsumer._fullnessDepletionRate = template['fullnessDepletionRate'] || 1;
     },
     modifyFullnessBy: function(points) {
         this._fullness = this._fullness + points;
@@ -701,10 +700,14 @@ Lootr.EntityComponents.CorpseDropper = {
  */
 Lootr.EntityComponents.Destructible = {
     name: 'Destructible',
-    init: function(template) {
-        this._maxHp   = template['maxHp'] || 10;
-        this._hp      = template['hp'] || this._maxHp;
-        this._defense = template['defense'] || 0;
+    init: function(template, self) {
+        this._self = this;
+        this._components.Destructible._maxHp = template['maxHp'] || 10;
+        // this._maxHp   = template['maxHp'] || 10;
+        // this._hp      = template['hp'] || this._maxHp;
+        this._components.Destructible._hp = template['hp'] || this._maxHp;
+        // this._defense = template['defense'] || 0;
+        this._components.Destructible._defense = template['defense'] || 0;
     },
     takeDamage: function(attacker, damage) {
         this._hp -= damage;
@@ -741,12 +744,12 @@ Lootr.EntityComponents.Destructible = {
     getMaxHp: function() {
         return this._maxHp;
     },
-    getDefenseValue: function() {
+    getDefenseValue: function(self) {
         var mod = 0;
 
-        if (this.hasComponent('InventoryHolder')) {
+        if (self.hasComponent('InventoryHolder')) {
             // Loop through all items to get all attack values
-            var items = this.getItems();
+            var items = self._components.InventoryHolder.getItems();
             for (var i = 0; i < items.length; i++) {
 				if (this._items[i] != null) {
 	                if (items[i].getWorn()) {
@@ -1124,18 +1127,18 @@ Lootr.EntityComponents.FungusActor = {
 Lootr.EntityComponents.InventoryHolder = {
     name: 'InventoryHolder',
     init: function(template) {
-        this._inventorySlots = template['inventorySlots'] || 5;
-        this._slotTemplate = template['slots'];
+        this._components.InventoryHolder._inventorySlots = template['inventorySlots'] || 5;
+        this._components.InventoryHolder._slotTemplate = template['slots'];
         var startingItems = template['startingItems'] || null;
 
         // Setup an empty inventory
-        this._items = new Array(this._inventorySlots);
+        this._components.InventoryHolder._items = new Array(this._inventorySlots);
 
         // Populate starting items inside inventory
         if (startingItems) {
             for (var i = 0; i < startingItems.length; i++) {
                 var item = Lootr.ItemRepository.create(startingItems[i]);
-                this.addItem(item);
+                this._components.InventoryHolder.addItem(item);
             }
         }
     },
@@ -1318,7 +1321,7 @@ Lootr.EntityComponents.InventoryHolder = {
 Lootr.EntityComponents.MessageRecipient = {
     name: 'MessageRecipient',
     init: function() {
-        this._messages = [];
+        this._components.MessageRecipient._messages = [];
     },
     receiveMessage: function(message) {
         this._messages.push(message);
@@ -1334,12 +1337,12 @@ Lootr.EntityComponents.MessageRecipient = {
 Lootr.EntityComponents.LearnedSpells = {
     name: 'LearnedSpells',
     init: function(template) {
-        this._learnedSpells = [];
-        this._selectedSpellIndex = 0;
+        this._components.LearnedSpells._learnedSpells = [];
+        this._components.LearnedSpells._selectedSpellIndex = 0;
 
         if (template.learnedSpells !== undefined) {
             for (var i = 0; i < template.learnedSpells.length; i++) {
-                this._learnedSpells.push(template.learnedSpells[i]);
+                this._components.LearnedSpells._learnedSpells.push(template.learnedSpells[i]);
             }
         }
     },
@@ -1384,10 +1387,10 @@ Lootr.EntityComponents.RandomStatGainer = {
 Lootr.EntityComponents.ManaPool = {
     name: 'ManaPool',
     init: function(template) {
-        this._maxMana = template['maxMana'] || 0;
-        this._mana = template['mana'] || this._maxMana;
-        this._manaReplenishRate = template['manaReplenishRate'] || 1;
-        this._manaIncreaseAmount = template['manaIncreaseAmount'] || 2;
+        this._components.ManaPool._maxMana = template['maxMana'] || 0;
+        this._components.ManaPool._mana = template['mana'] || this._maxMana;
+        this._components.ManaPool._manaReplenishRate = template['manaReplenishRate'] || 1;
+        this._components.ManaPool._manaIncreaseAmount = template['manaIncreaseAmount'] || 2;
     },
     getMana: function() {
         return this._mana;
@@ -1438,10 +1441,10 @@ Lootr.EntityComponents.PlayerStatGainer = {
 Lootr.EntityComponents.ExperienceGainer = {
     name: 'ExperienceGainer',
     init: function(template) {
-        this._level = template['level'] || 1;
-        this._experience = template['experience'] || 0;
-        this._statPointsPerLevel = template['statPointsPerLevel'] || 1;
-        this._statPoints = 0;
+        this._components.ExperienceGainer._level = template['level'] || 1;
+        this._components.ExperienceGainer._experience = template['experience'] || 0;
+        this._components.ExperienceGainer._statPointsPerLevel = template['statPointsPerLevel'] || 1;
+        this._components.ExperienceGainer._statPoints = 0;
 
         // Determine what stats can be leveld up
         this._statOptions = [];
@@ -1545,7 +1548,7 @@ Lootr.EntityComponents.Attacker = {
     name: 'Attacker',
     groupName: 'Attacker',
     init: function(template) {
-        this._attack = template['attack'] || 1;
+        this._components.Attacker._attack = template['attack'] || 1;
     },
     attack: function(target) {
         // If the target is destructible, calc damage based on attack and def
@@ -1561,12 +1564,12 @@ Lootr.EntityComponents.Attacker = {
             target.takeDamage(this, damage);
         }
     },
-    getAttackValue: function() {
+    getAttackValue: function(self) {
         var mod = 0;
 
-        if (this.hasComponent('InventoryHolder')) {
+        if (self.hasComponent('InventoryHolder')) {
             // Loop through all items to get all attack values
-            var items = this.getItems();
+            var items = self._components.InventoryHolder.getItems();
             for (var i = 0; i < items.length; i++) {
 				if (this._items[i] != null) {
 	                if (items[i].getWorn()) {

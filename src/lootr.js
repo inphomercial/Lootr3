@@ -81,7 +81,7 @@ var Lootr =  {
 			}
 
 			// Send message to target
-			recipient.receiveMessage(message);
+			recipient._components.MessageRecipient.receiveMessage(message);
 		}
 	},
 	sendMessageNearby: function(map, centerX, centerY, message, args) {

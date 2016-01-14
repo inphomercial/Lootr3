@@ -82,7 +82,7 @@ Lootr.Screen.playScreen = {
         // Find all visible cells and update the object
         map.getFov().compute(
             this._player.getX(), this._player.getY(),
-            this._player.getSightRadius(),
+            this._player._components.Sight.getSightRadius(),
             function(x, y, radius, visibility) {
                 visibleCells[x + "," + y] = true;
 
@@ -180,7 +180,7 @@ Lootr.Screen.playScreen = {
 
     handleInput: function(inputType, inputData) {
         // First thing to check is if we have all the orbs
-        if(this._player.hasAllOrbs()) {
+        if(this._player._components.Orbs.hasAllOrbs()) {
             Lootr.switchScreen(Lootr.Screen.winScreen);
         }
 
@@ -224,8 +224,8 @@ Lootr.Screen.playScreen = {
                 // Testing Selected Spell
                 case ROT.VK_SPACE:
                     var offsets = this.getScreenOffsets();
-                    var spell = new Lootr.EntitySpells[this._player.getSelectedSpell()]({caster: this._player});
-                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, spell.getColor(), spell.getChar(), this._player.getSelectedSpell());
+                    var spell = new Lootr.EntitySpells[this._player._components.LearnedSpells.getSelectedSpell()]({caster: this._player});
+                    Lootr.Screen.castSpellScreen.setup(this._player, this._player.getX(), this._player.getY(), offsets.x, offsets.y, spell.getColor(), spell.getChar(), this._player._components.LearnedSpells.getSelectedSpell());
                     this.setSubScreen(Lootr.Screen.castSpellScreen);
                     break;
 
@@ -298,7 +298,7 @@ Lootr.Screen.playScreen = {
 
                 case ROT.VK_I:
                     // show inventory screen
-                    this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player.getItems(), 'You are not carrying anything');
+                    this.showItemSubScreen(Lootr.Screen.inventoryScreen, this._player._components.InventoryHolder.getItems(), 'You are not carrying anything');
                     break;
 
                 case ROT.VK_S:
@@ -308,7 +308,7 @@ Lootr.Screen.playScreen = {
 
                 case ROT.VK_D:
                     // Show Drop screen
-                    this.showItemSubScreen(Lootr.Screen.dropScreen, this._player.getItems(), 'You have nothing to drop.');
+                    this.showItemSubScreen(Lootr.Screen.dropScreen, this._player._components.InventoryHolder.getItems(), 'You have nothing to drop.');
                     break;
 
                 case ROT.VK_E:

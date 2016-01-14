@@ -37,7 +37,7 @@ Lootr.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY
     this._player.getMap()
         .getFov(this._player)
         .compute(this._player.getX(), this._player.getY(),
-        this._player.getSightRadius(),
+        this._player._components.Sight.getSightRadius(),
         function(x, y, radius, visibility) {
             visibleCells[x + ',' + y] = true;
         });

@@ -30,7 +30,7 @@ Lootr.UI.RenderGameBorder = function(display) {
  * Renders the Game Messages window
  */
 Lootr.UI.RenderGameMessages = function(player, startX, startY, display) {
-    var messages = player.getMessages();
+    var messages = player._components.MessageRecipient.getMessages();
     for (var i = 0; i < messages.length; i++) {
         display.drawText(startX, startY, '%c{white}%b{black}' + messages[i]);
         startY++;
@@ -41,7 +41,7 @@ Lootr.UI.RenderGameMessages = function(player, startX, startY, display) {
  * Renders out the Orbs GUI
  */
 Lootr.UI.RenderOrbsGroup = function(player, startX, startY, display) {
-    var orbs = player.hasOrbs();
+    var orbs = player._components.Orbs.hasOrbs();
     startY++;
     startY++;
 
@@ -151,8 +151,8 @@ Lootr.UI.NameDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot) {
-    var item_slots = player.getWornItemsBySlot(slot);
-    var slot_count = player.getSlotCountBySlot(slot);
+    var item_slots = player._components.InventoryHolder.getWornItemsBySlot(slot);
+    var slot_count = player._components.InventoryHolder.getSlotCountBySlot(slot);
 
     for (var i = 0; i < slot_count; i++) {
         var weaponString = '%c{#91AA9D}%b{black}';
@@ -170,8 +170,8 @@ Lootr.UI.WearingSlotDisplay = function(player, startX, startY, display, slot) {
 };
 
 Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
-    var hand_slots = player.getWornItemsBySlot(Lootr.ITEM_SLOTS.HAND);
-    var slot_count = player.getSlotCountBySlot(Lootr.ITEM_SLOTS.HAND);
+    var hand_slots = player._components.InventoryHolder.getWornItemsBySlot(Lootr.ITEM_SLOTS.HAND);
+    var slot_count = player._components.InventoryHolder.getSlotCountBySlot(Lootr.ITEM_SLOTS.HAND);
 
     for (var i = 0; i < slot_count; i++) {
         var weaponString = '%c{#91AA9D}%b{black}';
@@ -189,32 +189,32 @@ Lootr.UI.WieldingDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.SelectedSpellDisplay = function(player, startX, startY, display) {
-    var selectedSpell = '%c{#91AA9D}%b{black}SPELL: %c{#FCFFF5}' + player.getSelectedSpell();
+    var selectedSpell = '%c{#91AA9D}%b{black}SPELL: %c{#FCFFF5}' + player._components.LearnedSpells.getSelectedSpell();
     display.drawText(startX, startY++, selectedSpell);
 };
 
 Lootr.UI.MovementSpeedDisplay = function(player, startX, startY, display) {
-    var movementSpeed = '%c{#91AA9D}%b{black}SPD: %c{#FCFFF5}' + player.getMovementSpeed();
+    var movementSpeed = '%c{#91AA9D}%b{black}SPD: %c{#FCFFF5}' + player._components.MovementSpeed.getMovementSpeed();
     display.drawText(startX, startY++, movementSpeed);
 };
 
 Lootr.UI.SightDisplay = function(player, startX, startY, display) {
-    var sight = '%c{#91AA9D}%b{black}SGT: %c{#FCFFF5}' + player.getSightRadius();
+    var sight = '%c{#91AA9D}%b{black}SGT: %c{#FCFFF5}' + player._components.Sight.getSightRadius();
     display.drawText(startX, startY++, sight);
 };
 
 Lootr.UI.StrDisplay = function(player, startX, startY, display) {
-    var  strValue = '%c{#91AA9D}%b{black}STR: %c{#FCFFF5}' + player.getBaseStr() + '%c{green} (' + player.getStrValue() +')';
+    var  strValue = '%c{#91AA9D}%b{black}STR: %c{#FCFFF5}' + player._components.StrStat.getBaseStr() + '%c{green} (' + player._components.StrStat.getStrValue(player) +')';
     display.drawText(startX, startY, strValue);
 };
 
 Lootr.UI.DexDisplay = function(player, startX, startY, display) {
-    var  dexValue = '%c{#91AA9D}%b{black}DEX: %c{#FCFFF5}' + player.getBaseDex() + '%c{green} (' + player.getDexValue() +')';
+    var  dexValue = '%c{#91AA9D}%b{black}DEX: %c{#FCFFF5}' + player._components.DexStat.getBaseDex() + '%c{green} (' + player._components.DexStat.getDexValue(player) +')';
     display.drawText(startX, startY, dexValue);
 };
 
 Lootr.UI.IntDisplay = function(player, startX, startY, display) {
-    var  intValue = '%c{#91AA9D}%b{black}INT: %c{#FCFFF5}' + player.getBaseInt() + '%c{green} (' + player.getIntValue() +')';
+    var  intValue = '%c{#91AA9D}%b{black}INT: %c{#FCFFF5}' + player._components.IntStat.getBaseInt() + '%c{green} (' + player._components.IntStat.getIntValue(player) +')';
     display.drawText(startX, startY, intValue);
 };
 
@@ -224,7 +224,7 @@ Lootr.UI.InventoryRemainingDisplay = function(player, x, y, display) {
 };
 
 Lootr.UI.LevelDisplay = function(player, startX, startY, display) {
-    var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player.getLevel();
+    var level = '%c{#91AA9D}%b{black}LVL: %c{#FCFFF5}' + player._components.ExperienceGainer.getLevel();
     display.drawText(startX, startY++, level);
 };
 
@@ -233,7 +233,7 @@ Lootr.UI.StatusDisplay = function(player, startX, startY, display) {
     if(player.hasComponent('Flight') && player.isFlying()) {
        status += 'Flying ';
     }
-    if(player.hasComponent('Invisiblity') && player.isInvisible()) {
+    if(player.hasComponent('Invisiblity') && player._components.Invisiblity.isInvisible()) {
        status += 'Invisible ';
     }
     if(player.hasComponent('PassThroughWalls')) {
@@ -244,18 +244,18 @@ Lootr.UI.StatusDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.ExperienceDisplay = function(player, startX, startY, display) {
-    var xp = '%c{#91AA9D}%b{black}XP: %c{#FCFFF5}' + player.getExperience();
+    var xp = '%c{#91AA9D}%b{black}XP: %c{#FCFFF5}' + player._components.ExperienceGainer.getExperience();
     display.drawText(startX, startY++, xp);
 };
 
 Lootr.UI.HealthDisplay = function(player, startX, startY, display) {
-    var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + player.getHp() + '/' + player.getMaxHp();
+    var hp = '%c{#91AA9D}%b{black} HP: %c{#FCFFF5}' + player._components.Destructible.getHp() + '/' + player._components.Destructible.getMaxHp();
     display.drawText(startX, startY++, hp);
 };
 
 Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
     if (player.hasComponent("ManaPool")) {
-        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player.getMana() + '/' + player.getMaxMana();
+        var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + player._components.ManaPool.getMana() + '/' + player._components.ManaPool.getMaxMana();
     } else {
         var mp = '%c{#91AA9D}%b{black} MP: %c{#FCFFF5}' + 0 + '/' + 0;
     }
@@ -264,17 +264,17 @@ Lootr.UI.ManaDisplay = function(player, startX, startY, display) {
 };
 
 Lootr.UI.DefenseValueDisplay = function(player, startX, startY, display) {
-    var def = '%c{#91AA9D}%b{black} DEF: %c{gold}' + player.getBaseDefenseValue() + '%c{green} (' + player.getDefenseValue() + ')';
+    var def = '%c{#91AA9D}%b{black} DEF: %c{gold}' + player._components.Destructible.getBaseDefenseValue(player) + '%c{green} (' + player._components.Destructible.getDefenseValue(player) + ')';
     display.drawText(startX, startY, def);
 };
 
 Lootr.UI.AttackValueDisplay = function(player, startX, startY, display) {
-    var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + player.getBaseAttackValue() + '%c{green} (' + player.getAttackValue() +')';
+    var attack = '%c{#91AA9D}%b{black} ATK: %c{gold}' + player._components.Attacker.getBaseAttackValue() + '%c{green} (' + player._components.Attacker.getAttackValue(player) +')';
     display.drawText(startX, startY, attack);
 };
 
 Lootr.UI.GoldDisplay = function(player, startX, startY, display) {
-    var gold = '%c{#91AA9D}%b{black} GOLD: %c{gold}' + player.getGold();
+    var gold = '%c{#91AA9D}%b{black} GOLD: %c{gold}' + player._components.GoldHolder.getGold();
     display.drawText(startX, startY, gold);
 };
 
@@ -291,7 +291,7 @@ Lootr.UI.HungerDisplay = function(player, startX, startY, display) {
     if (!player.hasComponent('FoodConsumer')) return;
 
     var offSet = 8;
-    var percent = player.getHungerPercent();
+    var percent = player._components.FoodConsumer.getHungerPercent();
     var startX = startX + offSet;
 
     if (percent <= 5) {

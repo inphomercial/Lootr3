@@ -38,37 +38,53 @@ Lootr.DynamicGlyph = function(args) {
         // Copy over all properties from each mixin as long
         // as it's not the name, init or listeners property. also
         // dont override a property that already exists
-        for(var key in components[i]) {
-            if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
-                this[key] = components[i][key];
-            }
-        }
+        // for(var key in components[i]) {
+        //     if(key != 'init' && key != 'name' && key != 'listeners' && !this.hasOwnProperty(key)) {
+        //         this[key] = components[i][key];
+        //     }
+        // }
 
         // Add the name of this component to our attached compoents
-        this._attachedComponents[components[i].name] = true;
+        // this._attachedComponents[components[i].name] = true;
 
         // If a group name is present, add that too
-        if(components[i].groupName) {
-            this._attachedComponentGroups[components[i].groupName] = true;
-        }
+        // if(components[i].groupName) {
+        //     this._attachedComponentGroups[components[i].groupName] = true;
+        // }
 
         // Add all of our listeners
-        if(components[i].listeners) {
-            for (var key in components[i].listeners) {
+        if(this._components[name].listeners) {
+            for (var key in this._components[name].listeners) {
                 // If we dont already have a key for this event in our listens
                 // array, add it.
                 if(!this._listeners[key]) {
                     this._listeners[key] = [];
                 }
                 // Add the listener
-                this._listeners[key].push(components[i].listeners[key]);
+                this._listeners[key].push(this._components[name].listeners[key]);
             }
         }
 
+        // if(components[i].listeners) {
+        //     for (var key in components[i].listeners) {
+        //         // If we dont already have a key for this event in our listens
+        //         // array, add it.
+        //         if(!this._listeners[key]) {
+        //             this._listeners[key] = [];
+        //         }
+        //         // Add the listener
+        //         this._listeners[key].push(components[i].listeners[key]);
+        //     }
+        // }
+
         // Finally call the init function if there is one
-        if(components[i].init) {
-            components[i].init.call(this, args);
-        }
+        // if(this._components[name].init) {
+        //     this._components[name].init.call(this, args);
+        // }
+
+        // if(components[i].init) {
+        //     components[i].init.call(this, args);
+        // }
     }
 };
 
@@ -77,9 +93,11 @@ Lootr.DynamicGlyph.extend(Lootr.Glyph);
 
 Lootr.DynamicGlyph.prototype.hasComponent = function(obj) {
     if(typeof obj === 'object') {
-        return this._attachedComponents[obj.name];
+        return this._components[obj.name];
+        // return this._attachedComponents[obj.name];
     } else {
-        return this._attachedComponents[obj] || this._attachedComponentGroups[obj];
+        return this._components[obj];
+        // return this._attachedComponents[obj] || this._attachedComponentGroups[obj];
     }
 };
 

@@ -173,7 +173,7 @@ Lootr.Map.prototype.getComponentsToAct = function() {
         var names = _.keys(this._entities[key]._components);
         for (var i = 0; i < names.length; i++) {
             var string = names[i];
-            if (this._entities[key]._components[string] != "PlayerActor") {
+            if (this._entities[key]._components[string].name != "PlayerActor") {
             // if (this._entities[key]._components[string] != null && this._entities[key]._components[string] !== "PlayerActor") {
                 // if (this._entities[key][string].act === 'function') {
                 if (_.isFunction(this._entities[key]._components[string].act)) {
